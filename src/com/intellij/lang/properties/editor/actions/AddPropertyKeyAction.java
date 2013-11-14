@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2013 must-be.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,9 @@
  */
 package com.intellij.lang.properties.editor.actions;
 
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
 import com.intellij.CommonBundle;
 import com.intellij.icons.AllIcons;
 import com.intellij.lang.properties.PropertiesBundle;
@@ -29,9 +32,6 @@ import com.intellij.openapi.ui.InputValidator;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.IconUtil;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 /**
  * @author VISTALL

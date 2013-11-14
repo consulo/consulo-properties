@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2013 must-be.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,11 @@
  */
 package com.intellij.lang.properties.editor.actions;
 
+import java.util.List;
+
+import javax.swing.JTree;
+
+import org.jetbrains.annotations.NotNull;
 import com.intellij.CommonBundle;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.structureView.newStructureView.StructureViewComponent;
@@ -28,13 +33,9 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.ui.treeStructure.Tree;
 import com.intellij.util.Function;
 import com.intellij.util.IconUtil;
 import com.intellij.util.ui.tree.TreeUtil;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 /**
  * @author VISTALL
@@ -42,9 +43,9 @@ import java.util.List;
  */
 public class RemovePropertyKeyAction extends AnAction {
   @NotNull private final ResourceBundle myBundle;
-  @NotNull private final Tree myTree;
+  @NotNull private final JTree myTree;
 
-  public RemovePropertyKeyAction(@NotNull ResourceBundle bundle, @NotNull Tree tree) {
+  public RemovePropertyKeyAction(@NotNull ResourceBundle bundle, @NotNull JTree tree) {
     super(CommonBundle.message("button.remove"), PropertiesBundle.message("remove.property.intention.text"), IconUtil.getRemoveIcon());
     myBundle = bundle;
     myTree = tree;
