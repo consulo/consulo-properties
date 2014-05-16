@@ -15,104 +15,124 @@
  */
 package com.intellij.lang.properties.editor;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import org.jetbrains.annotations.NonNls;
 import com.intellij.ide.structureView.newStructureView.StructureViewComponent;
 import com.intellij.lang.properties.PropertiesBundle;
 import com.intellij.lang.properties.structureView.GroupByWordPrefixes;
-import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.DefaultActionGroup;
+import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
-import org.jetbrains.annotations.NonNls;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * @author cdr
  */
-public class PropertiesGroupingStructureViewComponent extends StructureViewComponent {
-  protected PropertiesGroupingStructureViewComponent(Project project,
-                                                  FileEditor editor,
-                                                  PropertiesGroupingStructureViewModel structureViewModel) {
-    super(editor, structureViewModel, project);
-  }
+public class PropertiesGroupingStructureViewComponent extends StructureViewComponent
+{
+	protected PropertiesGroupingStructureViewComponent(
+			Project project, FileEditor editor, PropertiesGroupingStructureViewModel structureViewModel)
+	{
+		super(editor, structureViewModel, project, true);
+	}
 
-  @Override
-  protected void addGroupByActions(DefaultActionGroup result) {
-    super.addGroupByActions(result);
-    result.add(new ChangeGroupSeparatorAction());
-  }
+	@Override
+	protected void addGroupByActions(DefaultActionGroup result)
+	{
+		super.addGroupByActions(result);
+		result.add(new ChangeGroupSeparatorAction());
+	}
 
-  private class ChangeGroupSeparatorAction extends DefaultActionGroup {
-    // separator -> presentable text
-    private final Map<String,String> myPredefinedSeparators = new LinkedHashMap<String, String>();
+	private class ChangeGroupSeparatorAction extends DefaultActionGroup
+	{
+		// separator -> presentable text
+		private final Map<String, String> myPredefinedSeparators = new LinkedHashMap<String, String>();
 
-    public ChangeGroupSeparatorAction() {
-      super("Group by: ", true);
-      myPredefinedSeparators.put(".", ".");
-      myPredefinedSeparators.put("_", "__");
-      myPredefinedSeparators.put("/", "/");
-      String currentSeparator = getCurrentSeparator();
-      if (!myPredefinedSeparators.containsKey(currentSeparator)) {
-        myPredefinedSeparators.put(currentSeparator, currentSeparator);
-      }
-      refillActionGroup();
-    }
+		public ChangeGroupSeparatorAction()
+		{
+			super("Group by: ", true);
+			myPredefinedSeparators.put(".", ".");
+			myPredefinedSeparators.put("_", "__");
+			myPredefinedSeparators.put("/", "/");
+			String currentSeparator = getCurrentSeparator();
+			if(!myPredefinedSeparators.containsKey(currentSeparator))
+			{
+				myPredefinedSeparators.put(currentSeparator, currentSeparator);
+			}
+			refillActionGroup();
+		}
 
-    public final void update(AnActionEvent e) {
-      String separator = getCurrentSeparator();
-      Presentation presentation = e.getPresentation();
-      presentation.setText("Group by: " + myPredefinedSeparators.get(separator));
-    }
+		public final void update(AnActionEvent e)
+		{
+			String separator = getCurrentSeparator();
+			Presentation presentation = e.getPresentation();
+			presentation.setText("Group by: " + myPredefinedSeparators.get(separator));
+		}
 
-    private String getCurrentSeparator() {
-      return ((PropertiesGroupingStructureViewModel)getTreeModel()).getSeparator();
-    }
+		private String getCurrentSeparator()
+		{
+			return ((PropertiesGroupingStructureViewModel) getTreeModel()).getSeparator();
+		}
 
-    private void refillActionGroup() {
-      removeAll();
-      for (final String separator : myPredefinedSeparators.keySet()) {
-        if (separator.equals(getCurrentSeparator())) continue;
-        String presentableText = myPredefinedSeparators.get(separator);
-        add(new AnAction(presentableText) {
+		private void refillActionGroup()
+		{
+			removeAll();
+			for(final String separator : myPredefinedSeparators.keySet())
+			{
+				if(separator.equals(getCurrentSeparator()))
+				{
+					continue;
+				}
+				String presentableText = myPredefinedSeparators.get(separator);
+				add(new AnAction(presentableText)
+				{
 
-          @Override
-          public void actionPerformed(AnActionEvent e) {
-            ((PropertiesGroupingStructureViewModel)getTreeModel()).setSeparator(separator);
-            setActionActive(GroupByWordPrefixes.ID, true);
-            refillActionGroup();
-            rebuild();
-          }
-        });
-      }
-      add(new SelectSeparatorAction());
-    }
+					@Override
+					public void actionPerformed(AnActionEvent e)
+					{
+						((PropertiesGroupingStructureViewModel) getTreeModel()).setSeparator(separator);
+						setActionActive(GroupByWordPrefixes.ID, true);
+						refillActionGroup();
+						rebuild();
+					}
+				});
+			}
+			add(new SelectSeparatorAction());
+		}
 
-    private final class SelectSeparatorAction extends AnAction {
+		private final class SelectSeparatorAction extends AnAction
+		{
 
-      public SelectSeparatorAction() {
-        super(PropertiesBundle.message("select.separator.action.with.empty.separator.name"));
-      }
+			public SelectSeparatorAction()
+			{
+				super(PropertiesBundle.message("select.separator.action.with.empty.separator.name"));
+			}
 
-      public final void actionPerformed(AnActionEvent e) {
-        String[] strings = myPredefinedSeparators.keySet().toArray(new String[myPredefinedSeparators.size()]);
-        String current = getCurrentSeparator();
-        String separator = Messages.showEditableChooseDialog(PropertiesBundle.message("select.property.separator.dialog.text"),
-                                                             PropertiesBundle.message("select.property.separator.dialog.title"),
-                                                             Messages.getQuestionIcon(),
-                                                             strings, current, null);
-        if (separator == null) {
-          return;
-        }
-        myPredefinedSeparators.put(separator, separator);
-        refillActionGroup();
-      }
-    }
-  }
+			public final void actionPerformed(AnActionEvent e)
+			{
+				String[] strings = myPredefinedSeparators.keySet().toArray(new String[myPredefinedSeparators.size()]);
+				String current = getCurrentSeparator();
+				String separator = Messages.showEditableChooseDialog(PropertiesBundle.message("select.property.separator.dialog.text"),
+						PropertiesBundle.message("select.property.separator.dialog.title"), Messages.getQuestionIcon(), strings, current, null);
+				if(separator == null)
+				{
+					return;
+				}
+				myPredefinedSeparators.put(separator, separator);
+				refillActionGroup();
+			}
+		}
+	}
 
-  @NonNls
-  public String getHelpID() {
-    return "editing.propertyFile.bundleEditor";
-  }
+	@NonNls
+	public String getHelpID()
+	{
+		return "editing.propertyFile.bundleEditor";
+	}
 }
 
