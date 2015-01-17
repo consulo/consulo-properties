@@ -19,128 +19,196 @@
  */
 package com.intellij.lang.properties;
 
-import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.psi.PsiManager;
-import com.intellij.util.SmartList;
-import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class ResourceBundleImpl implements ResourceBundle {
-  @NotNull private final VirtualFile myBaseDirectory;
-  @NotNull private final String myBaseName;
-  @NonNls private static final String RESOURCE_BUNDLE_PREFIX = "resourceBundle:";
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import com.intellij.lang.properties.psi.PropertiesFile;
+import com.intellij.openapi.application.Application;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Comparing;
+import com.intellij.openapi.util.Computable;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.VirtualFileManager;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiManager;
+import com.intellij.util.SmartList;
+import com.intellij.util.containers.ContainerUtil;
 
-  public ResourceBundleImpl(@NotNull VirtualFile baseDirectory, @NotNull String baseName) {
-    myBaseDirectory = baseDirectory;
-    myBaseName = baseName;
-  }
+public class ResourceBundleImpl implements ResourceBundle
+{
+	@NotNull
+	private final VirtualFile myBaseDirectory;
+	@NotNull
+	private final String myBaseName;
+	@NonNls
+	private static final String RESOURCE_BUNDLE_PREFIX = "resourceBundle:";
 
-  public static final ResourceBundle NULL = new ResourceBundle() {
-    @NotNull
-    public List<PropertiesFile> getPropertiesFiles(final Project project) {
-      return Collections.emptyList();
-    }
+	public ResourceBundleImpl(@NotNull VirtualFile baseDirectory, @NotNull String baseName)
+	{
+		myBaseDirectory = baseDirectory;
+		myBaseName = baseName;
+	}
 
-    @NotNull
-    public PropertiesFile getDefaultPropertiesFile(final Project project) {
-      throw new IllegalStateException();
-    }
+	public static final ResourceBundle NULL = new ResourceBundle()
+	{
+		@Override
+		@NotNull
+		public List<PropertiesFile> getPropertiesFiles(final Project project)
+		{
+			return Collections.emptyList();
+		}
 
-    @NotNull
-    public String getBaseName() {
-      return "";
-    }
+		@Override
+		@NotNull
+		public PropertiesFile getDefaultPropertiesFile(final Project project)
+		{
+			throw new IllegalStateException();
+		}
 
-    @NotNull
-    public VirtualFile getBaseDirectory() {
-      throw new IllegalStateException();
-    }
-  };
+		@Override
+		@NotNull
+		public String getBaseName()
+		{
+			return "";
+		}
 
-  @NotNull
-  public List<PropertiesFile> getPropertiesFiles(final Project project) {
-    VirtualFile[] children = myBaseDirectory.getChildren();
-    List<PropertiesFile> result = new SmartList<PropertiesFile>();
-    PsiManager psiManager = PsiManager.getInstance(project);
-    for (VirtualFile file : children) {
-      if (!file.isValid()) continue;
-      if (Comparing.strEqual(PropertiesUtil.getBaseName(file), myBaseName)) {
-        PropertiesFile propertiesFile = PropertiesUtil.getPropertiesFile(psiManager.findFile(file));
-        if (propertiesFile != null) {
-          result.add(propertiesFile);
-        }
-      }
-    }
-    return result;
-  }
+		@Override
+		@NotNull
+		public VirtualFile getBaseDirectory()
+		{
+			throw new IllegalStateException();
+		}
+	};
 
-  @NotNull
-  public PropertiesFile getDefaultPropertiesFile(final Project project) {
-    List<PropertiesFile> files = getPropertiesFiles(project);
-    // put default properties file first
-    ContainerUtil.quickSort(files, new Comparator<PropertiesFile>() {
-      public int compare(final PropertiesFile o1, final PropertiesFile o2) {
-        return Comparing.compare(o1.getName(), o2.getName());
-      }
-    });
-    return files.get(0);
-  }
+	@Override
+	@NotNull
+	public List<PropertiesFile> getPropertiesFiles(final Project project)
+	{
+		VirtualFile[] children = myBaseDirectory.getChildren();
+		List<PropertiesFile> result = new SmartList<PropertiesFile>();
+		final PsiManager psiManager = PsiManager.getInstance(project);
+		Application application = ApplicationManager.getApplication();
+		for(final VirtualFile file : children)
+		{
+			if(!file.isValid())
+			{
+				continue;
+			}
+			if(Comparing.strEqual(PropertiesUtil.getBaseName(file), myBaseName))
+			{
+				PropertiesFile propertiesFile = PropertiesUtil.getPropertiesFile(application.runReadAction(new Computable<PsiFile>()
+				{
+					@Override
+					public PsiFile compute()
+					{
+						return psiManager.findFile(file);
+					}
+				}));
+				if(propertiesFile != null)
+				{
+					result.add(propertiesFile);
+				}
+			}
+		}
+		return result;
+	}
 
-  @NotNull
-  public String getBaseName() {
-    return myBaseName;
-  }
+	@Override
+	@NotNull
+	public PropertiesFile getDefaultPropertiesFile(final Project project)
+	{
+		List<PropertiesFile> files = getPropertiesFiles(project);
+		// put default properties file first
+		ContainerUtil.quickSort(files, new Comparator<PropertiesFile>()
+		{
+			@Override
+			public int compare(final PropertiesFile o1, final PropertiesFile o2)
+			{
+				return Comparing.compare(o1.getName(), o2.getName());
+			}
+		});
+		return files.get(0);
+	}
 
-  public boolean equals(final Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+	@Override
+	@NotNull
+	public String getBaseName()
+	{
+		return myBaseName;
+	}
 
-    final ResourceBundleImpl resourceBundle = (ResourceBundleImpl)o;
+	@Override
+	public boolean equals(final Object o)
+	{
+		if(this == o)
+		{
+			return true;
+		}
+		if(o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
 
-    if (!myBaseDirectory.equals(resourceBundle.myBaseDirectory)) return false;
-    if (!myBaseName.equals(resourceBundle.myBaseName)) return false;
+		final ResourceBundleImpl resourceBundle = (ResourceBundleImpl) o;
 
-    return true;
-  }
+		if(!myBaseDirectory.equals(resourceBundle.myBaseDirectory))
+		{
+			return false;
+		}
+		if(!myBaseName.equals(resourceBundle.myBaseName))
+		{
+			return false;
+		}
 
-  public int hashCode() {
-    int result = myBaseDirectory.hashCode();
-    result = 29 * result + myBaseName.hashCode();
-    return result;
-  }
+		return true;
+	}
 
-  @Nullable
-  public static ResourceBundle createByUrl(String url) {
-    if (!url.startsWith(RESOURCE_BUNDLE_PREFIX)) return null;
+	@Override
+	public int hashCode()
+	{
+		int result = myBaseDirectory.hashCode();
+		result = 29 * result + myBaseName.hashCode();
+		return result;
+	}
 
-    String defaultPropertiesUrl = url.substring(RESOURCE_BUNDLE_PREFIX.length());
-    final int idx = defaultPropertiesUrl.lastIndexOf('/');
-    if (idx == -1) return null;
-    String baseDir = defaultPropertiesUrl.substring(0, idx);
-    String baseName = defaultPropertiesUrl.substring(idx + 1);
-    VirtualFile baseDirectory = VirtualFileManager.getInstance().findFileByUrl(baseDir);
-    if (baseDirectory != null) {
-      return new ResourceBundleImpl(baseDirectory, baseName);
-    }
-    return null;
-  }
+	@Nullable
+	public static ResourceBundle createByUrl(String url)
+	{
+		if(!url.startsWith(RESOURCE_BUNDLE_PREFIX))
+		{
+			return null;
+		}
 
-  public String getUrl() {
-    return RESOURCE_BUNDLE_PREFIX +getBaseDirectory() + "/" + getBaseName();
-  }
+		String defaultPropertiesUrl = url.substring(RESOURCE_BUNDLE_PREFIX.length());
+		final int idx = defaultPropertiesUrl.lastIndexOf('/');
+		if(idx == -1)
+		{
+			return null;
+		}
+		String baseDir = defaultPropertiesUrl.substring(0, idx);
+		String baseName = defaultPropertiesUrl.substring(idx + 1);
+		VirtualFile baseDirectory = VirtualFileManager.getInstance().findFileByUrl(baseDir);
+		if(baseDirectory != null)
+		{
+			return new ResourceBundleImpl(baseDirectory, baseName);
+		}
+		return null;
+	}
 
-  @NotNull
-  public VirtualFile getBaseDirectory() {
-    return myBaseDirectory;
-  }
+	public String getUrl()
+	{
+		return RESOURCE_BUNDLE_PREFIX + getBaseDirectory() + "/" + getBaseName();
+	}
+
+	@Override
+	@NotNull
+	public VirtualFile getBaseDirectory()
+	{
+		return myBaseDirectory;
+	}
 }

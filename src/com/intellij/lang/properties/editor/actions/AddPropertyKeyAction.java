@@ -20,13 +20,15 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.CommonBundle;
 import com.intellij.icons.AllIcons;
+import com.intellij.ide.util.treeView.AbstractTreeBuilder;
 import com.intellij.lang.properties.PropertiesBundle;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.application.Result;
+import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.InputValidator;
 import com.intellij.openapi.ui.Messages;
@@ -37,56 +39,71 @@ import com.intellij.util.IconUtil;
  * @author VISTALL
  * @since 22:19/28.03.13
  */
-public class AddPropertyKeyAction extends AnAction {
-  private final ResourceBundle myResourceBundle;
+public class AddPropertyKeyAction extends AnAction
+{
+	private final ResourceBundle myResourceBundle;
+	private final AbstractTreeBuilder myTreeBuilder;
 
-  public AddPropertyKeyAction(@NotNull ResourceBundle resourceBundle) {
-    super(CommonBundle.message("button.add"), PropertiesBundle.message("button.add.property.description"), IconUtil.getAddIcon());
-    myResourceBundle = resourceBundle;
-  }
+	public AddPropertyKeyAction(@NotNull ResourceBundle resourceBundle, AbstractTreeBuilder treeBuilder)
+	{
+		super(CommonBundle.message("button.add"), PropertiesBundle.message("button.add.property.description"), IconUtil.getAddIcon());
+		myResourceBundle = resourceBundle;
+		myTreeBuilder = treeBuilder;
+	}
 
-  @Override
-  public void actionPerformed(final AnActionEvent e) {
-    final Project project = e.getData(CommonDataKeys.PROJECT);
-    final List<PropertiesFile> propertiesFiles = myResourceBundle.getPropertiesFiles(project);
+	@Override
+	public void actionPerformed(final AnActionEvent e)
+	{
+		final Project project = e.getData(CommonDataKeys.PROJECT);
+		final List<PropertiesFile> propertiesFiles = myResourceBundle.getPropertiesFiles(project);
 
-    final String message = Messages
-      .showInputDialog(project, PropertiesBundle.message("add.dialog.property.name"), PropertiesBundle.message("add.dialog.property.title"),
-                       AllIcons.General.QuestionDialog, null, new InputValidator() {
-        @Override
-        public boolean checkInput(String inputString) {
-          if (StringUtil.isEmptyOrSpaces(inputString)) {
-            return false;
-          }
+		final String message = Messages.showInputDialog(project, PropertiesBundle.message("add.dialog.property.name"),
+				PropertiesBundle.message("add.dialog.property.title"), AllIcons.General.QuestionDialog, null, new InputValidator()
+		{
+			@Override
+			public boolean checkInput(String inputString)
+			{
+				if(StringUtil.isEmptyOrSpaces(inputString))
+				{
+					return false;
+				}
 
-          boolean hasInAll = true;
-          for (PropertiesFile propertiesFile : propertiesFiles) {
-            if (propertiesFile.findPropertyByKey(inputString) == null) {
-              hasInAll = false;
-            }
-          }
-          return !hasInAll && !inputString.contains(" ");
-        }
+				boolean hasInAll = true;
+				for(PropertiesFile propertiesFile : propertiesFiles)
+				{
+					if(propertiesFile.findPropertyByKey(inputString) == null)
+					{
+						hasInAll = false;
+					}
+				}
+				return !hasInAll && !inputString.contains(" ");
+			}
 
-        @Override
-        public boolean canClose(String inputString) {
-          return checkInput(inputString);
-        }
-      });
+			@Override
+			public boolean canClose(String inputString)
+			{
+				return checkInput(inputString);
+			}
+		});
 
-    if (message == null) {
-      return;
-    }
+		if(message == null)
+		{
+			return;
+		}
 
+		new WriteCommandAction(project)
+		{
+			@Override
+			protected void run(Result result) throws Throwable
+			{
+				for(PropertiesFile propertiesFile : propertiesFiles)
+				{
+					final String temp = message.trim();
+					propertiesFile.addProperty(temp, temp);
+				}
 
-    ApplicationManager.getApplication().runWriteAction(new Runnable() {
-      @Override
-      public void run() {
-        for (PropertiesFile propertiesFile : propertiesFiles) {
-          final String temp = message.trim();
-          propertiesFile.addProperty(temp, temp);
-        }
-      }
-    });
-  }
+				myTreeBuilder.queueUpdate();
+			}
+		}.execute();
+	}
 }
