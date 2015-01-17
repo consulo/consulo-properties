@@ -15,6 +15,8 @@
  */
 package com.intellij.lang.properties.editor;
 
+import org.jdom.Element;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.properties.PropertiesUtil;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.psi.PropertiesFile;
@@ -30,60 +32,81 @@ import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
-import org.jdom.Element;
-import org.jetbrains.annotations.NotNull;
 
-public class ResourceBundleEditorProvider extends FileTypeFactory implements FileEditorProvider, DumbAware {
-  private static final ResourceBundleFileType RESOURCE_BUNDLE_FILE_TYPE = new ResourceBundleFileType();
+public class ResourceBundleEditorProvider extends FileTypeFactory implements FileEditorProvider, DumbAware
+{
+	private static final ResourceBundleFileType RESOURCE_BUNDLE_FILE_TYPE = new ResourceBundleFileType();
 
-  public boolean accept(@NotNull Project project, @NotNull VirtualFile file){
-    if (file instanceof ResourceBundleAsVirtualFile) return true;
-    PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
-    PropertiesFile propertiesFile = PropertiesUtil.getPropertiesFile(psiFile);
-    return propertiesFile != null &&  propertiesFile.getResourceBundle().getPropertiesFiles(project).size() > 1;
-  }
+	@Override
+	public boolean accept(@NotNull Project project, @NotNull VirtualFile file)
+	{
+		if(file instanceof ResourceBundleAsVirtualFile)
+		{
+			return true;
+		}
+		PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
+		PropertiesFile propertiesFile = PropertiesUtil.getPropertiesFile(psiFile);
+		return propertiesFile != null && propertiesFile.getResourceBundle().getPropertiesFiles(project).size() > 1;
+	}
 
-  @NotNull
-  public FileEditor createEditor(@NotNull Project project, @NotNull final VirtualFile file){
-    ResourceBundle resourceBundle;
-    if (file instanceof ResourceBundleAsVirtualFile) {
-      resourceBundle = ((ResourceBundleAsVirtualFile)file).getResourceBundle();
-    }
-    else {
-      PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
-      if (psiFile == null) {
-        throw new IllegalArgumentException("psifile cannot be null");
-      }
-      resourceBundle = PropertiesUtil.getPropertiesFile(psiFile).getResourceBundle();
-    }
+	@Override
+	@NotNull
+	public FileEditor createEditor(@NotNull Project project, @NotNull final VirtualFile file)
+	{
+		ResourceBundle resourceBundle;
+		if(file instanceof ResourceBundleAsVirtualFile)
+		{
+			resourceBundle = ((ResourceBundleAsVirtualFile) file).getResourceBundle();
+		}
+		else
+		{
+			PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
+			if(psiFile == null)
+			{
+				throw new IllegalArgumentException("psifile cannot be null");
+			}
+			resourceBundle = PropertiesUtil.getPropertiesFile(psiFile).getResourceBundle();
+		}
 
-    return new ResourceBundleEditor(project, resourceBundle);
-  }
+		return new ResourceBundleEditor(project, resourceBundle);
+	}
 
-  public void disposeEditor(@NotNull FileEditor editor) {
-    Disposer.dispose(editor);
-  }
+	@Override
+	public void disposeEditor(@NotNull FileEditor editor)
+	{
+		Disposer.dispose(editor);
+	}
 
-  @NotNull
-  public FileEditorState readState(@NotNull Element element, @NotNull Project project, @NotNull VirtualFile file) {
-    return new ResourceBundleEditor.ResourceBundleEditorState(null);
-  }
+	@Override
+	@NotNull
+	public FileEditorState readState(@NotNull Element element, @NotNull Project project, @NotNull VirtualFile file)
+	{
+		return new ResourceBundleEditor.ResourceBundleEditorState(null);
+	}
 
-  public void writeState(@NotNull FileEditorState state, @NotNull Project project, @NotNull Element element){
-  }
+	@Override
+	public void writeState(@NotNull FileEditorState state, @NotNull Project project, @NotNull Element element)
+	{
+	}
 
-  @NotNull
-  public FileEditorPolicy getPolicy() {
-    return FileEditorPolicy.PLACE_AFTER_DEFAULT_EDITOR;
-  }
+	@Override
+	@NotNull
+	public FileEditorPolicy getPolicy()
+	{
+		return FileEditorPolicy.PLACE_AFTER_DEFAULT_EDITOR;
+	}
 
-  @NotNull
-  public String getEditorTypeId(){
-    return "ResourceBundle";
-  }
+	@Override
+	@NotNull
+	public String getEditorTypeId()
+	{
+		return "ResourceBundle";
+	}
 
 
-  public void createFileTypes(@NotNull final FileTypeConsumer consumer) {
-    consumer.consume(RESOURCE_BUNDLE_FILE_TYPE, "");
-  }
+	@Override
+	public void createFileTypes(@NotNull final FileTypeConsumer consumer)
+	{
+		consumer.consume(RESOURCE_BUNDLE_FILE_TYPE, "");
+	}
 }
