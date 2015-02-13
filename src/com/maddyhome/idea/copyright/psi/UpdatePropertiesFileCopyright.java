@@ -16,43 +16,70 @@
 
 package com.maddyhome.idea.copyright.psi;
 
+import org.jetbrains.annotations.NotNull;
+import org.mustbe.consulo.copyright.config.CopyrightFileConfig;
 import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiWhiteSpace;
 import com.maddyhome.idea.copyright.CopyrightProfile;
+import com.maddyhome.idea.copyright.ui.TemplateCommentPanel;
 
-public class UpdatePropertiesFileCopyright extends UpdatePsiFileCopyright {
-  public static class UpdatePropertiesFileCopyrightProvider extends UpdateCopyrightsProvider {
-    @Override
-    public UpdateCopyright createInstance(Project project, Module module, VirtualFile file, FileType base, CopyrightProfile options) {
-      return new UpdatePropertiesFileCopyright(project, module, file, options);
-    }
-  }
+public class UpdatePropertiesFileCopyright extends UpdatePsiFileCopyright
+{
+	public static class UpdatePropertiesFileCopyrightProvider extends UpdateCopyrightsProvider
+	{
+		@NotNull
+		@Override
+		public UpdatePsiFileCopyright createInstance(@NotNull PsiFile file, @NotNull CopyrightProfile copyrightProfile)
+		{
+			return new UpdatePropertiesFileCopyright(file, copyrightProfile);
+		}
 
-  public UpdatePropertiesFileCopyright(Project project, Module module, VirtualFile root, CopyrightProfile options) {
-    super(project, module, root, options);
-  }
+		@NotNull
+		@Override
+		public CopyrightFileConfig createDefaultOptions()
+		{
+			return new CopyrightFileConfig();
+		}
 
-  protected void scanFile() {
-    PsiElement first = getFile().getFirstChild(); // PropertiesList
-    PsiElement last = first;
-    PsiElement next = first;
-    while (next != null) {
-      if (next instanceof PsiComment || next instanceof PsiWhiteSpace) {
-        next = getNextSibling(next);
-      }
-      else {
-        break;
-      }
-      last = next;
-    }
+		@NotNull
+		@Override
+		public TemplateCommentPanel createConfigurable(@NotNull Project project, @NotNull TemplateCommentPanel parentPane, @NotNull FileType fileType)
+		{
+			return new TemplateCommentPanel(fileType, parentPane, project);
+		}
+	}
 
-    if (first != null) {
-      checkComments(first, last, true);
-    }
-  }
+	public UpdatePropertiesFileCopyright(@NotNull PsiFile psiFile, @NotNull CopyrightProfile copyrightProfile)
+	{
+		super(psiFile, copyrightProfile);
+	}
+
+	@Override
+	protected void scanFile()
+	{
+		PsiElement first = getFile().getFirstChild(); // PropertiesList
+		PsiElement last = first;
+		PsiElement next = first;
+		while(next != null)
+		{
+			if(next instanceof PsiComment || next instanceof PsiWhiteSpace)
+			{
+				next = getNextSibling(next);
+			}
+			else
+			{
+				break;
+			}
+			last = next;
+		}
+
+		if(first != null)
+		{
+			checkComments(first, last, true);
+		}
+	}
 }
