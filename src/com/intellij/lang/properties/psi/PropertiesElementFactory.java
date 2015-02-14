@@ -16,19 +16,19 @@
 
 package com.intellij.lang.properties.psi;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.properties.IProperty;
+import com.intellij.lang.properties.PropertiesFileType;
 import com.intellij.lang.properties.editor.ResourceBundleUtil;
-import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.UserDataCache;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiFileFactory;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Properties;
 
 /**
  * @author cdr
@@ -50,9 +50,9 @@ public class PropertiesElementFactory {
 
   @NotNull
   public static PropertiesFile createPropertiesFile(@NotNull Project project, @NonNls @NotNull String text) {
-    @NonNls String filename = "dummy." + StdFileTypes.PROPERTIES.getDefaultExtension();
+    @NonNls String filename = "dummy." + PropertiesFileType.INSTANCE.getDefaultExtension();
     return (PropertiesFile)PsiFileFactory.getInstance(project)
-      .createFileFromText(filename, StdFileTypes.PROPERTIES, text);
+      .createFileFromText(filename, PropertiesFileType.INSTANCE, text);
   }
 
   @NotNull
@@ -64,9 +64,9 @@ public class PropertiesElementFactory {
     catch (IOException e) {
       throw new RuntimeException(e);
     }
-    @NonNls String filename = fileName + "." + StdFileTypes.PROPERTIES.getDefaultExtension();
+    @NonNls String filename = fileName + "." + PropertiesFileType.INSTANCE.getDefaultExtension();
     return (PropertiesFile)PsiFileFactory.getInstance(project)
-      .createFileFromText(filename, StdFileTypes.PROPERTIES, stream.toString());
+      .createFileFromText(filename, PropertiesFileType.INSTANCE, stream.toString());
   }
 
   @NotNull

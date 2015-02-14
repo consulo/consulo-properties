@@ -15,16 +15,16 @@
  */
 package com.intellij.lang.properties.parsing;
 
-import com.intellij.psi.tree.IElementType;
-import com.intellij.openapi.fileTypes.StdFileTypes;
 import org.jetbrains.annotations.NonNls;
+import com.intellij.lang.properties.PropertiesLanguage;
+import com.intellij.psi.tree.IElementType;
 
 /**
  * @author max
  */
 public class PropertiesElementType extends IElementType {
   public PropertiesElementType(@NonNls String debugName) {
-    super(debugName, StdFileTypes.PROPERTIES.getLanguage());
+    super(debugName, PropertiesLanguage.INSTANCE);
   }
 
   @SuppressWarnings({"HardCodedStringLiteral"})

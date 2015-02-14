@@ -19,18 +19,41 @@
  */
 package com.intellij.lang.properties.references;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.regex.Pattern;
+
+import javax.swing.Action;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.CodeInsightBundle;
 import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.ide.util.TreeFileChooser;
 import com.intellij.ide.util.TreeFileChooserFactory;
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.LastSelectedPropertiesFileStore;
+import com.intellij.lang.properties.PropertiesFileType;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.FileTypeManager;
-import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.help.HelpManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
@@ -47,20 +70,6 @@ import com.intellij.psi.PsiManager;
 import com.intellij.ui.DocumentAdapter;
 import com.intellij.ui.GuiUtils;
 import com.intellij.ui.TextFieldWithHistory;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
-import java.text.Normalizer;
-import java.util.*;
-import java.util.List;
-import java.util.regex.Pattern;
 
 public class I18nizeQuickFixDialog extends DialogWrapper implements I18nizeQuickFixModel {
   protected static final Logger LOG = Logger.getInstance("#com.intellij.codeInsight.i18n.I18nizeQuickFixDialog");
@@ -135,7 +144,7 @@ public class I18nizeQuickFixDialog extends DialogWrapper implements I18nizeQuick
         TreeFileChooserFactory chooserFactory = TreeFileChooserFactory.getInstance(myProject);
         final PropertiesFile propertiesFile = getPropertiesFile();
         TreeFileChooser fileChooser = chooserFactory.createFileChooser(
-          CodeInsightBundle.message("i18nize.dialog.property.file.chooser.title"), propertiesFile != null ? propertiesFile.getContainingFile() : null, StdFileTypes.PROPERTIES, null);
+          CodeInsightBundle.message("i18nize.dialog.property.file.chooser.title"), propertiesFile != null ? propertiesFile.getContainingFile() : null, PropertiesFileType.INSTANCE, null);
         fileChooser.showDialog();
         PsiFile selectedFile = fileChooser.getSelectedFile();
         if (selectedFile == null) return;
@@ -376,7 +385,7 @@ public class I18nizeQuickFixDialog extends DialogWrapper implements I18nizeQuick
       return false;
     }
     FileType fileType = FileTypeManager.getInstance().getFileTypeByFileName(path);
-    if (fileType != StdFileTypes.PROPERTIES) {
+    if (fileType != PropertiesFileType.INSTANCE) {
       String message = CodeInsightBundle.message("i18nize.cant.create.properties.file.because.its.name.is.associated",
                                                  myPropertiesFile.getText(), fileType.getDescription());
       Messages.showErrorDialog(myProject, message, CodeInsightBundle.message("i18nize.error.creating.properties.file"));

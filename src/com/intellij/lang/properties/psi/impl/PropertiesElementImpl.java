@@ -15,11 +15,11 @@
  */
 package com.intellij.lang.properties.psi.impl;
 
+import org.jetbrains.annotations.NotNull;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.Language;
-import com.intellij.openapi.fileTypes.StdFileTypes;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.lang.properties.PropertiesLanguage;
 
 /**
  * @author max
@@ -31,6 +31,6 @@ public class PropertiesElementImpl extends ASTWrapperPsiElement  {
 
   @NotNull
   public Language getLanguage() {
-    return StdFileTypes.PROPERTIES.getLanguage();
+    return PropertiesLanguage.INSTANCE;
   }
 }
