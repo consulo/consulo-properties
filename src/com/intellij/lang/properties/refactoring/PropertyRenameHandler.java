@@ -15,18 +15,21 @@
  */
 package com.intellij.lang.properties.refactoring;
 
-import com.intellij.codeInsight.TargetElementUtilBase;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import com.intellij.codeInsight.TargetElementUtil;
+import com.intellij.lang.properties.references.PropertyReferenceBase;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.ScrollType;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiReference;
+import com.intellij.psi.ResolveResult;
 import com.intellij.psi.impl.source.resolve.reference.impl.PsiMultiReference;
 import com.intellij.refactoring.rename.PsiElementRenameHandler;
-import com.intellij.lang.properties.references.PropertyReferenceBase;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Dmitry Avdeev
@@ -43,7 +46,7 @@ public class PropertyRenameHandler extends PsiElementRenameHandler {
 
   @Nullable
   private static PsiElement getPsiElement(final Editor editor) {
-    final PsiReference reference = TargetElementUtilBase.findReference(editor);
+    final PsiReference reference = TargetElementUtil.findReference(editor);
     if (reference instanceof PropertyReferenceBase) {
       final ResolveResult[] resolveResults = ((PropertyReferenceBase)reference).multiResolve(false);
       return resolveResults.length > 0 ? resolveResults[0].getElement() : null;
