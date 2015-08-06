@@ -35,6 +35,7 @@ import com.intellij.util.SmartList;
 import com.intellij.util.indexing.FileBasedIndex;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.mustbe.consulo.RequiredReadAction;
 
 import java.util.*;
 
@@ -45,15 +46,18 @@ public class PropertiesUtil {
   private PropertiesUtil() {
   }
 
+  @RequiredReadAction
   public static boolean isPropertiesFile(VirtualFile file, Project project) {
     return getPropertiesFile(PsiManager.getInstance(project).findFile(file)) != null;
   }
 
+  @RequiredReadAction
   public static boolean isPropertiesFile(PsiFile file) {
     return getPropertiesFile(file) != null;
   }
 
   @Nullable
+  @RequiredReadAction
   public static PropertiesFile getPropertiesFile(@Nullable PsiFile file) {
     if (file == null) return null;
     return file instanceof PropertiesFile ? (PropertiesFile)file : XmlPropertiesFile.getPropertiesFile(file);

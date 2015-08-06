@@ -38,6 +38,7 @@ import gnu.trove.THashMap;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.mustbe.consulo.RequiredReadAction;
 
 import java.util.*;
 
@@ -70,10 +71,12 @@ public class XmlPropertiesFile implements PropertiesFile {
   };
 
   @Nullable
+  @RequiredReadAction
   public static PropertiesFile getPropertiesFile(final PsiFile file) {
     return file instanceof XmlFile ? getPropertiesFile((XmlFile)file) : null;
   }
 
+    @RequiredReadAction
   public static PropertiesFile getPropertiesFile(final XmlFile file) {
     CachedValuesManager manager = CachedValuesManager.getManager(file.getProject());
     return manager.getCachedValue(file, KEY,

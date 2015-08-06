@@ -46,15 +46,15 @@ public class ResourceBundleEditorProvider extends FileTypeFactory implements Fil
 		{
 			return true;
 		}
-		PsiFile psiFile = ApplicationManager.getApplication().runReadAction(new Computable<PsiFile>()
+		PropertiesFile propertiesFile = ApplicationManager.getApplication().runReadAction(new Computable<PropertiesFile>()
 		{
 			@Override
-			public PsiFile compute()
+			public PropertiesFile compute()
 			{
-				return PsiManager.getInstance(project).findFile(file);
+				PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
+				return psiFile == null ? null : PropertiesUtil.getPropertiesFile(psiFile);
 			}
 		});
-		PropertiesFile propertiesFile = PropertiesUtil.getPropertiesFile(psiFile);
 		return propertiesFile != null && propertiesFile.getResourceBundle().getPropertiesFiles(project).size() > 1;
 	}
 
