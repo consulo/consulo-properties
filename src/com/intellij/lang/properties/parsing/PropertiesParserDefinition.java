@@ -15,9 +15,9 @@
  */
 package com.intellij.lang.properties.parsing;
 
+import org.jetbrains.annotations.NotNull;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
-import com.intellij.lang.LanguageVersion;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiParser;
 import com.intellij.lang.properties.psi.impl.PropertiesFileImpl;
@@ -25,14 +25,13 @@ import com.intellij.lang.properties.psi.impl.PropertiesListImpl;
 import com.intellij.lang.properties.psi.impl.PropertyImpl;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.project.Project;
+import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
 import com.intellij.psi.tree.IFileElementType;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.psi.tree.TokenSet;
+import consulo.lang.LanguageVersion;
 
 /**
  * @author max
@@ -41,7 +40,7 @@ public class PropertiesParserDefinition implements ParserDefinition {
   private static final Logger LOG = Logger.getInstance("#com.intellij.lang.properties.PropertiesParserDefinition");
 
   @NotNull
-  public Lexer createLexer(@NotNull Project project, @NotNull LanguageVersion languageVersion) {
+  public Lexer createLexer(@NotNull LanguageVersion languageVersion) {
     return new PropertiesLexer();
   }
 
@@ -66,7 +65,7 @@ public class PropertiesParserDefinition implements ParserDefinition {
   }
 
   @NotNull
-  public PsiParser createParser(@NotNull Project project, @NotNull LanguageVersion languageVersion) {
+  public PsiParser createParser(@NotNull LanguageVersion languageVersion) {
     return new PropertiesParser();
   }
 

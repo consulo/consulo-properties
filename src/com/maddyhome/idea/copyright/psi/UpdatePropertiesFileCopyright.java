@@ -17,7 +17,6 @@
 package com.maddyhome.idea.copyright.psi;
 
 import org.jetbrains.annotations.NotNull;
-import org.mustbe.consulo.copyright.config.CopyrightFileConfig;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiComment;
@@ -26,6 +25,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiWhiteSpace;
 import com.maddyhome.idea.copyright.CopyrightProfile;
 import com.maddyhome.idea.copyright.ui.TemplateCommentPanel;
+import consulo.copyright.config.CopyrightFileConfig;
 
 public class UpdatePropertiesFileCopyright extends UpdatePsiFileCopyright
 {

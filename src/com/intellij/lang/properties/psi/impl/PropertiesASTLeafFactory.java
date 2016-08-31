@@ -17,17 +17,18 @@ package com.intellij.lang.properties.psi.impl;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.lang.ASTLeafFactory;
-import com.intellij.lang.LanguageVersion;
 import com.intellij.lang.properties.parsing.PropertiesTokenTypes;
 import com.intellij.psi.impl.source.tree.LeafElement;
 import com.intellij.psi.impl.source.tree.PsiCommentImpl;
 import com.intellij.psi.tree.IElementType;
+import consulo.lang.LanguageVersion;
+import consulo.psi.tree.ASTLeafFactory;
 
 /**
  * @author cdr
  */
-public class PropertiesASTLeafFactory implements ASTLeafFactory{
+public class PropertiesASTLeafFactory implements ASTLeafFactory
+{
   @Override
   @NotNull
   public LeafElement createLeaf(@NotNull final IElementType type, @NotNull LanguageVersion<?> languageVersion, @NotNull CharSequence text) {

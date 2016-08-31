@@ -20,9 +20,9 @@
 package com.intellij.lang.properties;
 
 import com.intellij.lang.DefaultWordCompletionFilter;
-import com.intellij.lang.LanguageVersion;
 import com.intellij.lang.properties.parsing.PropertiesElementTypes;
 import com.intellij.psi.tree.IElementType;
+import consulo.lang.LanguageVersion;
 
 public class PropertiesWordCompletionFilter extends DefaultWordCompletionFilter {
   public boolean isWordCompletionEnabledIn(final IElementType element, LanguageVersion languageVersion) {

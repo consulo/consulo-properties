@@ -17,7 +17,6 @@ package com.intellij.lang.properties.refactoring;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.codeInsight.TargetElementUtil;
 import com.intellij.lang.properties.references.PropertyReferenceBase;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.LangDataKeys;
@@ -30,6 +29,7 @@ import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.intellij.psi.impl.source.resolve.reference.impl.PsiMultiReference;
 import com.intellij.refactoring.rename.PsiElementRenameHandler;
+import consulo.codeInsight.TargetElementUtil;
 
 /**
  * @author Dmitry Avdeev

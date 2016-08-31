@@ -16,17 +16,18 @@
 package com.intellij.lang.properties.xml;
 
 import org.jetbrains.annotations.NotNull;
-import com.intellij.ide.IconDescriptor;
-import com.intellij.ide.IconDescriptorUpdater;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.xml.XmlFile;
+import consulo.ide.IconDescriptor;
+import consulo.ide.IconDescriptorUpdater;
 import icons.PropertiesIcons;
 
 /**
  * @author VISTALL
  * @since 14:59/20.07.13
  */
-public class XmlPropertiesIconDescriptorUpdater implements IconDescriptorUpdater {
+public class XmlPropertiesIconDescriptorUpdater implements IconDescriptorUpdater
+{
   @Override
   public void updateIcon(@NotNull IconDescriptor iconDescriptor, @NotNull PsiElement element, int flags) {
     if(element instanceof XmlFile && XmlPropertiesFile.getPropertiesFile((XmlFile)element) != null) {
