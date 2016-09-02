@@ -1,1 +1,1 @@
-![Build Status](http://must-be.org/vulcan/statusImage?name=consulo-properties)
+[![Build Status](http://must-be.org/jenkins/job/consulo-properties/badge/icon)](http://must-be.org/jenkins/job/consulo-properties/)
