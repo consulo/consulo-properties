@@ -23,7 +23,6 @@
 	</extensions>
 
 	<extensions defaultExtensionNs="com.intellij">
-		<errorHandler implementation="com.intellij.diagnostic.ITNReporter"/>
 		<applicationService serviceInterface="com.intellij.lang.properties.LastSelectedPropertiesFileStore"
 							serviceImplementation="com.intellij.lang.properties.LastSelectedPropertiesFileStore"/>
 		<applicationService serviceInterface="com.intellij.lang.properties.refactoring.PropertiesRefactoringSettings"
