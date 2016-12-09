@@ -15,21 +15,21 @@
  */
 package com.intellij.lang.properties;
 
+import gnu.trove.THashMap;
+
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.lang.properties.parsing.PropertiesTokenTypes;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
-import com.intellij.openapi.editor.SyntaxHighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.openapi.options.OptionsBundle;
 import com.intellij.openapi.util.Pair;
 import com.intellij.psi.StringEscapesTokenTypes;
 import com.intellij.psi.tree.IElementType;
-import gnu.trove.THashMap;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
 
 /**
  * @author max

@@ -31,7 +31,7 @@ public class PropertiesASTLeafFactory implements ASTLeafFactory
 {
   @Override
   @NotNull
-  public LeafElement createLeaf(@NotNull final IElementType type, @NotNull LanguageVersion<?> languageVersion, @NotNull CharSequence text) {
+  public LeafElement createLeaf(@NotNull final IElementType type, @NotNull LanguageVersion languageVersion, @NotNull CharSequence text) {
     if (type == PropertiesTokenTypes.VALUE_CHARACTERS) {
       return new PropertyValueImpl(type, text);
     }
