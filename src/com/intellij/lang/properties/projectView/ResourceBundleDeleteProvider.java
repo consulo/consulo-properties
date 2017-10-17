@@ -15,6 +15,9 @@
  */
 package com.intellij.lang.properties.projectView;
 
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
 import com.intellij.ide.DeleteProvider;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.psi.PropertiesFile;
@@ -25,9 +28,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.refactoring.safeDelete.SafeDeleteHandler;
 import com.intellij.util.Function;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 /**
  * @author cdr
@@ -46,14 +46,14 @@ class ResourceBundleDeleteProvider implements DeleteProvider {
   }
 
   public void deleteElement(@NotNull DataContext dataContext) {
-    final Project project = CommonDataKeys.PROJECT.getData(dataContext);
+    final Project project = dataContext.getData(CommonDataKeys.PROJECT);
     List<PropertiesFile> propertiesFiles = myResourceBundle.getPropertiesFiles(project);
     assert project != null;
     new SafeDeleteHandler().invoke(project, ContainerUtil.map2Array(propertiesFiles, PsiElement.class, MAPPER), dataContext);
   }
 
   public boolean canDeleteElement(@NotNull DataContext dataContext) {
-    final Project project = CommonDataKeys.PROJECT.getData(dataContext);
+    final Project project = dataContext.getData(CommonDataKeys.PROJECT);
     return project != null;
   }
 }

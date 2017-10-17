@@ -15,6 +15,13 @@
  */
 package com.intellij.lang.properties.projectView;
 
+import gnu.trove.THashMap;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 import com.intellij.ide.projectView.TreeStructureProvider;
 import com.intellij.ide.projectView.ViewSettings;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
@@ -24,14 +31,9 @@ import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Key;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.SmartList;
-import gnu.trove.THashMap;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 public class ResourceBundleGrouper implements TreeStructureProvider, DumbAware {
   private final Project myProject;
@@ -85,17 +87,17 @@ public class ResourceBundleGrouper implements TreeStructureProvider, DumbAware {
     return result;
   }
 
-  public Object getData(Collection<AbstractTreeNode> selected, String dataName) {
+  public Object getData(Collection<AbstractTreeNode> selected, Key<?> dataName) {
     if (selected == null) return null;
     for (AbstractTreeNode selectedElement : selected) {
       Object element = selectedElement.getValue();
-      if (PlatformDataKeys.DELETE_ELEMENT_PROVIDER.is(dataName)) {
+      if (PlatformDataKeys.DELETE_ELEMENT_PROVIDER == dataName) {
         if (element instanceof ResourceBundle) {
           return new ResourceBundleDeleteProvider((ResourceBundle)element);
         }
       }
     }
-    if (ResourceBundle.ARRAY_DATA_KEY.is(dataName)) {
+    if (ResourceBundle.ARRAY_DATA_KEY == dataName) {
       final List<ResourceBundle> selectedElements = new ArrayList<ResourceBundle>();
       for (AbstractTreeNode node : selected) {
         final Object value = node.getValue();

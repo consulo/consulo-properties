@@ -15,6 +15,13 @@
  */
 package com.intellij.lang.properties.editor;
 
+import gnu.trove.TIntHashSet;
+
+import java.io.Writer;
+import java.util.Properties;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.psi.PropertiesFile;
@@ -30,12 +37,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.util.SystemProperties;
-import gnu.trove.TIntHashSet;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.io.Writer;
-import java.util.Properties;
 
 /**
  * @author Denis Zhdanov
@@ -64,18 +65,18 @@ public class ResourceBundleUtil {
    */
   @Nullable
   public static ResourceBundle getResourceBundleFromDataContext(@NotNull DataContext dataContext) {
-    PsiElement element = LangDataKeys.PSI_ELEMENT.getData(dataContext);
+    PsiElement element = dataContext.getData(LangDataKeys.PSI_ELEMENT);
     if (element instanceof IProperty) return null; //rename property
-    final ResourceBundle[] bundles = ResourceBundle.ARRAY_DATA_KEY.getData(dataContext);
+    final ResourceBundle[] bundles = dataContext.getData(ResourceBundle.ARRAY_DATA_KEY);
     if (bundles != null && bundles.length == 1) return bundles[0];
-    VirtualFile virtualFile = PlatformDataKeys.VIRTUAL_FILE.getData(dataContext);
+    VirtualFile virtualFile = dataContext.getData(PlatformDataKeys.VIRTUAL_FILE);
     if (virtualFile == null) {
       return null;
     }
     if (virtualFile instanceof ResourceBundleAsVirtualFile) {
       return ((ResourceBundleAsVirtualFile)virtualFile).getResourceBundle();
     }
-    Project project = CommonDataKeys.PROJECT.getData(dataContext);
+    Project project = dataContext.getData(CommonDataKeys.PROJECT);
     if (project != null) {
       final PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
       if (psiFile instanceof PropertiesFile) {
@@ -93,12 +94,12 @@ public class ResourceBundleUtil {
    */
   @Nullable
   public static ResourceBundleEditor getEditor(@NotNull DataContext dataContext) {
-    Project project = CommonDataKeys.PROJECT.getData(dataContext);
+    Project project = dataContext.getData(CommonDataKeys.PROJECT);
     if (project == null) {
       return null;
     }
 
-    VirtualFile virtualFile = PlatformDataKeys.VIRTUAL_FILE.getData(dataContext);
+    VirtualFile virtualFile = dataContext.getData(PlatformDataKeys.VIRTUAL_FILE);
     if (virtualFile == null) {
       return null;
     }

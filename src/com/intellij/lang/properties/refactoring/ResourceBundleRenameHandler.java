@@ -19,6 +19,10 @@
  */
 package com.intellij.lang.properties.refactoring;
 
+import java.io.File;
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.FileModificationService;
 import com.intellij.lang.properties.PropertiesBundle;
 import com.intellij.lang.properties.ResourceBundle;
@@ -40,16 +44,12 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.refactoring.rename.RenameHandler;
 import com.intellij.refactoring.rename.RenameProcessor;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-import java.util.List;
 
 public class ResourceBundleRenameHandler implements RenameHandler {
   private static final Logger LOG = Logger.getInstance("#" + ResourceBundleRenameHandler.class.getName());
 
   public boolean isAvailableOnDataContext(DataContext dataContext) {
-    final Project project = CommonDataKeys.PROJECT.getData(dataContext);
+    final Project project = dataContext.getData(CommonDataKeys.PROJECT);
     if (project == null) {
       return false;
     }
@@ -58,7 +58,7 @@ public class ResourceBundleRenameHandler implements RenameHandler {
       return false;
     }
 
-    final VirtualFile virtualFile = PlatformDataKeys.VIRTUAL_FILE.getData(dataContext);
+    final VirtualFile virtualFile = dataContext.getData(PlatformDataKeys.VIRTUAL_FILE);
 
     ResourceBundleEditor editor = ResourceBundleUtil.getEditor(dataContext);
     return (editor == null || editor.getState(FileEditorStateLevel.NAVIGATION).getPropertyName() == null /* user selected non-bundle key element */)

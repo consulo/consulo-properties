@@ -37,7 +37,7 @@ import consulo.codeInsight.TargetElementUtil;
 public class PropertyRenameHandler extends PsiElementRenameHandler {
 
   public boolean isAvailableOnDataContext(final DataContext dataContext) {
-    final Editor editor = LangDataKeys.EDITOR.getData(dataContext);
+    final Editor editor = dataContext.getData(LangDataKeys.EDITOR);
     if (editor != null) {
       if (getPsiElement(editor) != null) return true;
     }

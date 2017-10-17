@@ -15,6 +15,10 @@
  */
 package com.intellij.lang.properties.projectView;
 
+import java.util.List;
+import java.util.Set;
+
+import org.jetbrains.annotations.Nullable;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
@@ -24,10 +28,6 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.refactoring.move.MoveHandlerDelegate;
 import com.intellij.refactoring.move.moveFilesOrDirectories.MoveFilesOrDirectoriesHandler;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * User: anna
@@ -38,7 +38,7 @@ public class ResourceBundleMoveProvider extends MoveHandlerDelegate {
 
   @Override
   public boolean canMove(DataContext dataContext) {
-    return ResourceBundle.ARRAY_DATA_KEY.getData(dataContext) != null;
+    return dataContext.getData(ResourceBundle.ARRAY_DATA_KEY) != null;
   }
 
   public boolean canMove(PsiElement[] elements, @Nullable final PsiElement targetContainer) {
@@ -53,10 +53,10 @@ public class ResourceBundleMoveProvider extends MoveHandlerDelegate {
   @Override
   public void collectFilesOrDirsFromContext(DataContext dataContext, Set<PsiElement> filesOrDirs) {
 
-    final ResourceBundle[] bundles = ResourceBundle.ARRAY_DATA_KEY.getData(dataContext);
+    final ResourceBundle[] bundles = dataContext.getData(ResourceBundle.ARRAY_DATA_KEY);
     LOG.assertTrue(bundles != null);
     for (ResourceBundle bundle : bundles) {
-      List<PropertiesFile> propertiesFiles = bundle.getPropertiesFiles(CommonDataKeys.PROJECT.getData(dataContext));
+      List<PropertiesFile> propertiesFiles = bundle.getPropertiesFiles(dataContext.getData(CommonDataKeys.PROJECT));
       for (PropertiesFile propertiesFile : propertiesFiles) {
         filesOrDirs.add(propertiesFile.getContainingFile());
       }

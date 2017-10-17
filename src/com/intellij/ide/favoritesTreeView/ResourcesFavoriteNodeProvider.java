@@ -20,6 +20,11 @@
  */
 package com.intellij.ide.favoritesTreeView;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
 import com.intellij.ide.projectView.ViewSettings;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.lang.properties.ResourceBundle;
@@ -30,11 +35,6 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class ResourcesFavoriteNodeProvider extends FavoriteNodeProvider {
   private final Project myProject;
@@ -44,11 +44,11 @@ public class ResourcesFavoriteNodeProvider extends FavoriteNodeProvider {
   }
 
   public Collection<AbstractTreeNode> getFavoriteNodes(final DataContext context, final ViewSettings viewSettings) {
-    final Project project = CommonDataKeys.PROJECT.getData(context);
+    final Project project = context.getData(CommonDataKeys.PROJECT);
     if (project == null) {
       return null;
     }
-    final ResourceBundle[] resourceBundles = ResourceBundle.ARRAY_DATA_KEY.getData(context);
+    final ResourceBundle[] resourceBundles = context.getData(ResourceBundle.ARRAY_DATA_KEY);
     //on bundles nodes
     if (resourceBundles != null) {
       final Collection<AbstractTreeNode> result = new ArrayList<AbstractTreeNode>();

@@ -22,16 +22,16 @@
  */
 package com.intellij.lang.properties;
 
-import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.actionSystem.DataKey;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+import com.intellij.lang.properties.psi.PropertiesFile;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Key;
+import com.intellij.openapi.vfs.VirtualFile;
+
 public interface ResourceBundle {
-  DataKey<ResourceBundle[]> ARRAY_DATA_KEY = DataKey.create("resource.bundle.array");
+  Key<ResourceBundle[]> ARRAY_DATA_KEY = Key.create("resource.bundle.array");
 
   @NotNull
   List<PropertiesFile> getPropertiesFiles(final Project project);

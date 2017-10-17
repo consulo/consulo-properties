@@ -22,6 +22,7 @@ import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Key;
 
 /**
  * @author cdr
@@ -36,11 +37,11 @@ public class PropertiesFileStructureViewComponent extends PropertiesGroupingStru
     showToolbar();
   }
 
-  public Object getData(String dataId) {
-    if (PlatformDataKeys.VIRTUAL_FILE.is(dataId)) {
+  public Object getData(Key<?> dataId) {
+    if (PlatformDataKeys.VIRTUAL_FILE == dataId) {
       return myPropertiesFile.getVirtualFile();
     }
-    if (LangDataKeys.PSI_ELEMENT.is(dataId)) {
+    if (LangDataKeys.PSI_ELEMENT == dataId) {
       return myPropertiesFile;
     }
     return super.getData(dataId);
