@@ -53,9 +53,7 @@ import javax.swing.tree.TreePath;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.codeHighlighting.BackgroundEditorHighlighter;
 import com.intellij.ide.SelectInContext;
-import com.intellij.ide.structureView.StructureViewBuilder;
 import com.intellij.ide.structureView.newStructureView.StructureViewComponent;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.ide.util.treeView.AbstractTreeUi;
@@ -942,12 +940,6 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 	public void removePropertyChangeListener(@NotNull PropertyChangeListener listener)
 	{
 
-	}
-
-	@Override
-	public BackgroundEditorHighlighter getBackgroundHighlighter()
-	{
-		return null;
 	}
 
 	@Override
