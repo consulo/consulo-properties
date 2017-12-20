@@ -21,23 +21,23 @@ import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCa
 /**
  * @author Rustam Vishnyakov
  */
-public class PropertiesFoldingTest extends LightPlatformCodeInsightFixtureTestCase {
+public class PropertiesFoldingTest extends LightPlatformCodeInsightFixtureTestCase
+{
 
-  @Override
-  protected String getTestDataPath() {
-    return PluginPathManager.getPluginHomePath("properties") + "/testData/propertiesFile/folding/";
-  }
+	@Override
+	protected String getTestDataPath()
+	{
+		return PluginPathManager.getPluginHomePath("properties") + "/testData/propertiesFile/folding/";
+	}
 
-  private void doTest() {
-    myFixture.testFolding(getTestDataPath() + getTestName(true) + ".test.properties");
-  }
+	private void doTest()
+	{
+		throw new UnsupportedOperationException();
+		//TODO [VISTALL] myFixture.testFolding(getTestDataPath() + getTestName(true) + ".test.properties");
+	}
 
-  public void testCustomFolding() throws Exception {
-    doTest();
-  }
-
-  @Override
-  protected boolean isCommunity() {
-    return true;
-  }
+	public void testCustomFolding() throws Exception
+	{
+		doTest();
+	}
 }

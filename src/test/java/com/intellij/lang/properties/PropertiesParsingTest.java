@@ -15,33 +15,32 @@
  */
 package com.intellij.lang.properties;
 
-import com.intellij.lang.ASTLeafFactory;
-import com.intellij.lang.properties.parsing.PropertiesParserDefinition;
-import consulo.properties.PropertiesASTLeafFactory;
 import com.intellij.openapi.application.PluginPathManager;
-import com.intellij.testFramework.ParsingTestCase;
+import consulo.testFramework.ParsingTestCase;
 
 /**
  * @author max
  */
-public class PropertiesParsingTest extends ParsingTestCase {
+public class PropertiesParsingTest extends ParsingTestCase
+{
+	public PropertiesParsingTest()
+	{
+		super("", "properties");
+	}
 
-  public PropertiesParsingTest() {
-    super("", "properties", new PropertiesParserDefinition());
-  }
+	@Override
+	protected String getTestDataPath()
+	{
+		return PluginPathManager.getPluginHomePath("properties") + "/testData/propertiesFile/psi";
+	}
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+	public void testProp1() throws Exception
+	{
+		doTest(true);
+	}
 
-    registerExtension(ASTLeafFactory.EP.getExtensionPointName(), new PropertiesASTLeafFactory());
-  }
-
-  @Override
-  protected String getTestDataPath() {
-    return PluginPathManager.getPluginHomePath("properties") + "/testData/propertiesFile/psi";
-  }
-
-  public void testProp1() throws Exception { doTest(true); }
-  public void testComments() throws Exception { doTest(true); }
+	public void testComments() throws Exception
+	{
+		doTest(true);
+	}
 }

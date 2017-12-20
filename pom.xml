@@ -48,6 +48,10 @@
 				<version>2-SNAPSHOT</version>
 				<extensions>true</extensions>
 				<configuration>
+					<dependencies>
+						<dependency>com.intellij.spellchecker</dependency>
+						<dependency>com.intellij.xml</dependency>
+					</dependencies>
 					<repositoryChannel>nightly</repositoryChannel>
 					<packaging>
 						<skip>${dev.mode}</skip>
@@ -67,6 +71,18 @@
 	</build>
 
 	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>com.intellij.spellchecker</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>com.intellij.xml</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>consulo-lang-impl-testing</artifactId>
