@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 must-be.org
+ * Copyright 2013-2017 consulo.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.intellij.lang.properties.xml;
+
+package consulo.properties.xml;
 
 import org.jetbrains.annotations.NotNull;
+import com.intellij.lang.properties.xml.XmlPropertiesFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.xml.XmlFile;
 import consulo.ide.IconDescriptor;

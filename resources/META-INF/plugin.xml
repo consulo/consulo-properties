@@ -1,4 +1,20 @@
-<idea-plugin version="2">
+<!--
+  - Copyright 2013-2017 consulo.io
+  -
+  - Licensed under the Apache License, Version 2.0 (the "License");
+  - you may not use this file except in compliance with the License.
+  - You may obtain a copy of the License at
+  -
+  - http://www.apache.org/licenses/LICENSE-2.0
+  -
+  - Unless required by applicable law or agreed to in writing, software
+  - distributed under the License is distributed on an "AS IS" BASIS,
+  - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  - See the License for the specific language governing permissions and
+  - limitations under the License.
+  -->
+
+<idea-plugin>
 	<id>com.intellij.properties</id>
 	<name>Properties Support</name>
 	<depends>com.intellij.xml</depends>
@@ -45,7 +61,7 @@
 										  implementationClass="com.intellij.lang.properties.PropertiesWordCompletionFilter"/>
 		<lang.psiStructureViewFactory language="Properties"
 									  implementationClass="com.intellij.lang.properties.structureView.PropertiesStructureViewBuilderFactory"/>
-		<lang.ast.leafFactory implementation="com.intellij.lang.properties.psi.impl.PropertiesASTLeafFactory"/>
+		<lang.ast.leafFactory implementation="consulo.properties.PropertiesASTLeafFactory"/>
 		<joinLinesHandler implementation="com.intellij.lang.properties.PropertiesJoinLinesHandler"/>
 
 		<enterHandlerDelegate implementation="com.intellij.codeInsight.editorActions.enter.EnterInPropertiesFileHandler"/>
@@ -89,7 +105,7 @@
 		<fileEditorProvider implementation="com.intellij.lang.properties.editor.ResourceBundleEditorProvider"/>
 		<fileBasedIndex implementation="com.intellij.lang.properties.xml.XmlPropertiesIndex"/>
 
-		<iconDescriptorUpdater implementation="com.intellij.lang.properties.xml.XmlPropertiesIconDescriptorUpdater" order="after xml"/>
+		<iconDescriptorUpdater implementation="consulo.properties.xml.XmlPropertiesIconDescriptorUpdater" order="after xml"/>
 		<psi.referenceContributor language="XML" implementation="com.intellij.lang.properties.xml.XmlPropertiesReferenceContributor"/>
 		<lang.foldingBuilder language="Properties" implementationClass="com.intellij.lang.properties.editor.PropertiesFoldingBuilder"/>
 	</extensions>

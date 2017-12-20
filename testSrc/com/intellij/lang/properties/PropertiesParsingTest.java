@@ -17,7 +17,7 @@ package com.intellij.lang.properties;
 
 import com.intellij.lang.ASTLeafFactory;
 import com.intellij.lang.properties.parsing.PropertiesParserDefinition;
-import com.intellij.lang.properties.psi.impl.PropertiesASTLeafFactory;
+import consulo.properties.PropertiesASTLeafFactory;
 import com.intellij.openapi.application.PluginPathManager;
 import com.intellij.testFramework.ParsingTestCase;
 

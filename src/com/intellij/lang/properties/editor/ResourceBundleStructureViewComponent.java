@@ -17,8 +17,8 @@ package com.intellij.lang.properties.editor;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.properties.ResourceBundle;
-import com.intellij.lang.properties.editor.actions.AddPropertyKeyAction;
-import com.intellij.lang.properties.editor.actions.RemovePropertyKeyAction;
+import consulo.properties.editor.actions.AddPropertyKeyAction;
+import consulo.properties.editor.actions.RemovePropertyKeyAction;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.Project;
