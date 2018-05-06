@@ -19,13 +19,29 @@
  */
 package com.intellij.lang.properties.structureView;
 
+import gnu.trove.THashMap;
+import gnu.trove.TIntLongHashMap;
+import gnu.trove.TIntProcedure;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+
+import org.jdom.Element;
+import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.PropertiesLanguage;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.ResourceBundleImpl;
 import com.intellij.lang.properties.editor.ResourceBundleAsVirtualFile;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.components.*;
+import com.intellij.openapi.components.PersistentStateComponent;
+import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.components.State;
+import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.components.StoragePathMacros;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
@@ -33,16 +49,6 @@ import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiManager;
 import com.intellij.util.SmartList;
 import com.intellij.util.containers.ContainerUtil;
-import gnu.trove.THashMap;
-import gnu.trove.TIntLongHashMap;
-import gnu.trove.TIntProcedure;
-import org.jdom.Element;
-import org.jetbrains.annotations.NonNls;
-import javax.annotation.Nullable;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 @State(
   name="PropertiesSeparatorManager",
@@ -82,7 +88,7 @@ public class PropertiesSeparatorManager implements PersistentStateComponent<Elem
       final FileViewProvider provider = psiManager.findViewProvider(file);
       files = new SmartList<PropertiesFile>();
       if (provider != null) {
-        ContainerUtil.addIfNotNull((PropertiesFile)provider.getPsi(PropertiesLanguage.INSTANCE), files);
+        ContainerUtil.addIfNotNull(files, (PropertiesFile)provider.getPsi(PropertiesLanguage.INSTANCE));
       }
     }
     final TIntLongHashMap charCounts = new TIntLongHashMap();

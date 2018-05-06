@@ -18,7 +18,6 @@ package com.intellij.lang.properties;
 import java.nio.charset.Charset;
 
 import javax.annotation.Nonnull;
-import javax.swing.Icon;
 
 import org.jetbrains.annotations.NonNls;
 import com.intellij.icons.AllIcons;
@@ -28,6 +27,7 @@ import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.encoding.EncodingManager;
 import consulo.fileTypes.FileTypeWithPredefinedCharset;
+import consulo.ui.image.Image;
 
 /**
  * @author max
@@ -47,7 +47,7 @@ public class PropertiesFileType extends LanguageFileType implements FileTypeWith
 
 	@Override
 	@Nonnull
-	public String getName()
+	public String getId()
 	{
 		return "Properties";
 	}
@@ -67,7 +67,7 @@ public class PropertiesFileType extends LanguageFileType implements FileTypeWith
 	}
 
 	@Override
-	public Icon getIcon()
+	public Image getIcon()
 	{
 		return AllIcons.FileTypes.Properties;
 	}

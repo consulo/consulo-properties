@@ -47,7 +47,7 @@ public class PropertiesASTLeafFactory implements ASTLeafFactory
   }
 
   @Override
-  public boolean apply(@Nullable IElementType input) {
+  public boolean test(@Nullable IElementType input) {
     return input == PropertiesTokenTypes.VALUE_CHARACTERS || input == PropertiesTokenTypes.END_OF_LINE_COMMENT;
   }
 }
