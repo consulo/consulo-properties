@@ -17,14 +17,14 @@ package com.intellij.lang.properties.editor;
 
 import com.intellij.lang.properties.PropertiesHighlighter;
 import com.intellij.lexer.Lexer;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * @author max
  */
 public class PropertiesValueHighlighter extends PropertiesHighlighter {
 
-  @NotNull
+  @Nonnull
   public Lexer getHighlightingLexer() {
     return new PropertiesValueHighlightingLexer();
   }

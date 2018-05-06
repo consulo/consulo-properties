@@ -20,8 +20,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import javax.annotation.Nonnull;
+
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.PropertiesFileType;
 import com.intellij.lang.properties.editor.ResourceBundleUtil;
@@ -41,22 +42,22 @@ public class PropertiesElementFactory {
     }
   };
 
-  @NotNull
-  public static IProperty createProperty(@NotNull Project project, @NonNls @NotNull String name, @NonNls @NotNull String value) {
+  @Nonnull
+  public static IProperty createProperty(@Nonnull Project project, @NonNls @Nonnull String name, @NonNls @Nonnull String value) {
     String text = escape(name) + "=" + escapeValue(value);
     final PropertiesFile dummyFile = createPropertiesFile(project, text);
     return dummyFile.getProperties().get(0);
   }
 
-  @NotNull
-  public static PropertiesFile createPropertiesFile(@NotNull Project project, @NonNls @NotNull String text) {
+  @Nonnull
+  public static PropertiesFile createPropertiesFile(@Nonnull Project project, @NonNls @Nonnull String text) {
     @NonNls String filename = "dummy." + PropertiesFileType.INSTANCE.getDefaultExtension();
     return (PropertiesFile)PsiFileFactory.getInstance(project)
       .createFileFromText(filename, PropertiesFileType.INSTANCE, text);
   }
 
-  @NotNull
-  public static PropertiesFile createPropertiesFile(@NotNull Project project, Properties properties, String fileName) {
+  @Nonnull
+  public static PropertiesFile createPropertiesFile(@Nonnull Project project, Properties properties, String fileName) {
     ByteArrayOutputStream stream = new ByteArrayOutputStream();
     try {
       properties.store(stream, "");
@@ -69,13 +70,13 @@ public class PropertiesElementFactory {
       .createFileFromText(filename, PropertiesFileType.INSTANCE, stream.toString());
   }
 
-  @NotNull
-  public static PropertiesFile getSystemProperties(@NotNull Project project) {
+  @Nonnull
+  public static PropertiesFile getSystemProperties(@Nonnull Project project) {
     return PROPERTIES.get(project, null);
   }
 
-  @NotNull
-  private static String escape(@NotNull String name) {
+  @Nonnull
+  private static String escape(@Nonnull String name) {
     if (StringUtil.startsWithChar(name, '#')) {
       name = escapeChar(name, '#');
     }
@@ -89,8 +90,8 @@ public class PropertiesElementFactory {
     return name;
   }
 
-  @NotNull
-  private static String escapeChar(@NotNull String name, char c) {
+  @Nonnull
+  private static String escapeChar(@Nonnull String name, char c) {
     int offset = 0;
     while (true) {
       int i = name.indexOf(c, offset);

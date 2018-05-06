@@ -23,7 +23,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.projectView.ProjectViewNode;
@@ -48,7 +49,7 @@ public class ResourceBundleNode extends ProjectViewNode<ResourceBundle>{
     super(project, resourceBundle, settings);
   }
 
-  @NotNull
+  @Nonnull
   public Collection<AbstractTreeNode> getChildren() {
     List<PropertiesFile> propertiesFiles = getValue().getPropertiesFiles(myProject);
     Collection<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
@@ -59,7 +60,7 @@ public class ResourceBundleNode extends ProjectViewNode<ResourceBundle>{
     return children;
   }
 
-  public boolean contains(@NotNull VirtualFile file) {
+  public boolean contains(@Nonnull VirtualFile file) {
     if (!file.isValid()) return false;
     PsiFile psiFile = PsiManager.getInstance(getProject()).findFile(file);
     PropertiesFile propertiesFile = PropertiesUtil.getPropertiesFile(psiFile);

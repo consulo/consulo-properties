@@ -32,8 +32,8 @@ import com.intellij.psi.search.SearchScope;
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.PlatformIcons;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import javax.swing.*;
 
@@ -43,7 +43,7 @@ import javax.swing.*;
 public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implements Property, PsiLanguageInjectionHost {
   private static final Logger LOG = Logger.getInstance("#com.intellij.lang.properties.psi.impl.PropertyImpl");
 
-  public PropertyImpl(@NotNull ASTNode node) {
+  public PropertyImpl(@Nonnull ASTNode node) {
     super(node);
   }
 
@@ -55,7 +55,7 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
     return "Property:" + getKey();
   }
 
-  public PsiElement setName(@NotNull String name) throws IncorrectOperationException {
+  public PsiElement setName(@Nonnull String name) throws IncorrectOperationException {
     PropertyImpl property = (PropertyImpl)PropertiesElementFactory.createProperty(getProject(), name, "xxx");
     ASTNode keyNode = getKeyNode();
     ASTNode newKeyNode = property.getKeyNode();
@@ -69,7 +69,7 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
     return this;
   }
 
-  public void setValue(@NotNull String value) throws IncorrectOperationException {
+  public void setValue(@Nonnull String value) throws IncorrectOperationException {
     ASTNode node = getValueNode();
     PropertyImpl property = (PropertyImpl)PropertiesElementFactory.createProperty(getProject(), "xxx", value);
     ASTNode valueNode = property.getValueNode();
@@ -401,7 +401,7 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
     return this;
   }
 
-  @NotNull
+  @Nonnull
   public SearchScope getUseScope() {
     // property ref can occur in any file
     return GlobalSearchScope.allScope(getProject());
@@ -429,11 +429,11 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
   }
 
   @Override
-  public PsiLanguageInjectionHost updateText(@NotNull String text) {
+  public PsiLanguageInjectionHost updateText(@Nonnull String text) {
     return new PropertyManipulator().handleContentChange(this, text);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public LiteralTextEscaper<? extends PsiLanguageInjectionHost> createLiteralTextEscaper() {
     return new PropertyImplEscaper(this);

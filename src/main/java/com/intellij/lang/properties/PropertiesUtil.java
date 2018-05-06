@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.lang.properties.psi.PropertyKeyIndex;
 import com.intellij.lang.properties.xml.XmlPropertiesFile;
@@ -68,7 +68,7 @@ public class PropertiesUtil {
     return file instanceof PropertiesFile ? (PropertiesFile)file : XmlPropertiesFile.getPropertiesFile(file);
   }
 
-  @NotNull
+  @Nonnull
   public static List<IProperty> findPropertiesByKey(final Project project, final String key) {
     final GlobalSearchScope scope = GlobalSearchScope.allScope(project);
     final ArrayList<IProperty> properties =
@@ -98,8 +98,8 @@ public class PropertiesUtil {
     return true;
   }
 
-  @NotNull
-  public static String getBaseName(@NotNull VirtualFile virtualFile) {
+  @Nonnull
+  public static String getBaseName(@Nonnull VirtualFile virtualFile) {
     String name = virtualFile.getNameWithoutExtension();
 
     List<String> parts = StringUtil.split(name, "_");
@@ -160,7 +160,7 @@ public class PropertiesUtil {
     });
   }
 
-  @NotNull
+  @Nonnull
   public static Locale getLocale(VirtualFile propertiesFile) {
     String name = propertiesFile.getNameWithoutExtension();
     String tail = StringUtil.trimStart(name, getBaseName(propertiesFile));
@@ -181,8 +181,8 @@ public class PropertiesUtil {
     return new Locale(language,country,variant);
   }
 
-  @NotNull
-  public static List<IProperty> findAllProperties(Project project, @NotNull ResourceBundle resourceBundle, String key) {
+  @Nonnull
+  public static List<IProperty> findAllProperties(Project project, @Nonnull ResourceBundle resourceBundle, String key) {
     List<IProperty> result = new SmartList<IProperty>();
     List<PropertiesFile> propertiesFiles = resourceBundle.getPropertiesFiles(project);
     for (PropertiesFile propertiesFile : propertiesFiles) {
@@ -205,15 +205,15 @@ public class PropertiesUtil {
   }
 
   @Nullable
-  public static PropertiesFile getPropertiesFile(@NotNull String bundleName,
-                                                 @NotNull Module searchFromModule,
+  public static PropertiesFile getPropertiesFile(@Nonnull String bundleName,
+                                                 @Nonnull Module searchFromModule,
                                                  @Nullable Locale locale) {
     PropertiesReferenceManager manager = PropertiesReferenceManager.getInstance(searchFromModule.getProject());
     return manager.findPropertiesFile(searchFromModule, bundleName, locale);
   }
 
   @Nullable
-  public static String getPackageQualifiedName(@NotNull PsiDirectory directory) {
+  public static String getPackageQualifiedName(@Nonnull PsiDirectory directory) {
     return ProjectRootManager.getInstance(directory.getProject()).getFileIndex().getPackageNameByDirectory(directory.getVirtualFile());
   }
 

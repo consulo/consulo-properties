@@ -15,6 +15,8 @@
  */
 package com.intellij.lang.properties.spellchecker;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.lang.properties.psi.impl.PropertyImpl;
 import com.intellij.lang.properties.psi.impl.PropertyValueImpl;
 import com.intellij.openapi.util.TextRange;
@@ -25,14 +27,13 @@ import com.intellij.spellchecker.tokenizer.SpellcheckingStrategy;
 import com.intellij.spellchecker.tokenizer.TokenConsumer;
 import com.intellij.spellchecker.tokenizer.Tokenizer;
 import com.intellij.spellchecker.tokenizer.TokenizerBase;
-import org.jetbrains.annotations.NotNull;
 
 
 public class PropertiesSpellcheckingStrategy extends SpellcheckingStrategy {
   private Tokenizer<PropertyValueImpl> myPropertyValueTokenizer = TokenizerBase.create(PlainTextSplitter.getInstance());
   private Tokenizer<PropertyImpl> myPropertyTokenizer = new MyPropertyTokenizer();
   
-  @NotNull
+  @Nonnull
   @Override
   public Tokenizer getTokenizer(PsiElement element) {
     if (element instanceof PropertyValueImpl) {
@@ -45,7 +46,7 @@ public class PropertiesSpellcheckingStrategy extends SpellcheckingStrategy {
   }
 
   private static class MyPropertyTokenizer extends Tokenizer<PropertyImpl> {
-    public void tokenize(@NotNull PropertyImpl element, TokenConsumer consumer) {
+    public void tokenize(@Nonnull PropertyImpl element, TokenConsumer consumer) {
       String key = element.getKey();
       consumer.consumeToken(element, key, true, 0, TextRange.allOf(key), PropertiesSplitter.getInstance());
     }

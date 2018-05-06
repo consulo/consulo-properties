@@ -32,6 +32,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import javax.annotation.Nonnull;
 import javax.swing.Action;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -41,7 +42,6 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.CodeInsightBundle;
 import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.ide.util.TreeFileChooser;
@@ -116,16 +116,16 @@ public class I18nizeQuickFixDialog extends DialogWrapper implements I18nizeQuick
     }
   }
 
-  public I18nizeQuickFixDialog(@NotNull Project project,
-                               @NotNull final PsiFile context,
+  public I18nizeQuickFixDialog(@Nonnull Project project,
+                               @Nonnull final PsiFile context,
                                String defaultPropertyValue,
                                DialogCustomization customization
                                ) {
     this(project, context, defaultPropertyValue, customization, false);
   }
 
-  protected I18nizeQuickFixDialog(@NotNull Project project,
-                               @NotNull final PsiFile context,
+  protected I18nizeQuickFixDialog(@Nonnull Project project,
+                               @Nonnull final PsiFile context,
                                String defaultPropertyValue,
                                DialogCustomization customization,
                                boolean ancestorResponsible) {
@@ -199,7 +199,7 @@ public class I18nizeQuickFixDialog extends DialogWrapper implements I18nizeQuick
     return (JTextField)myKey.getEditor().getEditorComponent();
   }
 
-  @NotNull
+  @Nonnull
   protected List<String> getExistingValueKeys(String value) {
     if(!myCustomization.suggestExistingProperties) {
       return Collections.emptyList();
@@ -454,7 +454,7 @@ public class I18nizeQuickFixDialog extends DialogWrapper implements I18nizeQuick
     super.doOKAction();
   }
 
-  @NotNull
+  @Nonnull
   protected Action[] createActions() {
     return new Action[]{getOKAction(), getCancelAction(), getHelpAction()};
   }

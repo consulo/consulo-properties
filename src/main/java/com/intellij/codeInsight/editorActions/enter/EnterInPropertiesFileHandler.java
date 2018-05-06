@@ -15,6 +15,8 @@
  */
 package com.intellij.codeInsight.editorActions.enter;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.IElementType;
@@ -27,11 +29,10 @@ import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.lang.properties.PropertiesUtil;
 import com.intellij.lang.properties.parsing.PropertiesTokenTypes;
-import org.jetbrains.annotations.NotNull;
 
 public class EnterInPropertiesFileHandler extends EnterHandlerDelegateAdapter {
-  public Result preprocessEnter(@NotNull final PsiFile file, @NotNull final Editor editor, @NotNull final Ref<Integer> caretOffsetRef, @NotNull final Ref<Integer> caretAdvance,
-                                @NotNull final DataContext dataContext, final EditorActionHandler originalHandler) {
+  public Result preprocessEnter(@Nonnull final PsiFile file, @Nonnull final Editor editor, @Nonnull final Ref<Integer> caretOffsetRef, @Nonnull final Ref<Integer> caretAdvance,
+                                @Nonnull final DataContext dataContext, final EditorActionHandler originalHandler) {
     int caretOffset = caretOffsetRef.get().intValue();
     PsiElement psiAtOffset = file.findElementAt(caretOffset);
     if (file instanceof PropertiesFile) {

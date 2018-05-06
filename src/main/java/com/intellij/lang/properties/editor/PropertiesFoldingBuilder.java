@@ -22,7 +22,7 @@ import com.intellij.lang.properties.parsing.PropertiesElementTypes;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
@@ -31,19 +31,19 @@ import java.util.List;
  */
 public class PropertiesFoldingBuilder extends CustomFoldingBuilder {
   @Override
-  protected void buildLanguageFoldRegions(@NotNull List<FoldingDescriptor> descriptors,
-                                          @NotNull PsiElement root,
-                                          @NotNull Document document,
+  protected void buildLanguageFoldRegions(@Nonnull List<FoldingDescriptor> descriptors,
+                                          @Nonnull PsiElement root,
+                                          @Nonnull Document document,
                                           boolean quick) {
   }
 
   @Override
-  protected String getLanguagePlaceholderText(@NotNull ASTNode node, @NotNull TextRange range) {
+  protected String getLanguagePlaceholderText(@Nonnull ASTNode node, @Nonnull TextRange range) {
     return "";
   }
 
   @Override
-  protected boolean isRegionCollapsedByDefault(@NotNull ASTNode node) {
+  protected boolean isRegionCollapsedByDefault(@Nonnull ASTNode node) {
     return false;
   }
 

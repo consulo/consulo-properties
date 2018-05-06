@@ -10,7 +10,7 @@ import com.intellij.psi.xml.XmlTag;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.PlatformIcons;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.swing.*;
 
@@ -39,7 +39,7 @@ public class XmlProperty implements IProperty, PomRenameableTarget, PsiTarget {
   }
 
   @Override
-  public PsiElement setName(@NotNull String name) {
+  public PsiElement setName(@Nonnull String name) {
     return myTag.setAttribute("key", name);
   }
 
@@ -64,7 +64,7 @@ public class XmlProperty implements IProperty, PomRenameableTarget, PsiTarget {
   }
 
   @Override
-  public void setValue(@NonNls @NotNull String value) throws IncorrectOperationException {
+  public void setValue(@NonNls @Nonnull String value) throws IncorrectOperationException {
     myTag.getValue().setText(value);
   }
 
@@ -108,7 +108,7 @@ public class XmlProperty implements IProperty, PomRenameableTarget, PsiTarget {
     return myTag.isValid();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public PsiElement getNavigationElement() {
     return getPsiElement();

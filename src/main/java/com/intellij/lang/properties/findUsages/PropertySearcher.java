@@ -15,8 +15,9 @@
  */
 package com.intellij.lang.properties.findUsages;
 
+import javax.annotation.Nullable;
+
 import com.intellij.openapi.project.Project;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Dmitry Avdeev

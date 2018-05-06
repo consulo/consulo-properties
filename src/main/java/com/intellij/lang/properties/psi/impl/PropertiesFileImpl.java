@@ -23,9 +23,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.lang.ASTFactory;
 import com.intellij.lang.ASTNode;
@@ -61,7 +63,7 @@ public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public FileType getFileType() {
     return PropertiesFileType.INSTANCE;
   }
@@ -72,7 +74,7 @@ public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<IProperty> getProperties() {
     ensurePropertiesLoaded();
     return myProperties;
@@ -102,7 +104,7 @@ public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
   }
 
   @Override
-  public IProperty findPropertyByKey(@NotNull String key) {
+  public IProperty findPropertyByKey(@Nonnull String key) {
     ensurePropertiesLoaded();
     synchronized (lock) {
       Iterator<IProperty> iterator = myPropertiesMap.get(key).iterator();
@@ -111,8 +113,8 @@ public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
   }
 
   @Override
-  @NotNull
-  public List<IProperty> findPropertiesByKey(@NotNull String key) {
+  @Nonnull
+  public List<IProperty> findPropertiesByKey(@Nonnull String key) {
     ensurePropertiesLoaded();
     synchronized (lock) {
       return ContainerUtil.collect(myPropertiesMap.get(key).iterator());
@@ -120,19 +122,19 @@ public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public ResourceBundle getResourceBundle() {
     return PropertiesUtil.getResourceBundle(getContainingFile());
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public Locale getLocale() {
     return PropertiesUtil.getLocale(getVirtualFile());
   }
 
   @Override
-  public PsiElement add(@NotNull PsiElement element) throws IncorrectOperationException {
+  public PsiElement add(@Nonnull PsiElement element) throws IncorrectOperationException {
     if (element instanceof Property) {
       throw new IncorrectOperationException("Use addProperty() instead");
     }
@@ -140,8 +142,8 @@ public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
   }
 
   @Override
-  @NotNull
-  public PsiElement addProperty(@NotNull IProperty property) throws IncorrectOperationException {
+  @Nonnull
+  public PsiElement addProperty(@Nonnull IProperty property) throws IncorrectOperationException {
     if (haveToAddNewLine()) {
       insertLineBreakBefore(null);
     }
@@ -151,7 +153,7 @@ public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
   }
 
   @Override
-  public void removeProperties(@NotNull String key) {
+  public void removeProperties(@Nonnull String key) {
     for(IProperty property : findPropertiesByKey(key)) {
       final ASTNode node = property.getPsiElement().getNode();
       final ASTNode next = node.getTreeNext();
@@ -166,8 +168,8 @@ public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
   }
 
   @Override
-  @NotNull
-  public PsiElement addPropertyAfter(@NotNull final Property property, @Nullable final Property anchor) throws IncorrectOperationException {
+  @Nonnull
+  public PsiElement addPropertyAfter(@Nonnull final Property property, @Nullable final Property anchor) throws IncorrectOperationException {
     final TreeElement copy = ChangeUtil.copyToElement(property);
     List<IProperty> properties = getProperties();
     ASTNode anchorBefore = anchor == null ? properties.isEmpty() ? null : properties.get(0).getPsiElement().getNode()
@@ -202,7 +204,7 @@ public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public Map<String, String> getNamesMap() {
     Map<String, String> result = new THashMap<String, String>();
     for (IProperty property : getProperties()) {

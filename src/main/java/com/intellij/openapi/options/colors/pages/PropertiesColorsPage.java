@@ -23,7 +23,7 @@ import com.intellij.openapi.options.OptionsBundle;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.swing.*;
 import java.util.Map;
@@ -41,7 +41,7 @@ public class PropertiesColorsPage implements ColorSettingsPage {
     }
   }
 
-  @NotNull
+  @Nonnull
   public String getDisplayName() {
     return OptionsBundle.message("properties.options.display.name");
   }
@@ -50,22 +50,22 @@ public class PropertiesColorsPage implements ColorSettingsPage {
     return AllIcons.FileTypes.Properties;
   }
 
-  @NotNull
+  @Nonnull
   public AttributesDescriptor[] getAttributeDescriptors() {
     return ATTRS;
   }
 
-  @NotNull
+  @Nonnull
   public ColorDescriptor[] getColorDescriptors() {
     return ColorDescriptor.EMPTY_ARRAY;
   }
 
-  @NotNull
+  @Nonnull
   public SyntaxHighlighter getHighlighter() {
     return new PropertiesHighlighter();
   }
 
-  @NotNull
+  @Nonnull
   public String getDemoText() {
     return "# Comment on keys and values\n" +
            "key1=value1\n" +

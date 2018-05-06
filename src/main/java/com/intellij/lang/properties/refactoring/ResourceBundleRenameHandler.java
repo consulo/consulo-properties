@@ -22,7 +22,8 @@ package com.intellij.lang.properties.refactoring;
 import java.io.File;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.FileModificationService;
 import com.intellij.lang.properties.PropertiesBundle;
 import com.intellij.lang.properties.ResourceBundle;
@@ -69,7 +70,7 @@ public class ResourceBundleRenameHandler implements RenameHandler {
     return isAvailableOnDataContext(dataContext);
   }
 
-  public void invoke(@NotNull Project project, Editor editor, PsiFile file, DataContext dataContext) {
+  public void invoke(@Nonnull Project project, Editor editor, PsiFile file, DataContext dataContext) {
     ResourceBundle resourceBundle = ResourceBundleUtil.getResourceBundleFromDataContext(dataContext);
 
     assert resourceBundle != null;
@@ -81,7 +82,7 @@ public class ResourceBundleRenameHandler implements RenameHandler {
                              new MyInputValidator(project, resourceBundle));
   }
 
-  public void invoke(@NotNull Project project, @NotNull PsiElement[] elements, DataContext dataContext) {
+  public void invoke(@Nonnull Project project, @Nonnull PsiElement[] elements, DataContext dataContext) {
     invoke(project, null, null, dataContext);
   }
 

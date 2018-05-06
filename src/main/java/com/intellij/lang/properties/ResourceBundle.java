@@ -24,7 +24,7 @@ package com.intellij.lang.properties;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
@@ -33,15 +33,15 @@ import com.intellij.openapi.vfs.VirtualFile;
 public interface ResourceBundle {
   Key<ResourceBundle[]> ARRAY_DATA_KEY = Key.create("resource.bundle.array");
 
-  @NotNull
+  @Nonnull
   List<PropertiesFile> getPropertiesFiles(final Project project);
 
-  @NotNull
+  @Nonnull
   PropertiesFile getDefaultPropertiesFile(final Project project);
 
-  @NotNull
+  @Nonnull
   String getBaseName();
 
-  @NotNull
+  @Nonnull
   VirtualFile getBaseDirectory();
 }

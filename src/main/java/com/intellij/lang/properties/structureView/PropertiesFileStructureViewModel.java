@@ -28,7 +28,7 @@ import com.intellij.lang.properties.psi.Property;
 import com.intellij.lang.properties.psi.impl.PropertiesFileImpl;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Comparator;
 
@@ -54,13 +54,13 @@ public class PropertiesFileStructureViewModel extends TextEditorBasedStructureVi
       return true;
     }
 
-    @NotNull
+    @Nonnull
     public ActionPresentation getPresentation() {
       String name = IdeBundle.message("action.sort.by.type");
       return new ActionPresentationData(name, name, AllIcons.ObjectBrowser.SortByType);
     }
 
-    @NotNull
+    @Nonnull
     public String getName() {
       return KIND_SORTER_ID;
     }
@@ -82,17 +82,17 @@ public class PropertiesFileStructureViewModel extends TextEditorBasedStructureVi
     return myGroupByWordPrefixes.getSeparator();
   }
 
-  @NotNull
+  @Nonnull
   public StructureViewTreeElement getRoot() {
     return new PropertiesFileStructureViewElement(myPropertiesFile);
   }
 
-  @NotNull
+  @Nonnull
   public Grouper[] getGroupers() {
     return new Grouper[]{myGroupByWordPrefixes};
   }
 
-  @NotNull
+  @Nonnull
   public Sorter[] getSorters() {
     return new Sorter[] {Sorter.ALPHA_SORTER, KIND_SORTER};
   }
@@ -101,7 +101,7 @@ public class PropertiesFileStructureViewModel extends TextEditorBasedStructureVi
     return myPropertiesFile;
   }
 
-  @NotNull
+  @Nonnull
   protected Class[] getSuitableClasses() {
     return new Class[] {Property.class};
   }

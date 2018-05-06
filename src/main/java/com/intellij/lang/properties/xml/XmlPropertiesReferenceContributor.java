@@ -15,6 +15,8 @@
  */
 package com.intellij.lang.properties.xml;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.lang.properties.PropertiesUtil;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.patterns.XmlPatterns;
@@ -23,7 +25,6 @@ import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.util.ProcessingContext;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Dmitry Avdeev
@@ -34,9 +35,9 @@ public class XmlPropertiesReferenceContributor extends PsiReferenceContributor {
   public void registerReferenceProviders(PsiReferenceRegistrar registrar) {
     registrar.registerReferenceProvider(XmlPatterns.xmlAttributeValue().withLocalName("key"),
                                         new PsiReferenceProvider() {
-      @NotNull
+      @Nonnull
       @Override
-      public PsiReference[] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext context) {
+      public PsiReference[] getReferencesByElement(@Nonnull PsiElement element, @Nonnull ProcessingContext context) {
         PropertiesFile propertiesFile = PropertiesUtil.getPropertiesFile(element.getContainingFile());
         if (propertiesFile == null) return PsiReference.EMPTY_ARRAY;
         XmlProperty property = new XmlProperty(PsiTreeUtil.getParentOfType(element, XmlTag.class), (XmlPropertiesFile)propertiesFile);

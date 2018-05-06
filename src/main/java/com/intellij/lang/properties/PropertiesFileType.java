@@ -17,10 +17,10 @@ package com.intellij.lang.properties;
 
 import java.nio.charset.Charset;
 
+import javax.annotation.Nonnull;
 import javax.swing.Icon;
 
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.intellij.openapi.util.Pair;
@@ -46,21 +46,21 @@ public class PropertiesFileType extends LanguageFileType implements FileTypeWith
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getName()
 	{
 		return "Properties";
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getDescription()
 	{
 		return PropertiesBundle.message("properties.files.file.type.description");
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getDefaultExtension()
 	{
 		return DEFAULT_EXTENSION;
@@ -73,15 +73,15 @@ public class PropertiesFileType extends LanguageFileType implements FileTypeWith
 	}
 
 	@Override
-	public String getCharset(@NotNull VirtualFile file, final byte[] content)
+	public String getCharset(@Nonnull VirtualFile file, final byte[] content)
 	{
 		Charset charset = EncodingManager.getInstance().getDefaultCharsetForPropertiesFiles(file);
 		return charset == null ? CharsetToolkit.getDefaultSystemCharset().name() : charset.name();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public Pair<Charset, String> getPredefinedCharset(@NotNull VirtualFile virtualFile)
+	public Pair<Charset, String> getPredefinedCharset(@Nonnull VirtualFile virtualFile)
 	{
 		return Pair.create(virtualFile.getCharset(), PropertiesBundle.message("properties.files.file.type.description"));
 	}

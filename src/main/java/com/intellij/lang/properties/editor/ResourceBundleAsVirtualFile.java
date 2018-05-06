@@ -24,7 +24,7 @@ import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileSystem;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,7 +42,7 @@ public class ResourceBundleAsVirtualFile extends VirtualFile {
     return myResourceBundle;
   }
 
-  @NotNull
+  @Nonnull
   public VirtualFileSystem getFileSystem() {
     return LocalFileSystem.getInstance();
   }
@@ -51,7 +51,7 @@ public class ResourceBundleAsVirtualFile extends VirtualFile {
     return getName();
   }
 
-  @NotNull
+  @Nonnull
   public String getName() {
     return myResourceBundle.getBaseName();
   }
@@ -71,7 +71,7 @@ public class ResourceBundleAsVirtualFile extends VirtualFile {
     return myResourceBundle.hashCode();
   }
 
-  public void rename(Object requestor, @NotNull String newName) throws IOException {
+  public void rename(Object requestor, @Nonnull String newName) throws IOException {
   }
 
   public boolean isWritable() {
@@ -98,7 +98,7 @@ public class ResourceBundleAsVirtualFile extends VirtualFile {
     throw new UnsupportedOperationException();
   }
 
-  public VirtualFile createChildData(Object requestor, @NotNull String name) throws IOException {
+  public VirtualFile createChildData(Object requestor, @Nonnull String name) throws IOException {
     throw new UnsupportedOperationException();
   }
 
@@ -106,7 +106,7 @@ public class ResourceBundleAsVirtualFile extends VirtualFile {
     //todo
   }
 
-  public void move(Object requestor, @NotNull VirtualFile newParent) throws IOException {
+  public void move(Object requestor, @Nonnull VirtualFile newParent) throws IOException {
     //todo
   }
 
@@ -114,12 +114,12 @@ public class ResourceBundleAsVirtualFile extends VirtualFile {
     throw new UnsupportedOperationException();
   }
 
-  @NotNull
+  @Nonnull
   public OutputStream getOutputStream(Object requestor, long newModificationStamp, long newTimeStamp) throws IOException {
     throw new UnsupportedOperationException();
   }
 
-  @NotNull
+  @Nonnull
   public byte[] contentsToByteArray() throws IOException {
     throw new UnsupportedOperationException();
   }

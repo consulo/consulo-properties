@@ -16,7 +16,7 @@
 
 package consulo.properties.xml;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.lang.properties.xml.XmlPropertiesFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.xml.XmlFile;
@@ -31,7 +31,7 @@ import icons.PropertiesIcons;
 public class XmlPropertiesIconDescriptorUpdater implements IconDescriptorUpdater
 {
   @Override
-  public void updateIcon(@NotNull IconDescriptor iconDescriptor, @NotNull PsiElement element, int flags) {
+  public void updateIcon(@Nonnull IconDescriptor iconDescriptor, @Nonnull PsiElement element, int flags) {
     if(element instanceof XmlFile && XmlPropertiesFile.getPropertiesFile((XmlFile)element) != null) {
        iconDescriptor.setMainIcon(PropertiesIcons.XmlProperties);
     }

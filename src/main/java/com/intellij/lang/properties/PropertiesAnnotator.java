@@ -37,7 +37,7 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Collection;
 
@@ -46,7 +46,7 @@ import java.util.Collection;
  */
 public class PropertiesAnnotator implements Annotator {
 
-  public void annotate(@NotNull PsiElement element, @NotNull AnnotationHolder holder) {
+  public void annotate(@Nonnull PsiElement element, @Nonnull AnnotationHolder holder) {
     if (!(element instanceof IProperty)) return;
     final Property property = (Property)element;
     PropertiesFile propertiesFile = property.getPropertiesFile();
@@ -94,17 +94,17 @@ public class PropertiesAnnotator implements Annotator {
           annotation.setEnforcedTextAttributes(attributes);
           if (key == PropertiesHighlighter.PROPERTIES_INVALID_STRING_ESCAPE) {
             annotation.registerFix(new IntentionAction() {
-              @NotNull
+              @Nonnull
               public String getText() {
                 return PropertiesBundle.message("unescape");
               }
 
-              @NotNull
+              @Nonnull
               public String getFamilyName() {
                 return getText();
               }
 
-              public boolean isAvailable(@NotNull Project project, Editor editor, PsiFile file) {
+              public boolean isAvailable(@Nonnull Project project, Editor editor, PsiFile file) {
                 if (!property.isValid() || !property.getManager().isInProject(property)) return false;
 
                 String text = property.getPropertiesFile().getContainingFile().getText();
@@ -112,7 +112,7 @@ public class PropertiesAnnotator implements Annotator {
                 return text.length() > startOffset && text.charAt(startOffset) == '\\';
               }
 
-              public void invoke(@NotNull Project project, Editor editor, PsiFile file) {
+              public void invoke(@Nonnull Project project, Editor editor, PsiFile file) {
                 if (!FileModificationService.getInstance().prepareFileForWrite(file)) return;
                 int offset = annotation.getStartOffset();
                 if (property.getPropertiesFile().getContainingFile().getText().charAt(offset) == '\\') {

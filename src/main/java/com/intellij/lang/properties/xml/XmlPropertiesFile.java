@@ -23,9 +23,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.PropertiesUtil;
 import com.intellij.lang.properties.ResourceBundle;
@@ -56,7 +58,7 @@ public class XmlPropertiesFile implements PropertiesFile {
   private static final Key<CachedValue<PropertiesFile>> KEY = Key.create("xml properties file");
   private final XmlFile myFile;
   private final SoftLazyValue<MultiMap<String, IProperty>> myPropertiesMap = new SoftLazyValue<MultiMap<String, IProperty>>() {
-    @NotNull
+    @Nonnull
     @Override
     protected MultiMap<String, IProperty> compute() {
       XmlTag rootTag = myFile.getRootTag();
@@ -98,57 +100,57 @@ public class XmlPropertiesFile implements PropertiesFile {
     myFile = file;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public PsiFile getContainingFile() {
     return myFile;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public List<IProperty> getProperties() {
     return new ArrayList<IProperty>(myPropertiesMap.getValue().values());
   }
 
   @Override
-  public IProperty findPropertyByKey(@NotNull @NonNls String key) {
+  public IProperty findPropertyByKey(@Nonnull @NonNls String key) {
     Collection<IProperty> properties = myPropertiesMap.getValue().get(key);
     return properties.isEmpty() ? null : properties.iterator().next();
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public List<IProperty> findPropertiesByKey(@NotNull @NonNls String key) {
+  public List<IProperty> findPropertiesByKey(@Nonnull @NonNls String key) {
     return new ArrayList<IProperty>(myPropertiesMap.getValue().get(key));
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public ResourceBundle getResourceBundle() {
     return PropertiesUtil.getResourceBundle(getContainingFile());
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public Locale getLocale() {
     return PropertiesUtil.getLocale(getVirtualFile());
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public PsiElement addProperty(@NotNull IProperty property) throws IncorrectOperationException {
+  public PsiElement addProperty(@Nonnull IProperty property) throws IncorrectOperationException {
     return null;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public PsiElement addPropertyAfter(@NotNull Property property, @Nullable Property anchor) throws IncorrectOperationException {
+  public PsiElement addPropertyAfter(@Nonnull Property property, @Nullable Property anchor) throws IncorrectOperationException {
     return null;
   }
 
   @Nullable
   @Override
-  public void removeProperties(@NotNull String key) {
+  public void removeProperties(@Nonnull String key) {
     throw new UnsupportedOperationException();
   }
 
@@ -160,7 +162,7 @@ public class XmlPropertiesFile implements PropertiesFile {
     return new XmlProperty(entry, this);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public Map<String, String> getNamesMap() {
     Map<String, String> result = new THashMap<String, String>();

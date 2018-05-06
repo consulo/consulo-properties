@@ -19,7 +19,7 @@
  */
 package com.intellij.lang.properties.psi.impl;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.extapi.psi.StubBasedPsiElementBase;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.Language;
@@ -36,7 +36,7 @@ public class PropertiesStubElementImpl <T extends StubElement> extends StubBased
     super(node);
   }
 
-  @NotNull
+  @Nonnull
   public Language getLanguage() {
     return PropertiesLanguage.INSTANCE;
   }

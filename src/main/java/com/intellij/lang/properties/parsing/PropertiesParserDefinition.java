@@ -15,7 +15,8 @@
  */
 package com.intellij.lang.properties.parsing;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
@@ -39,33 +40,33 @@ import consulo.lang.LanguageVersion;
 public class PropertiesParserDefinition implements ParserDefinition {
   private static final Logger LOG = Logger.getInstance("#com.intellij.lang.properties.PropertiesParserDefinition");
 
-  @NotNull
-  public Lexer createLexer(@NotNull LanguageVersion languageVersion) {
+  @Nonnull
+  public Lexer createLexer(@Nonnull LanguageVersion languageVersion) {
     return new PropertiesLexer();
   }
 
-  @NotNull
+  @Nonnull
   public IFileElementType getFileNodeType() {
     return PropertiesElementTypes.FILE;
   }
 
-  @NotNull
-  public TokenSet getWhitespaceTokens(@NotNull LanguageVersion languageVersion) {
+  @Nonnull
+  public TokenSet getWhitespaceTokens(@Nonnull LanguageVersion languageVersion) {
     return PropertiesTokenTypes.WHITESPACES;
   }
 
-  @NotNull
+  @Nonnull
   public TokenSet getCommentTokens(LanguageVersion languageVersion) {
     return PropertiesTokenTypes.COMMENTS;
   }
 
-  @NotNull
+  @Nonnull
   public TokenSet getStringLiteralElements(LanguageVersion languageVersion) {
     return TokenSet.EMPTY;
   }
 
-  @NotNull
-  public PsiParser createParser(@NotNull LanguageVersion languageVersion) {
+  @Nonnull
+  public PsiParser createParser(@Nonnull LanguageVersion languageVersion) {
     return new PropertiesParser();
   }
 
@@ -77,7 +78,7 @@ public class PropertiesParserDefinition implements ParserDefinition {
     return SpaceRequirements.MAY;
   }
 
-  @NotNull
+  @Nonnull
   public PsiElement createElement(ASTNode node) {
     final IElementType type = node.getElementType();
     if (type == PropertiesElementTypes.PROPERTY) {

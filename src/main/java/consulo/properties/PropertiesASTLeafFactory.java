@@ -16,8 +16,9 @@
 
 package consulo.properties;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.lang.properties.parsing.PropertiesTokenTypes;
 import com.intellij.lang.properties.psi.impl.PropertyValueImpl;
 import com.intellij.psi.impl.source.tree.LeafElement;
@@ -32,8 +33,8 @@ import consulo.psi.tree.ASTLeafFactory;
 public class PropertiesASTLeafFactory implements ASTLeafFactory
 {
   @Override
-  @NotNull
-  public LeafElement createLeaf(@NotNull final IElementType type, @NotNull LanguageVersion languageVersion, @NotNull CharSequence text) {
+  @Nonnull
+  public LeafElement createLeaf(@Nonnull final IElementType type, @Nonnull LanguageVersion languageVersion, @Nonnull CharSequence text) {
     if (type == PropertiesTokenTypes.VALUE_CHARACTERS) {
       return new PropertyValueImpl(type, text);
     }

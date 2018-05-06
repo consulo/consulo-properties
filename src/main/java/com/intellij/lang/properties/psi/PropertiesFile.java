@@ -31,8 +31,8 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.List;
 import java.util.Locale;
@@ -40,13 +40,14 @@ import java.util.Map;
 
 public interface PropertiesFile {
 
-  @NotNull
+  @Nonnull
   PsiFile getContainingFile();
 
   /**
    * @return All properties found in this file.
    */
-  @NotNull List<IProperty> getProperties();
+  @Nonnull
+  List<IProperty> getProperties();
 
   /**
    *
@@ -55,16 +56,19 @@ public interface PropertiesFile {
    * If there are several properties with the same key, returns first from the top of the file property.
    */
   @Nullable
-  IProperty findPropertyByKey(@NotNull @NonNls String key);
+  IProperty findPropertyByKey(@Nonnull @NonNls String key);
 
   /**
    * @param key
    * @return All properties found in this file with the name specified.
    */
-  @NotNull List<IProperty> findPropertiesByKey(@NotNull @NonNls String key);
+  @Nonnull
+  List<IProperty> findPropertiesByKey(@Nonnull @NonNls String key);
 
-  @NotNull ResourceBundle getResourceBundle();
-  @NotNull Locale getLocale();
+  @Nonnull
+  ResourceBundle getResourceBundle();
+  @Nonnull
+  Locale getLocale();
 
   /**
    * Adds property to the end of the file.
@@ -76,7 +80,8 @@ public interface PropertiesFile {
    * @deprecated
    * @see #addProperty(String, String)
    */
-  @NotNull PsiElement addProperty(@NotNull IProperty property) throws IncorrectOperationException;
+  @Nonnull
+  PsiElement addProperty(@Nonnull IProperty property) throws IncorrectOperationException;
 
   /**
    * Adds property to the the file after the specified property.
@@ -87,17 +92,19 @@ public interface PropertiesFile {
    * It is this value you use to do actual PSI work, e.g. call {@link com.intellij.psi.PsiElement#delete()} to remove this property from the file.
    * @throws IncorrectOperationException
    */
-  @NotNull PsiElement addPropertyAfter(@NotNull Property property, @Nullable Property anchor) throws IncorrectOperationException;
+  @Nonnull
+  PsiElement addPropertyAfter(@Nonnull Property property, @Nullable Property anchor) throws IncorrectOperationException;
 
   IProperty addProperty(String key, String value);
 
-  void removeProperties(@NotNull String key);
+  void removeProperties(@Nonnull String key);
 
   /**
    * @return Property key to the property value map.
    * Do not modify this map. It's no use anyway.
    */
-  @NotNull Map<String,String> getNamesMap();
+  @Nonnull
+  Map<String,String> getNamesMap();
 
   String getName();
 

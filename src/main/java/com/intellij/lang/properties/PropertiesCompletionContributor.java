@@ -18,7 +18,7 @@ package com.intellij.lang.properties;
 import com.intellij.codeInsight.completion.*;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.util.Consumer;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * @author peter
@@ -36,7 +36,7 @@ public class PropertiesCompletionContributor extends CompletionContributor {
   }
 
   @Override
-  public void beforeCompletion(@NotNull CompletionInitializationContext context) {
+  public void beforeCompletion(@Nonnull CompletionInitializationContext context) {
     if (context.getFile() instanceof PropertiesFile) {
       context.setDummyIdentifier(CompletionUtil.DUMMY_IDENTIFIER_TRIMMED);
     }

@@ -15,12 +15,13 @@
  */
 package com.intellij.lang.properties.psi.impl;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.impl.source.resolve.reference.ReferenceProvidersRegistry;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author cdr
@@ -30,7 +31,7 @@ public class PropertyValueImpl extends LeafPsiElement {
     super(type, text);
   }
 
-  @NotNull
+  @Nonnull
   public PsiReference[] getReferences() {
     return ReferenceProvidersRegistry.getReferencesFromProviders(this, PropertyValueImpl.class);
   }

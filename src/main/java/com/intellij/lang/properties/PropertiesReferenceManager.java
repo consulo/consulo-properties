@@ -28,8 +28,8 @@ import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.indexing.FileBasedIndex;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,13 +51,13 @@ public class PropertiesReferenceManager {
     myDumbService = dumbService;
   }
 
-  @NotNull
-  public List<PropertiesFile> findPropertiesFiles(@NotNull final Module module, final String bundleName) {
+  @Nonnull
+  public List<PropertiesFile> findPropertiesFiles(@Nonnull final Module module, final String bundleName) {
     return findPropertiesFiles(GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(module), bundleName, BundleNameEvaluator.DEFAULT);
   }
 
-  @NotNull
-  public List<PropertiesFile> findPropertiesFiles(@NotNull final GlobalSearchScope searchScope,
+  @Nonnull
+  public List<PropertiesFile> findPropertiesFiles(@Nonnull final GlobalSearchScope searchScope,
                                                   final String bundleName,
                                                   BundleNameEvaluator bundleNameEvaluator) {
 
@@ -102,7 +102,7 @@ public class PropertiesReferenceManager {
     return null;
   }
 
-  public String[] getPropertyFileBaseNames(@NotNull final GlobalSearchScope searchScope, final BundleNameEvaluator bundleNameEvaluator) {
+  public String[] getPropertyFileBaseNames(@Nonnull final GlobalSearchScope searchScope, final BundleNameEvaluator bundleNameEvaluator) {
     final ArrayList<String> result = new ArrayList<String>();
     processPropertiesFiles(searchScope, new PropertiesFileProcessor() {
       public boolean process(String baseName, PropertiesFile propertiesFile) {
@@ -113,13 +113,13 @@ public class PropertiesReferenceManager {
     return ArrayUtil.toStringArray(result);
   }
 
-  public boolean processAllPropertiesFiles(@NotNull final PropertiesFileProcessor processor) {
+  public boolean processAllPropertiesFiles(@Nonnull final PropertiesFileProcessor processor) {
     return processPropertiesFiles(GlobalSearchScope.allScope(myPsiManager.getProject()), processor, BundleNameEvaluator.DEFAULT);
   }
 
-  public boolean processPropertiesFiles(@NotNull final GlobalSearchScope searchScope,
-                                        @NotNull final PropertiesFileProcessor processor,
-                                        @NotNull final BundleNameEvaluator evaluator) {
+  public boolean processPropertiesFiles(@Nonnull final GlobalSearchScope searchScope,
+                                        @Nonnull final PropertiesFileProcessor processor,
+                                        @Nonnull final BundleNameEvaluator evaluator) {
 
     boolean result = FileBasedIndex.getInstance()
       .processValues(FileTypeIndex.NAME, PropertiesFileType.INSTANCE, null, new FileBasedIndex.ValueProcessor<Void>() {

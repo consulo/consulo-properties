@@ -7,8 +7,8 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiInvalidElementAccessException;
 import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author Dmitry Avdeev
@@ -44,7 +44,7 @@ public interface IProperty extends Navigatable, Iconable {
   @Nullable
   String getUnescapedKey();
 
-  void setValue(@NonNls @NotNull String value) throws IncorrectOperationException;
+  void setValue(@NonNls @Nonnull String value) throws IncorrectOperationException;
 
   PropertiesFile getPropertiesFile() throws PsiInvalidElementAccessException;
 

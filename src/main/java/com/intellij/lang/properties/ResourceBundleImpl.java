@@ -23,9 +23,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
@@ -41,14 +43,14 @@ import com.intellij.util.containers.ContainerUtil;
 
 public class ResourceBundleImpl implements ResourceBundle
 {
-	@NotNull
+	@Nonnull
 	private final VirtualFile myBaseDirectory;
-	@NotNull
+	@Nonnull
 	private final String myBaseName;
 	@NonNls
 	private static final String RESOURCE_BUNDLE_PREFIX = "resourceBundle:";
 
-	public ResourceBundleImpl(@NotNull VirtualFile baseDirectory, @NotNull String baseName)
+	public ResourceBundleImpl(@Nonnull VirtualFile baseDirectory, @Nonnull String baseName)
 	{
 		myBaseDirectory = baseDirectory;
 		myBaseName = baseName;
@@ -57,28 +59,28 @@ public class ResourceBundleImpl implements ResourceBundle
 	public static final ResourceBundle NULL = new ResourceBundle()
 	{
 		@Override
-		@NotNull
+		@Nonnull
 		public List<PropertiesFile> getPropertiesFiles(final Project project)
 		{
 			return Collections.emptyList();
 		}
 
 		@Override
-		@NotNull
+		@Nonnull
 		public PropertiesFile getDefaultPropertiesFile(final Project project)
 		{
 			throw new IllegalStateException();
 		}
 
 		@Override
-		@NotNull
+		@Nonnull
 		public String getBaseName()
 		{
 			return "";
 		}
 
 		@Override
-		@NotNull
+		@Nonnull
 		public VirtualFile getBaseDirectory()
 		{
 			throw new IllegalStateException();
@@ -86,7 +88,7 @@ public class ResourceBundleImpl implements ResourceBundle
 	};
 
 	@Override
-	@NotNull
+	@Nonnull
 	public List<PropertiesFile> getPropertiesFiles(final Project project)
 	{
 		VirtualFile[] children = myBaseDirectory.getChildren();
@@ -119,7 +121,7 @@ public class ResourceBundleImpl implements ResourceBundle
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public PropertiesFile getDefaultPropertiesFile(final Project project)
 	{
 		List<PropertiesFile> files = getPropertiesFiles(project);
@@ -136,7 +138,7 @@ public class ResourceBundleImpl implements ResourceBundle
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getBaseName()
 	{
 		return myBaseName;
@@ -206,7 +208,7 @@ public class ResourceBundleImpl implements ResourceBundle
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public VirtualFile getBaseDirectory()
 	{
 		return myBaseDirectory;

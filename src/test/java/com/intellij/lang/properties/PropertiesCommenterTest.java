@@ -21,7 +21,7 @@ import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.application.PluginPathManager;
 import com.intellij.testFramework.LightPlatformCodeInsightTestCase;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * @author cdr
@@ -30,7 +30,7 @@ public class PropertiesCommenterTest extends LightPlatformCodeInsightTestCase {
   public void testProp1() throws Exception { doTest(); }
   public void testUncomment() throws Exception { doTest(); }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getTestDataPath() {
     return PluginPathManager.getPluginHomePath("properties") + "/testData";

@@ -9,10 +9,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.n3.nanoxml.StdXMLReader;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.ide.highlighter.XmlFileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Comparing;
@@ -43,14 +44,14 @@ public class XmlPropertiesIndex extends FileBasedIndexExtension<XmlPropertiesInd
 
 	private static final EnumeratorStringDescriptor ENUMERATOR_STRING_DESCRIPTOR = new EnumeratorStringDescriptor();
 
-	@NotNull
+	@Nonnull
 	@Override
 	public ID<Key, String> getName()
 	{
 		return NAME;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public DataIndexer<Key, String, FileContent> getIndexer()
 	{
@@ -93,7 +94,7 @@ public class XmlPropertiesIndex extends FileBasedIndexExtension<XmlPropertiesInd
 		return XmlFileType.INSTANCE == file.getFileType();
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Map<Key, String> map(FileContent inputData)
 	{

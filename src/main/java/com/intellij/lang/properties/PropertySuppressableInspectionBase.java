@@ -15,6 +15,8 @@
  */
 package com.intellij.lang.properties;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.FileModificationService;
 import com.intellij.codeInspection.CustomSuppressableInspectionTool;
 import com.intellij.codeInspection.LocalInspectionTool;
@@ -30,14 +32,13 @@ import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * User: cdr
  */
 public abstract class PropertySuppressableInspectionBase extends LocalInspectionTool implements CustomSuppressableInspectionTool {
   private static final Logger LOG = Logger.getInstance("#com.intellij.lang.properties.PropertySuppressableInspectionBase");
-  @NotNull
+  @Nonnull
   public String getGroupDisplayName() {
     return PropertiesBundle.message("properties.files.inspection.group.display.name");
   }
@@ -46,7 +47,7 @@ public abstract class PropertySuppressableInspectionBase extends LocalInspection
     return new SuppressIntentionAction[] {new SuppressSinglePropertyFix(getShortName()), new SuppressForFile(getShortName())};
   }
 
-  public boolean isSuppressedFor(@NotNull PsiElement element) {
+  public boolean isSuppressedFor(@Nonnull PsiElement element) {
     Property property = PsiTreeUtil.getParentOfType(element, Property.class, false);
     PropertiesFile file;
     if (property == null) {
@@ -95,22 +96,22 @@ public abstract class PropertySuppressableInspectionBase extends LocalInspection
       this.shortName = shortName;
     }
 
-    @NotNull
+    @Nonnull
     public String getText() {
       return PropertiesBundle.message("unused.property.suppress.for.property");
     }
 
-    @NotNull
+    @Nonnull
     public String getFamilyName() {
       return PropertiesBundle.message("unused.property.suppress.for.property");
     }
 
-    public boolean isAvailable(@NotNull final Project project, final Editor editor, @NotNull final PsiElement element) {
+    public boolean isAvailable(@Nonnull final Project project, final Editor editor, @Nonnull final PsiElement element) {
       final Property property = PsiTreeUtil.getParentOfType(element, Property.class);
       return property != null && property.isValid();
     }
 
-    public void invoke(@NotNull final Project project, final Editor editor, @NotNull final PsiElement element) throws IncorrectOperationException {
+    public void invoke(@Nonnull final Project project, final Editor editor, @Nonnull final PsiElement element) throws IncorrectOperationException {
       final PsiFile file = element.getContainingFile();
       if (!FileModificationService.getInstance().prepareFileForWrite(file)) return;
 
@@ -135,21 +136,21 @@ public abstract class PropertySuppressableInspectionBase extends LocalInspection
       this.shortName = shortName;
     }
 
-    @NotNull
+    @Nonnull
     public String getText() {
       return PropertiesBundle.message("unused.property.suppress.for.file");
     }
 
-    @NotNull
+    @Nonnull
     public String getFamilyName() {
       return PropertiesBundle.message("unused.property.suppress.for.file");
     }
 
-    public boolean isAvailable(@NotNull final Project project, final Editor editor, @NotNull final PsiElement element) {
+    public boolean isAvailable(@Nonnull final Project project, final Editor editor, @Nonnull final PsiElement element) {
       return element.isValid() && element.getContainingFile() instanceof PropertiesFile;
     }
 
-    public void invoke(@NotNull final Project project, final Editor editor, @NotNull final PsiElement element) throws IncorrectOperationException {
+    public void invoke(@Nonnull final Project project, final Editor editor, @Nonnull final PsiElement element) throws IncorrectOperationException {
       final PsiFile file = element.getContainingFile();
       if (!FileModificationService.getInstance().prepareFileForWrite(file)) return;
 

@@ -17,8 +17,9 @@ package com.intellij.lang.properties.references;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.codeInspection.LocalQuickFix;
 import com.intellij.codeInspection.LocalQuickFixProvider;
 import com.intellij.lang.properties.psi.PropertiesFile;
@@ -29,14 +30,15 @@ import com.intellij.psi.PsiElement;
  * @author cdr
  */
 public class PropertyReference extends PropertyReferenceBase implements LocalQuickFixProvider {
-  @Nullable private final String myBundleName;
+  @Nullable
+  private final String myBundleName;
 
-  public PropertyReference(@NotNull final String key, @NotNull final PsiElement element, @Nullable final String bundleName, final boolean soft, final TextRange range) {
+  public PropertyReference(@Nonnull final String key, @Nonnull final PsiElement element, @Nullable final String bundleName, final boolean soft, final TextRange range) {
     super(key, soft, element, range);
     myBundleName = bundleName;
   }
 
-  public PropertyReference(@NotNull String key, @NotNull PsiElement element, @Nullable final String bundleName, final boolean soft) {
+  public PropertyReference(@Nonnull String key, @Nonnull PsiElement element, @Nullable final String bundleName, final boolean soft) {
     super(key, soft, element);
     myBundleName = bundleName;
   }

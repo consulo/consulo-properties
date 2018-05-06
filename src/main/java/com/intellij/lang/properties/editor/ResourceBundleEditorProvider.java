@@ -15,8 +15,9 @@
  */
 package com.intellij.lang.properties.editor;
 
+import javax.annotation.Nonnull;
+
 import org.jdom.Element;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.properties.PropertiesUtil;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.psi.PropertiesFile;
@@ -40,7 +41,7 @@ public class ResourceBundleEditorProvider extends FileTypeFactory implements Fil
 	private static final ResourceBundleFileType RESOURCE_BUNDLE_FILE_TYPE = new ResourceBundleFileType();
 
 	@Override
-	public boolean accept(@NotNull final Project project, @NotNull final VirtualFile file)
+	public boolean accept(@Nonnull final Project project, @Nonnull final VirtualFile file)
 	{
 		if(file instanceof ResourceBundleAsVirtualFile)
 		{
@@ -59,8 +60,8 @@ public class ResourceBundleEditorProvider extends FileTypeFactory implements Fil
 	}
 
 	@Override
-	@NotNull
-	public FileEditor createEditor(@NotNull Project project, @NotNull final VirtualFile file)
+	@Nonnull
+	public FileEditor createEditor(@Nonnull Project project, @Nonnull final VirtualFile file)
 	{
 		ResourceBundle resourceBundle;
 		if(file instanceof ResourceBundleAsVirtualFile)
@@ -81,32 +82,32 @@ public class ResourceBundleEditorProvider extends FileTypeFactory implements Fil
 	}
 
 	@Override
-	public void disposeEditor(@NotNull FileEditor editor)
+	public void disposeEditor(@Nonnull FileEditor editor)
 	{
 		Disposer.dispose(editor);
 	}
 
 	@Override
-	@NotNull
-	public FileEditorState readState(@NotNull Element element, @NotNull Project project, @NotNull VirtualFile file)
+	@Nonnull
+	public FileEditorState readState(@Nonnull Element element, @Nonnull Project project, @Nonnull VirtualFile file)
 	{
 		return new ResourceBundleEditor.ResourceBundleEditorState(null);
 	}
 
 	@Override
-	public void writeState(@NotNull FileEditorState state, @NotNull Project project, @NotNull Element element)
+	public void writeState(@Nonnull FileEditorState state, @Nonnull Project project, @Nonnull Element element)
 	{
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public FileEditorPolicy getPolicy()
 	{
 		return FileEditorPolicy.PLACE_AFTER_DEFAULT_EDITOR;
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getEditorTypeId()
 	{
 		return "ResourceBundle";
@@ -114,7 +115,7 @@ public class ResourceBundleEditorProvider extends FileTypeFactory implements Fil
 
 
 	@Override
-	public void createFileTypes(@NotNull final FileTypeConsumer consumer)
+	public void createFileTypes(@Nonnull final FileTypeConsumer consumer)
 	{
 		consumer.consume(RESOURCE_BUNDLE_FILE_TYPE, "");
 	}

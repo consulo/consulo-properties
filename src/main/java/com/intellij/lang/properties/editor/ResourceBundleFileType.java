@@ -15,23 +15,24 @@
  */
 package com.intellij.lang.properties.editor;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.fileTypes.ex.FakeFileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.lang.properties.PropertiesBundle;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author cdr
  */
 class ResourceBundleFileType extends FakeFileType {
-  @NotNull
+  @Nonnull
   public String getName() {
     return "ResourceBundle";
   }
 
-  @NotNull
+  @Nonnull
   public String getDescription() {
     return PropertiesBundle.message("resourcebundle.fake.file.type.description");
   }

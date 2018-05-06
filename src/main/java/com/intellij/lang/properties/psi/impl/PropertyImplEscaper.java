@@ -1,9 +1,10 @@
 package com.intellij.lang.properties.psi.impl;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.openapi.util.ProperTextRange;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.LiteralTextEscaper;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author gregsh
@@ -16,7 +17,7 @@ public class PropertyImplEscaper extends LiteralTextEscaper<PropertyImpl> {
   }
 
   @Override
-  public boolean decode(@NotNull TextRange rangeInsideHost, @NotNull StringBuilder outChars) {
+  public boolean decode(@Nonnull TextRange rangeInsideHost, @Nonnull StringBuilder outChars) {
     ProperTextRange.assertProperRange(rangeInsideHost);
     String subText = rangeInsideHost.substring(myHost.getText());
     outSourceOffsets = new int[subText.length() + 1];
@@ -34,7 +35,7 @@ public class PropertyImplEscaper extends LiteralTextEscaper<PropertyImpl> {
   }
 
   @Override
-  public int getOffsetInHost(int offsetInDecoded, @NotNull TextRange rangeInsideHost) {
+  public int getOffsetInHost(int offsetInDecoded, @Nonnull TextRange rangeInsideHost) {
     int result = offsetInDecoded < outSourceOffsets.length ? outSourceOffsets[offsetInDecoded] : -1;
     if (result == -1) return -1;
     return (result <= rangeInsideHost.getLength() ? result : rangeInsideHost.getLength()) + rangeInsideHost.getStartOffset();

@@ -15,6 +15,8 @@
  */
 package com.intellij.lang.properties.editor;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.ide.structureView.FileEditorPositionListener;
 import com.intellij.ide.structureView.ModelListener;
 import com.intellij.ide.structureView.StructureViewTreeElement;
@@ -25,7 +27,6 @@ import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.structureView.GroupByWordPrefixes;
 import com.intellij.lang.properties.structureView.PropertiesSeparatorManager;
 import com.intellij.openapi.project.Project;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author max
@@ -51,22 +52,22 @@ public class ResourceBundleStructureViewModel implements PropertiesGroupingStruc
     return myGroupByWordPrefixes.getSeparator();
   }
 
-  @NotNull
+  @Nonnull
   public StructureViewTreeElement getRoot() {
     return new ResourceBundleFileStructureViewElement(myProject, myResourceBundle);
   }
 
-  @NotNull
+  @Nonnull
   public Grouper[] getGroupers() {
     return new Grouper[]{myGroupByWordPrefixes};
   }
 
-  @NotNull
+  @Nonnull
   public Sorter[] getSorters() {
     return new Sorter[] {Sorter.ALPHA_SORTER};
   }
 
-  @NotNull
+  @Nonnull
   public Filter[] getFilters() {
     return Filter.EMPTY_ARRAY;
   }

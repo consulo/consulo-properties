@@ -31,8 +31,8 @@ import com.intellij.psi.statistics.StatisticsManager;
 import gnu.trove.THashMap;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -78,7 +78,7 @@ public class LastSelectedPropertiesFileStore implements PersistentStateComponent
     return null;
   }
 
-  public static int getUseCount(@NotNull String path) {
+  public static int getUseCount(@Nonnull String path) {
     return StatisticsManager.getInstance().getUseCount(new StatisticsInfo(PROPERTIES_FILE_STATISTICS_KEY, path));
   }
 

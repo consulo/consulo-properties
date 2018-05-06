@@ -35,8 +35,8 @@ import com.intellij.util.PlatformIcons;
 import com.intellij.util.containers.ContainerUtil;
 import gnu.trove.THashSet;
 import gnu.trove.TObjectHashingStrategy;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -95,11 +95,11 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
   protected boolean mySoft;
   private final TextRange myTextRange;
 
-  public PropertyReferenceBase(@NotNull String key, final boolean soft, @NotNull PsiElement element) {
+  public PropertyReferenceBase(@Nonnull String key, final boolean soft, @Nonnull PsiElement element) {
     this(key, soft, element, ElementManipulators.getValueTextRange(element));
   }
 
-  public PropertyReferenceBase(@NotNull String key, final boolean soft, @NotNull PsiElement element, TextRange range) {
+  public PropertyReferenceBase(@Nonnull String key, final boolean soft, @Nonnull PsiElement element, TextRange range) {
     myKey = key;
     mySoft = soft;
     myElement = element;
@@ -111,7 +111,7 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
     return resolveResults.length == 1 ? resolveResults[0].getElement() : null;
   }
 
-  @NotNull
+  @Nonnull
   protected String getKeyText() {
     return myKey;
   }
@@ -128,7 +128,7 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
     return getKeyText().hashCode();
   }
 
-  @NotNull
+  @Nonnull
   public PsiElement getElement() {
     return myElement;
   }
@@ -137,7 +137,7 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
     return myTextRange;
   }
 
-  @NotNull
+  @Nonnull
   public String getCanonicalText() {
     return myKey;
   }
@@ -158,7 +158,7 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
     /*}*/
   }
 
-  public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException {
+  public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException {
     throw new IncorrectOperationException("not implemented");
   }
 
@@ -191,12 +191,12 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
     return mySoft;
   }
 
-  @NotNull
+  @Nonnull
   public String getUnresolvedMessagePattern() {
     return PropertiesBundle.message("unresolved.property.key");
   }
 
-  @NotNull
+  @Nonnull
   public ResolveResult[] multiResolve(final boolean incompleteCode) {
     final String key = getKeyText();
 
@@ -237,7 +237,7 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
   @Nullable
   protected abstract List<PropertiesFile> getPropertiesFiles();
 
-  @NotNull
+  @Nonnull
   public Object[] getVariants() {
     final Set<Object> variants = new THashSet<Object>(new TObjectHashingStrategy<Object>() {
       public int computeHashCode(final Object object) {

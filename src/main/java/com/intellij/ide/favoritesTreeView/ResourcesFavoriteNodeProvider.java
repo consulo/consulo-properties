@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.ide.projectView.ViewSettings;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.lang.properties.ResourceBundle;
@@ -95,7 +95,7 @@ public class ResourcesFavoriteNodeProvider extends FavoriteNodeProvider {
     return false;
   }
 
-  @NotNull
+  @Nonnull
   public String getFavoriteTypeId() {
     return "resource_bundle";
   }

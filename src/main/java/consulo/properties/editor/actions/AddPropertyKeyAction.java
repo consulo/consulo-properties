@@ -17,7 +17,8 @@ package consulo.properties.editor.actions;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.CommonBundle;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.util.treeView.AbstractTreeBuilder;
@@ -44,7 +45,7 @@ public class AddPropertyKeyAction extends AnAction
 	private final ResourceBundle myResourceBundle;
 	private final AbstractTreeBuilder myTreeBuilder;
 
-	public AddPropertyKeyAction(@NotNull ResourceBundle resourceBundle, AbstractTreeBuilder treeBuilder)
+	public AddPropertyKeyAction(@Nonnull ResourceBundle resourceBundle, AbstractTreeBuilder treeBuilder)
 	{
 		super(CommonBundle.message("button.add"), PropertiesBundle.message("button.add.property.description"), IconUtil.getAddIcon());
 		myResourceBundle = resourceBundle;

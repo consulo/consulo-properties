@@ -15,6 +15,8 @@
  */
 package com.intellij.lang.properties;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.FileModificationService;
 import com.intellij.codeInsight.intention.IntentionAction;
 import com.intellij.lang.properties.psi.Property;
@@ -22,7 +24,6 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author cdr
@@ -30,21 +31,21 @@ import org.jetbrains.annotations.NotNull;
 class RemovePropertyFix implements IntentionAction {
   private final Property myProperty;
 
-  public RemovePropertyFix(@NotNull final Property origProperty) {
+  public RemovePropertyFix(@Nonnull final Property origProperty) {
     myProperty = origProperty;
   }
 
-  @NotNull
+  @Nonnull
   public String getText() {
     return PropertiesBundle.message("remove.property.intention.text");
   }
 
-  @NotNull
+  @Nonnull
   public String getFamilyName() {
     return getText();
   }
 
-  public boolean isAvailable(@NotNull Project project, Editor editor, PsiFile file) {
+  public boolean isAvailable(@Nonnull Project project, Editor editor, PsiFile file) {
     return file.isValid()
            && myProperty != null
            && myProperty.isValid()
@@ -52,7 +53,7 @@ class RemovePropertyFix implements IntentionAction {
       ;
   }
 
-  public void invoke(@NotNull Project project, Editor editor, PsiFile file) throws IncorrectOperationException {
+  public void invoke(@Nonnull Project project, Editor editor, PsiFile file) throws IncorrectOperationException {
     if (!FileModificationService.getInstance().prepareFileForWrite(file)) return;
     myProperty.delete();
   }

@@ -20,8 +20,8 @@ import com.intellij.psi.*;
 import com.intellij.util.Function;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.List;
 
@@ -46,18 +46,20 @@ public class ResourceBundleReference extends PsiReferenceBase<PsiElement> implem
     myBundleName = getValue();
   }
 
-  @Nullable public PsiElement resolve() {
+  @Nullable
+  public PsiElement resolve() {
     ResolveResult[] resolveResults = multiResolve(false);
     return resolveResults.length == 1 ? resolveResults[0].getElement() : null;
   }
 
-  @NotNull public ResolveResult[] multiResolve(final boolean incompleteCode) {
+  @Nonnull
+  public ResolveResult[] multiResolve(final boolean incompleteCode) {
     PropertiesReferenceManager referenceManager = PropertiesReferenceManager.getInstance(myElement.getProject());
     List<PropertiesFile> propertiesFiles = referenceManager.findPropertiesFiles(myElement.getResolveScope(), myBundleName, this);
     return PsiElementResolveResult.createResults(ContainerUtil.map(propertiesFiles, PROPERTIES_FILE_PSI_ELEMENT_FUNCTION));
   }
 
-  @NotNull
+  @Nonnull
   public String getCanonicalText() {
     return myBundleName;
   }
@@ -75,7 +77,7 @@ public class ResourceBundleReference extends PsiReferenceBase<PsiElement> implem
     return super.handleElementRename(newElementName);
   }
 
-  public PsiElement bindToElement(@NotNull final PsiElement element) throws IncorrectOperationException {
+  public PsiElement bindToElement(@Nonnull final PsiElement element) throws IncorrectOperationException {
     if (!(element instanceof PropertiesFile)) {
       throw new IncorrectOperationException();
     }
@@ -94,7 +96,7 @@ public class ResourceBundleReference extends PsiReferenceBase<PsiElement> implem
     return false;
   }
 
-  @NotNull
+  @Nonnull
   public Object[] getVariants() {
     PropertiesReferenceManager referenceManager = PropertiesReferenceManager.getInstance(getElement().getProject());
     return referenceManager.getPropertyFileBaseNames(myElement.getResolveScope(), this);

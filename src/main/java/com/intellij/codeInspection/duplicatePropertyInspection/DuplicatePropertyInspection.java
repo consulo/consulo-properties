@@ -31,13 +31,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInspection.GlobalInspectionContext;
 import com.intellij.codeInspection.GlobalSimpleInspectionTool;
 import com.intellij.codeInspection.HTMLComposer;
@@ -88,11 +88,11 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool
 	public boolean CHECK_DUPLICATE_KEYS_WITH_DIFFERENT_VALUES = true;
 
 	@Override
-	public void checkFile(@NotNull PsiFile file,
-			@NotNull InspectionManager manager,
-			@NotNull ProblemsHolder problemsHolder,
-			@NotNull GlobalInspectionContext globalContext,
-			@NotNull ProblemDescriptionsProcessor problemDescriptionsProcessor)
+	public void checkFile(@Nonnull PsiFile file,
+			@Nonnull InspectionManager manager,
+			@Nonnull ProblemsHolder problemsHolder,
+			@Nonnull GlobalInspectionContext globalContext,
+			@Nonnull ProblemDescriptionsProcessor problemDescriptionsProcessor)
 	{
 		checkFile(file, manager, (GlobalInspectionContextImpl) globalContext, globalContext.getRefManager(),
 				problemDescriptionsProcessor);
@@ -501,21 +501,21 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getDisplayName()
 	{
 		return InspectionsBundle.message("duplicate.property.display.name");
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getGroupDisplayName()
 	{
 		return InspectionsBundle.message("group.names.properties.files");
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getShortName()
 	{
 		return "DuplicatePropertyInspection";

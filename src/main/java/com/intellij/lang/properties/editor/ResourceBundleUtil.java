@@ -20,8 +20,9 @@ import gnu.trove.TIntHashSet;
 import java.io.Writer;
 import java.util.Properties;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.psi.PropertiesFile;
@@ -64,7 +65,7 @@ public class ResourceBundleUtil {
    *                      <code>null</code> otherwise
    */
   @Nullable
-  public static ResourceBundle getResourceBundleFromDataContext(@NotNull DataContext dataContext) {
+  public static ResourceBundle getResourceBundleFromDataContext(@Nonnull DataContext dataContext) {
     PsiElement element = dataContext.getData(LangDataKeys.PSI_ELEMENT);
     if (element instanceof IProperty) return null; //rename property
     final ResourceBundle[] bundles = dataContext.getData(ResourceBundle.ARRAY_DATA_KEY);
@@ -93,7 +94,7 @@ public class ResourceBundleUtil {
    * @return resource bundle editor identified by the given context; <code>null</code> otherwise
    */
   @Nullable
-  public static ResourceBundleEditor getEditor(@NotNull DataContext dataContext) {
+  public static ResourceBundleEditor getEditor(@Nonnull DataContext dataContext) {
     Project project = dataContext.getData(CommonDataKeys.PROJECT);
     if (project == null) {
       return null;
@@ -120,8 +121,8 @@ public class ResourceBundleUtil {
    * @return      'user-friendly' text to show at the resource bundle editor
    */
   @SuppressWarnings("AssignmentToForLoopParameter")
-  @NotNull
-  public static String fromPropertyValueToValueEditor(@NotNull String text) {
+  @Nonnull
+  public static String fromPropertyValueToValueEditor(@Nonnull String text) {
     StringBuilder buffer = new StringBuilder();
     boolean escaped = false;
     for (int i = 0; i < text.length(); i++) {
@@ -163,7 +164,7 @@ public class ResourceBundleUtil {
    *              <code>null</code> otherwise
    */
   @Nullable
-  private static char[] parseUnicodeLiteral(@NotNull String text, int i) {
+  private static char[] parseUnicodeLiteral(@Nonnull String text, int i) {
     if (text.length() < i + 5) {
       return null;
     }
@@ -191,8 +192,8 @@ public class ResourceBundleUtil {
    * @param text  'user-friendly' text shown to the user at the resource bundle editor
    * @return      'raw' value to store at the *.properties file
    */
-  @NotNull
-  public static String fromValueEditorToPropertyValue(@NotNull String text) {
+  @Nonnull
+  public static String fromValueEditorToPropertyValue(@Nonnull String text) {
     StringBuilder buffer = new StringBuilder();
     for (int i = 0; i < text.length(); i++) {
       char c = text.charAt(i);

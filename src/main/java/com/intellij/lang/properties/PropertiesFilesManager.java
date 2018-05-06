@@ -26,7 +26,7 @@ import com.intellij.openapi.vfs.encoding.EncodingManager;
 import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.indexing.FileBasedIndex;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -76,7 +76,7 @@ public class PropertiesFilesManager extends AbstractProjectComponent {
     EncodingManager.getInstance().addPropertyChangeListener(myListener,myProject);
   }
 
-  @NotNull
+  @Nonnull
   public String getComponentName() {
     return "PropertiesFileManager";
   }

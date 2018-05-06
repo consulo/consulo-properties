@@ -19,9 +19,10 @@
  */
 package com.intellij.lang.properties.psi;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.stubs.StringStubIndexExtension;
 import com.intellij.psi.stubs.StubIndexKey;
-import org.jetbrains.annotations.NotNull;
 
 public class PropertyKeyIndex extends StringStubIndexExtension<Property> {
   public static final StubIndexKey<String, Property> KEY = StubIndexKey.createIndexKey("properties.index");
@@ -32,7 +33,7 @@ public class PropertyKeyIndex extends StringStubIndexExtension<Property> {
     return ourInstance;
   }
 
-  @NotNull
+  @Nonnull
   public StubIndexKey<String, Property> getKey() {
     return KEY;
   }

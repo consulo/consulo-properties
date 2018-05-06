@@ -18,7 +18,7 @@ package com.intellij.lang.properties;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 
 public interface BundleNameEvaluator {
 

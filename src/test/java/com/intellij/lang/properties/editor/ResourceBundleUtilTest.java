@@ -1,7 +1,5 @@
 package com.intellij.lang.properties.editor;
 
-import gnu.trove.TIntHashSet;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

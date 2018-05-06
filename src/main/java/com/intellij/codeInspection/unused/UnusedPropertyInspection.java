@@ -15,6 +15,8 @@
  */
 package com.intellij.codeInspection.unused;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.ProblemsHolder;
@@ -37,29 +39,28 @@ import com.intellij.psi.search.PsiSearchHelper;
 import com.intellij.psi.search.searches.ReferencesSearch;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.containers.FilteringIterator;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author cdr
  */
 public class UnusedPropertyInspection extends PropertySuppressableInspectionBase {
   @Override
-  @NotNull
+  @Nonnull
   public String getDisplayName() {
     return PropertiesBundle.message("unused.property.inspection.display.name");
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public String getShortName() {
     return "UnusedProperty";
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public PsiElementVisitor buildVisitor(@NotNull final ProblemsHolder holder,
+  public PsiElementVisitor buildVisitor(@Nonnull final ProblemsHolder holder,
                                         final boolean isOnTheFly,
-                                        @NotNull final LocalInspectionToolSession session) {
+                                        @Nonnull final LocalInspectionToolSession session) {
     final PsiFile file = session.getFile();
     Module module = ModuleUtil.findModuleForPsiElement(file);
     if (module == null) return super.buildVisitor(holder, isOnTheFly, session);

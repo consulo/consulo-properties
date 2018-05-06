@@ -15,7 +15,8 @@
  */
 package com.intellij.lang.properties.editor;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.lang.properties.ResourceBundle;
 import consulo.properties.editor.actions.AddPropertyKeyAction;
 import consulo.properties.editor.actions.RemovePropertyKeyAction;
@@ -29,12 +30,12 @@ import com.intellij.openapi.util.Key;
  */
 class ResourceBundleStructureViewComponent extends PropertiesGroupingStructureViewComponent
 {
-	@NotNull
+	@Nonnull
 	private final ResourceBundle myResourceBundle;
 
-	public ResourceBundleStructureViewComponent(@NotNull Project project,
-			@NotNull ResourceBundle resourceBundle,
-			@NotNull ResourceBundleEditor editor)
+	public ResourceBundleStructureViewComponent(@Nonnull Project project,
+			@Nonnull ResourceBundle resourceBundle,
+			@Nonnull ResourceBundleEditor editor)
 	{
 		super(project, editor, new ResourceBundleStructureViewModel(project, resourceBundle));
 		myResourceBundle = resourceBundle;
@@ -42,7 +43,7 @@ class ResourceBundleStructureViewComponent extends PropertiesGroupingStructureVi
 	}
 
 	@Override
-	public Object getData(@NotNull Key<?> dataId)
+	public Object getData(@Nonnull Key<?> dataId)
 	{
 		if(PlatformDataKeys.VIRTUAL_FILE == dataId)
 		{
@@ -52,7 +53,7 @@ class ResourceBundleStructureViewComponent extends PropertiesGroupingStructureVi
 	}
 
 	@Override
-	protected boolean addCustomActions(@NotNull DefaultActionGroup actionGroup)
+	protected boolean addCustomActions(@Nonnull DefaultActionGroup actionGroup)
 	{
 		actionGroup.add(new AddPropertyKeyAction(myResourceBundle, getTreeBuilder()));
 		actionGroup.add(new RemovePropertyKeyAction(myResourceBundle, getTreeBuilder()));

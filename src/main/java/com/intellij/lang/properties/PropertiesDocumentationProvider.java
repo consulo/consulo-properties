@@ -27,8 +27,8 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.ui.GuiUtils;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.awt.*;
 
@@ -46,7 +46,7 @@ public class PropertiesDocumentationProvider extends AbstractDocumentationProvid
     return file != null ? " [" + file.getName() + "]" : "";
   }
 
-  @NotNull
+  @Nonnull
   private static String renderPropertyValue(IProperty prop) {
     String raw = prop.getValue();
     if (raw == null) {

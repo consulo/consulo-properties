@@ -21,7 +21,6 @@ import com.intellij.codeInspection.ProblemDescriptor;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.lang.properties.psi.Property;
 import com.intellij.lang.properties.psi.impl.PropertyImpl;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.progress.ProgressManager;
@@ -31,7 +30,7 @@ import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.SmartList;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
@@ -39,17 +38,17 @@ import java.util.List;
  * @author cdr
  */
 public class TrailingSpacesInPropertyInspection extends PropertySuppressableInspectionBase {
-  @NotNull
+  @Nonnull
   public String getDisplayName() {
     return PropertiesBundle.message("trail.spaces.property.inspection.display.name");
   }
 
-  @NotNull
+  @Nonnull
   public String getShortName() {
     return "TrailingSpacesInProperty";
   }
 
-  public ProblemDescriptor[] checkFile(@NotNull PsiFile file, @NotNull final InspectionManager manager, final boolean isOnTheFly) {
+  public ProblemDescriptor[] checkFile(@Nonnull PsiFile file, @Nonnull final InspectionManager manager, final boolean isOnTheFly) {
     if (!(file instanceof PropertiesFile)) return null;
     final List<IProperty> properties = ((PropertiesFile)file).getProperties();
     final List<ProblemDescriptor> descriptors = new SmartList<ProblemDescriptor>();
@@ -85,17 +84,17 @@ public class TrailingSpacesInPropertyInspection extends PropertySuppressableInsp
 
   private static class RemoveTrailingSpacesFix implements LocalQuickFix {
     private static final RemoveTrailingSpacesFix INSTANCE = new RemoveTrailingSpacesFix();
-    @NotNull
+    @Nonnull
     public String getName() {
       return "Remove Trailing Spaces";
     }
 
-    @NotNull
+    @Nonnull
     public String getFamilyName() {
       return getName();
     }
 
-    public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getPsiElement();
       PsiElement parent = element == null ? null : element.getParent();
       if (!(parent instanceof PropertyImpl)) return;

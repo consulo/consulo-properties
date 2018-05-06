@@ -33,8 +33,8 @@ import com.intellij.psi.PsiAnchor;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -57,40 +57,40 @@ public class CreatePropertyFix implements IntentionAction, LocalQuickFix {
     myPropertiesFiles = propertiesFiles;
   }
 
-  @NotNull
+  @Nonnull
   public String getName() {
     return NAME;
   }
 
-  @NotNull
+  @Nonnull
   public String getFamilyName() {
     return getText();
   }
 
-  public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
     PsiElement psiElement = descriptor.getPsiElement();
     if (isAvailable(project, null, null)) {
       invoke(project, null, psiElement.getContainingFile());
     }
   }
 
-  @NotNull
+  @Nonnull
   public String getText() {
     return NAME;
   }
 
-  public boolean isAvailable(@NotNull Project project, @Nullable Editor editor, @Nullable PsiFile file) {
+  public boolean isAvailable(@Nonnull Project project, @Nullable Editor editor, @Nullable PsiFile file) {
     return myElement != null && myElement.retrieve() != null;
   }
 
-  public void invoke(@NotNull final Project project, @Nullable Editor editor, @NotNull PsiFile file) {
+  public void invoke(@Nonnull final Project project, @Nullable Editor editor, @Nonnull PsiFile file) {
     invokeAction(project, file, myElement.retrieve(), myKey, myPropertiesFiles);
   }
 
   @Nullable
-  private Pair<String, String> invokeAction(@NotNull final Project project,
-                                            @NotNull PsiFile file,
-                                            @NotNull PsiElement psiElement,
+  private Pair<String, String> invokeAction(@Nonnull final Project project,
+                                            @Nonnull PsiFile file,
+                                            @Nonnull PsiElement psiElement,
                                             @Nullable final String suggestedKey,
                                             @Nullable final List<PropertiesFile> propertiesFiles) {
     final I18nizeQuickFixModel model;
@@ -141,11 +141,11 @@ public class CreatePropertyFix implements IntentionAction, LocalQuickFix {
     return new Pair<String, String>(key, value);
   }
 
-  public static void createProperty(@NotNull final Project project,
-                                    @NotNull final PsiElement psiElement,
-                                    @NotNull final Collection<PropertiesFile> selectedPropertiesFiles,
-                                    @NotNull final String key,
-                                    @NotNull final String value) {
+  public static void createProperty(@Nonnull final Project project,
+                                    @Nonnull final PsiElement psiElement,
+                                    @Nonnull final Collection<PropertiesFile> selectedPropertiesFiles,
+                                    @Nonnull final String key,
+                                    @Nonnull final String value) {
     for (PropertiesFile selectedFile : selectedPropertiesFiles) {
       if (!FileModificationService.getInstance().prepareFileForWrite(selectedFile.getContainingFile())) return;
     }

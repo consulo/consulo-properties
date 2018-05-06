@@ -40,6 +40,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTree;
@@ -51,8 +53,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.intellij.ide.SelectInContext;
 import com.intellij.ide.structureView.newStructureView.StructureViewComponent;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
@@ -137,7 +137,7 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 	private VirtualFileListener myVfsListener;
 	private Editor mySelectedEditor;
 
-	public ResourceBundleEditor(Project project, @NotNull ResourceBundle resourceBundle)
+	public ResourceBundleEditor(Project project, @Nonnull ResourceBundle resourceBundle)
 	{
 		myProject = project;
 
@@ -195,14 +195,14 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 		project.getMessageBus().connect(project).subscribe(FileEditorManagerListener.FILE_EDITOR_MANAGER, new FileEditorManagerAdapter()
 		{
 			@Override
-			public void selectionChanged(@NotNull FileEditorManagerEvent event)
+			public void selectionChanged(@Nonnull FileEditorManagerEvent event)
 			{
 				onSelectionChanged(event);
 			}
 		});
 	}
 
-	private void onSelectionChanged(@NotNull FileEditorManagerEvent event)
+	private void onSelectionChanged(@Nonnull FileEditorManagerEvent event)
 	{
 		// Ignore events which don't target current editor.
 		FileEditor oldEditor = event.getOldEditor();
@@ -226,7 +226,7 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 		}
 	}
 
-	private void setStructureViewSelectionFromPropertiesFile(@NotNull Editor propertiesFileEditor)
+	private void setStructureViewSelectionFromPropertiesFile(@Nonnull Editor propertiesFileEditor)
 	{
 		int line = propertiesFileEditor.getCaretModel().getLogicalPosition().line;
 		Document document = propertiesFileEditor.getDocument();
@@ -242,7 +242,7 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 		setStructureViewSelection(propertyName);
 	}
 
-	private void setStructureViewSelection(@NotNull final String propertyName)
+	private void setStructureViewSelection(@Nonnull final String propertyName)
 	{
 		JTree tree = myStructureViewComponent.getTree();
 		if(tree == null)
@@ -295,7 +295,7 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 	}
 
 	@Nullable
-	private static String getPropertyName(@NotNull Document document, int line)
+	private static String getPropertyName(@Nonnull Document document, int line)
 	{
 		int startOffset = document.getLineStartOffset(line);
 		int endOffset = StringUtil.indexOf(document.getCharsSequence(), '=', startOffset, document.getLineEndOffset(line));
@@ -307,7 +307,7 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 		return propertyName.isEmpty() ? null : propertyName;
 	}
 
-	private void setPropertiesFileSelectionFromStructureView(@NotNull Editor propertiesFileEditor)
+	private void setPropertiesFileSelectionFromStructureView(@Nonnull Editor propertiesFileEditor)
 	{
 		String selectedPropertyName = getSelectedPropertyName();
 		if(selectedPropertyName == null)
@@ -328,7 +328,7 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 	}
 
 	@Nullable
-	private static String getNodeValue(@NotNull DefaultMutableTreeNode node)
+	private static String getNodeValue(@Nonnull DefaultMutableTreeNode node)
 	{
 		Object userObject = node.getUserObject();
 		if(!(userObject instanceof AbstractTreeNode))
@@ -493,31 +493,31 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 		PsiTreeChangeAdapter psiTreeChangeAdapter = new PsiTreeChangeAdapter()
 		{
 			@Override
-			public void childAdded(@NotNull PsiTreeChangeEvent event)
+			public void childAdded(@Nonnull PsiTreeChangeEvent event)
 			{
 				childrenChanged(event);
 			}
 
 			@Override
-			public void childRemoved(@NotNull PsiTreeChangeEvent event)
+			public void childRemoved(@Nonnull PsiTreeChangeEvent event)
 			{
 				childrenChanged(event);
 			}
 
 			@Override
-			public void childReplaced(@NotNull PsiTreeChangeEvent event)
+			public void childReplaced(@Nonnull PsiTreeChangeEvent event)
 			{
 				childrenChanged(event);
 			}
 
 			@Override
-			public void childMoved(@NotNull PsiTreeChangeEvent event)
+			public void childMoved(@Nonnull PsiTreeChangeEvent event)
 			{
 				childrenChanged(event);
 			}
 
 			@Override
-			public void childrenChanged(@NotNull PsiTreeChangeEvent event)
+			public void childrenChanged(@Nonnull PsiTreeChangeEvent event)
 			{
 				final PsiFile file = event.getFile();
 				PropertiesFile propertiesFile = PropertiesUtil.getPropertiesFile(file);
@@ -795,7 +795,7 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public JComponent getComponent()
 	{
 		return myDataProviderPanel;
@@ -808,14 +808,14 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 			return new SelectInContext()
 			{
 				@Override
-				@NotNull
+				@Nonnull
 				public Project getProject()
 				{
 					return myProject;
 				}
 
 				@Override
-				@NotNull
+				@Nonnull
 				public VirtualFile getVirtualFile()
 				{
 					PropertiesFile selectedFile = getSelectedPropertiesFile();
@@ -881,21 +881,21 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 	}
 
 	@Override
-	@NotNull
+	@Nonnull
 	public String getName()
 	{
 		return "Resource Bundle";
 	}
 
 	@Override
-	@NotNull
-	public ResourceBundleEditorState getState(@NotNull FileEditorStateLevel level)
+	@Nonnull
+	public ResourceBundleEditorState getState(@Nonnull FileEditorStateLevel level)
 	{
 		return new ResourceBundleEditorState(getSelectedPropertyName());
 	}
 
 	@Override
-	public void setState(@NotNull FileEditorState state)
+	public void setState(@Nonnull FileEditorState state)
 	{
 		ResourceBundleEditorState myState = (ResourceBundleEditorState) state;
 		String propertyName = myState.myPropertyName;
@@ -931,13 +931,13 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 	}
 
 	@Override
-	public void addPropertyChangeListener(@NotNull PropertyChangeListener listener)
+	public void addPropertyChangeListener(@Nonnull PropertyChangeListener listener)
 	{
 
 	}
 
 	@Override
-	public void removePropertyChangeListener(@NotNull PropertyChangeListener listener)
+	public void removePropertyChangeListener(@Nonnull PropertyChangeListener listener)
 	{
 
 	}
@@ -984,7 +984,7 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 	 * @param oldName old property name
 	 * @param newName new property name
 	 */
-	public void renameProperty(@NotNull String oldName, @NotNull String newName)
+	public void renameProperty(@Nonnull String oldName, @Nonnull String newName)
 	{
 		for(PropertiesFile properties : myResourceBundle.getPropertiesFiles(myProject))
 		{
@@ -1055,7 +1055,7 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 
 		@Override
 		@Nullable
-		public Object getData(@NotNull Key<?> dataId)
+		public Object getData(@Nonnull Key<?> dataId)
 		{
 			return ResourceBundleEditor.this.getData(dataId);
 		}

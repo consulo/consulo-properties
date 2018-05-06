@@ -15,6 +15,8 @@
  */
 package com.intellij.lang.properties.findUsages;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.lang.findUsages.FindUsagesProvider;
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.parsing.PropertiesWordsScanner;
@@ -23,33 +25,32 @@ import com.intellij.lang.LangBundle;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
 import com.intellij.find.impl.HelpID;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author cdr
  */
 public class PropertiesFindUsagesProvider implements FindUsagesProvider {
-  public boolean canFindUsagesFor(@NotNull PsiElement psiElement) {
+  public boolean canFindUsagesFor(@Nonnull PsiElement psiElement) {
     return psiElement instanceof PsiNamedElement;
   }
 
-  public String getHelpId(@NotNull PsiElement psiElement) {
+  public String getHelpId(@Nonnull PsiElement psiElement) {
     return HelpID.FIND_OTHER_USAGES;
   }
 
-  @NotNull
-  public String getType(@NotNull PsiElement element) {
+  @Nonnull
+  public String getType(@Nonnull PsiElement element) {
     if (element instanceof IProperty) return LangBundle.message("terms.property");
     return "";
   }
 
-  @NotNull
-  public String getDescriptiveName(@NotNull PsiElement element) {
+  @Nonnull
+  public String getDescriptiveName(@Nonnull PsiElement element) {
     return ((PsiNamedElement)element).getName();
   }
 
-  @NotNull
-  public String getNodeText(@NotNull PsiElement element, boolean useFullName) {
+  @Nonnull
+  public String getNodeText(@Nonnull PsiElement element, boolean useFullName) {
     return getDescriptiveName(element);
   }
 

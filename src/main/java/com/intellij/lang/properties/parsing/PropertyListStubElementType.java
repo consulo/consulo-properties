@@ -24,7 +24,7 @@ import com.intellij.lang.properties.psi.PropertiesListStub;
 import com.intellij.lang.properties.psi.impl.PropertiesListImpl;
 import com.intellij.lang.properties.psi.impl.PropertiesListStubImpl;
 import com.intellij.psi.stubs.*;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 
@@ -33,27 +33,27 @@ public class PropertyListStubElementType extends IStubElementType<PropertiesList
     super("PROPERTIES_LIST", PropertiesElementTypes.LANG);
   }
 
-  public PropertiesList createPsi(@NotNull final PropertiesListStub stub) {
+  public PropertiesList createPsi(@Nonnull final PropertiesListStub stub) {
     return new PropertiesListImpl(stub);
   }
 
-  public PropertiesListStub createStub(@NotNull final PropertiesList psi, final StubElement parentStub) {
+  public PropertiesListStub createStub(@Nonnull final PropertiesList psi, final StubElement parentStub) {
     return new PropertiesListStubImpl(parentStub);
   }
 
-  @NotNull
+  @Nonnull
   public String getExternalId() {
     return "properties.propertieslist";
   }
 
-  public void serialize(@NotNull final PropertiesListStub stub, @NotNull final StubOutputStream dataStream) throws IOException {
+  public void serialize(@Nonnull final PropertiesListStub stub, @Nonnull final StubOutputStream dataStream) throws IOException {
   }
 
-  @NotNull
-  public PropertiesListStub deserialize(@NotNull final StubInputStream dataStream, final StubElement parentStub) throws IOException {
+  @Nonnull
+  public PropertiesListStub deserialize(@Nonnull final StubInputStream dataStream, final StubElement parentStub) throws IOException {
     return new PropertiesListStubImpl(parentStub);
   }
 
-  public void indexStub(@NotNull final PropertiesListStub stub, @NotNull final IndexSink sink) {
+  public void indexStub(@Nonnull final PropertiesListStub stub, @Nonnull final IndexSink sink) {
   }
 }

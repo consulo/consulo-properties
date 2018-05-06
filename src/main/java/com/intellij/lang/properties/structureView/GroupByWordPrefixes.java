@@ -25,7 +25,7 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.text.StringUtil;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.*;
 
@@ -49,7 +49,7 @@ public class GroupByWordPrefixes implements Grouper, Sorter {
     return mySeparator;
   }
 
-  @NotNull
+  @Nonnull
   public Collection<Group> group(final AbstractTreeNode parent, Collection<TreeElement> children) {
     List<Key> keys = new ArrayList<Key>();
 
@@ -146,14 +146,14 @@ public class GroupByWordPrefixes implements Grouper, Sorter {
     return !Comparing.strEqual(words.get(parentPrefixLength), prevWords.get(parentPrefixLength));
   }
 
-  @NotNull
+  @Nonnull
   public ActionPresentation getPresentation() {
     return new ActionPresentationData(PropertiesBundle.message("structure.view.group.by.prefixes.action.name"),
                                       PropertiesBundle.message("structure.view.group.by.prefixes.action.description"),
                                       AllIcons.Actions.GroupByPrefix);
   }
 
-  @NotNull
+  @Nonnull
   public String getName() {
     return ID;
   }

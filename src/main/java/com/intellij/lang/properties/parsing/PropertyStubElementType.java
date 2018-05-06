@@ -26,7 +26,7 @@ import com.intellij.lang.properties.psi.impl.PropertyImpl;
 import com.intellij.lang.properties.psi.impl.PropertyStubImpl;
 import com.intellij.psi.stubs.*;
 import com.intellij.util.io.StringRef;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 
@@ -35,30 +35,30 @@ public class PropertyStubElementType extends IStubElementType<PropertyStub, Prop
     super("PROPERTY", PropertiesElementTypes.LANG);
   }
 
-  public Property createPsi(@NotNull final PropertyStub stub) {
+  public Property createPsi(@Nonnull final PropertyStub stub) {
     return new PropertyImpl(stub, this);
   }
 
-  public PropertyStub createStub(@NotNull final Property psi, final StubElement parentStub) {
+  public PropertyStub createStub(@Nonnull final Property psi, final StubElement parentStub) {
     return new PropertyStubImpl(parentStub, psi.getKey());
   }
 
-  @NotNull
+  @Nonnull
   public String getExternalId() {
     return "properties.prop";
   }
 
-  public void serialize(@NotNull final PropertyStub stub, @NotNull final StubOutputStream dataStream) throws IOException {
+  public void serialize(@Nonnull final PropertyStub stub, @Nonnull final StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getKey());
   }
 
-  @NotNull
-  public PropertyStub deserialize(@NotNull final StubInputStream dataStream, final StubElement parentStub) throws IOException {
+  @Nonnull
+  public PropertyStub deserialize(@Nonnull final StubInputStream dataStream, final StubElement parentStub) throws IOException {
     final StringRef ref = dataStream.readName();
     return new PropertyStubImpl(parentStub, ref.getString());
   }
 
-  public void indexStub(@NotNull final PropertyStub stub, @NotNull final IndexSink sink) {
+  public void indexStub(@Nonnull final PropertyStub stub, @Nonnull final IndexSink sink) {
     sink.occurrence(PropertyKeyIndex.KEY, PropertyImpl.unescape(stub.getKey()));
   }
 }

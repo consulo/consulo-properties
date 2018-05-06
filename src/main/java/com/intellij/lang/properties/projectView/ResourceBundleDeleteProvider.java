@@ -17,7 +17,7 @@ package com.intellij.lang.properties.projectView;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.ide.DeleteProvider;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.psi.PropertiesFile;
@@ -45,14 +45,14 @@ class ResourceBundleDeleteProvider implements DeleteProvider {
     myResourceBundle = resourceBundle;
   }
 
-  public void deleteElement(@NotNull DataContext dataContext) {
+  public void deleteElement(@Nonnull DataContext dataContext) {
     final Project project = dataContext.getData(CommonDataKeys.PROJECT);
     List<PropertiesFile> propertiesFiles = myResourceBundle.getPropertiesFiles(project);
     assert project != null;
     new SafeDeleteHandler().invoke(project, ContainerUtil.map2Array(propertiesFiles, PsiElement.class, MAPPER), dataContext);
   }
 
-  public boolean canDeleteElement(@NotNull DataContext dataContext) {
+  public boolean canDeleteElement(@Nonnull DataContext dataContext) {
     final Project project = dataContext.getData(CommonDataKeys.PROJECT);
     return project != null;
   }

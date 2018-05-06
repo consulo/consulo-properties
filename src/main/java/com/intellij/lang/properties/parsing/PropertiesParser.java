@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.properties.parsing;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiParser;
@@ -26,8 +26,8 @@ import consulo.lang.LanguageVersion;
  * @author max
  */
 public class PropertiesParser implements PsiParser {
-  @NotNull
-  public ASTNode parse(@NotNull IElementType root, @NotNull PsiBuilder builder, @NotNull LanguageVersion languageVersion) {
+  @Nonnull
+  public ASTNode parse(@Nonnull IElementType root, @Nonnull PsiBuilder builder, @Nonnull LanguageVersion languageVersion) {
     final PsiBuilder.Marker rootMarker = builder.mark();
     final PsiBuilder.Marker propertiesList = builder.mark();
     while (!builder.eof()) {

@@ -17,7 +17,8 @@ package consulo.properties.editor.actions;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.CommonBundle;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.structureView.newStructureView.StructureViewComponent;
@@ -43,12 +44,12 @@ import com.intellij.util.ui.tree.TreeUtil;
  */
 public class RemovePropertyKeyAction extends AnAction
 {
-	@NotNull
+	@Nonnull
 	private final ResourceBundle myBundle;
-	@NotNull
+	@Nonnull
 	private final AbstractTreeBuilder myTreeBuilder;
 
-	public RemovePropertyKeyAction(@NotNull ResourceBundle bundle, @NotNull AbstractTreeBuilder treeBuilder)
+	public RemovePropertyKeyAction(@Nonnull ResourceBundle bundle, @Nonnull AbstractTreeBuilder treeBuilder)
 	{
 		super(CommonBundle.message("button.remove"), PropertiesBundle.message("remove.property.intention.text"), IconUtil.getRemoveIcon());
 		myBundle = bundle;

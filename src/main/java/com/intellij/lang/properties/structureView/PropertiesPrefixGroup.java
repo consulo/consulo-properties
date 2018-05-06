@@ -23,7 +23,7 @@ import com.intellij.lang.properties.editor.ResourceBundlePropertyStructureViewEl
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.text.StringUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -35,9 +35,11 @@ import java.util.List;
  */
 public class PropertiesPrefixGroup implements Group {
   private final Collection<TreeElement> myProperties;
-  private final @NotNull String myPrefix;
+  private final @Nonnull
+  String myPrefix;
   private final String myPresentableName;
-  private final @NotNull String mySeparator;
+  private final @Nonnull
+  String mySeparator;
 
   public PropertiesPrefixGroup(final Collection<TreeElement> properties, String prefix, String presentableName, final String separator) {
     myProperties = properties;

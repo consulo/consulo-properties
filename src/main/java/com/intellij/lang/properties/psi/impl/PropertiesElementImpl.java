@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.properties.psi.impl;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.Language;
@@ -29,7 +29,7 @@ public class PropertiesElementImpl extends ASTWrapperPsiElement  {
     super(node);
   }
 
-  @NotNull
+  @Nonnull
   public Language getLanguage() {
     return PropertiesLanguage.INSTANCE;
   }
