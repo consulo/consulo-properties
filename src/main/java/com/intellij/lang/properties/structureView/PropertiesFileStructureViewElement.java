@@ -28,6 +28,7 @@ import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.psi.Property;
 import com.intellij.lang.properties.psi.impl.PropertiesFileImpl;
 import com.intellij.navigation.ItemPresentation;
+import consulo.awt.TargetAWT;
 import consulo.ide.IconDescriptorUpdaters;
 
 /**
@@ -65,7 +66,7 @@ public class PropertiesFileStructureViewElement extends PsiTreeElementBase<Prope
       }
 
       public Icon getIcon(boolean open) {
-        return IconDescriptorUpdaters.getIcon(getElement(), 0);
+        return TargetAWT.to(IconDescriptorUpdaters.getIcon(getElement(), 0));
       }
     };
   }
