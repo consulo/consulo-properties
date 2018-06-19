@@ -42,7 +42,7 @@ public class PropertiesParserDefinition implements ParserDefinition {
 
   @Nonnull
   public Lexer createLexer(@Nonnull LanguageVersion languageVersion) {
-    return new PropertiesLexer();
+    return new _PropertiesLexer();
   }
 
   @Nonnull

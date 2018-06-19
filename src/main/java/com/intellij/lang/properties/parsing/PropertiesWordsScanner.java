@@ -23,7 +23,7 @@ import com.intellij.psi.tree.TokenSet;
  */
 public class PropertiesWordsScanner extends DefaultWordsScanner {
   public PropertiesWordsScanner() {
-    super(new PropertiesLexer(), TokenSet.create(PropertiesTokenTypes.KEY_CHARACTERS),
+    super(new _PropertiesLexer(), TokenSet.create(PropertiesTokenTypes.KEY_CHARACTERS),
           PropertiesTokenTypes.COMMENTS, TokenSet.create(PropertiesTokenTypes.VALUE_CHARACTERS));
   }
 }

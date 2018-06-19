@@ -15,10 +15,10 @@
  */
 package com.intellij.lang.properties;
 
-import com.intellij.lang.properties.parsing.PropertiesLexer;
+import org.jetbrains.annotations.NonNls;
+import com.intellij.lang.properties.parsing._PropertiesLexer;
 import com.intellij.lexer.Lexer;
 import com.intellij.testFramework.PlatformLiteFixture;
-import org.jetbrains.annotations.NonNls;
 
 /**
  * @author max
@@ -29,7 +29,7 @@ public class PropertiesLexerTest extends PlatformLiteFixture {
   }
 
   private static void doTest(@NonNls String text, @NonNls String[] expectedTokens) {
-    Lexer lexer = new PropertiesLexer();
+    Lexer lexer = new _PropertiesLexer();
     doTest(text, expectedTokens, lexer);
   }
 
