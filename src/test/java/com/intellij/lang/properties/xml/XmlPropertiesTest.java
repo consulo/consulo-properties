@@ -1,5 +1,7 @@
 package com.intellij.lang.properties.xml;
 
+import java.util.List;
+
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.PropertiesReferenceManager;
 import com.intellij.lang.properties.PropertiesUtil;
@@ -8,13 +10,11 @@ import com.intellij.openapi.application.PluginPathManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 
-import java.util.List;
-
 /**
  * @author Dmitry Avdeev
  *         Date: 7/26/11
  */
-public class XmlPropertiesTest extends LightPlatformCodeInsightFixtureTestCase {
+public abstract class XmlPropertiesTest extends LightPlatformCodeInsightFixtureTestCase {
 
   public void testXmlProperties() throws Exception {
     myFixture.configureByFile("foo.xml");

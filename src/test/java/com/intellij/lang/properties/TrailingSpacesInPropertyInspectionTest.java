@@ -8,7 +8,7 @@ import com.intellij.testFramework.fixtures.IdeaProjectTestFixture;
 import com.intellij.testFramework.fixtures.IdeaTestFixtureFactory;
 import com.intellij.testFramework.fixtures.TestFixtureBuilder;
 
-public class TrailingSpacesInPropertyInspectionTest extends UsefulTestCase {
+public abstract class TrailingSpacesInPropertyInspectionTest extends UsefulTestCase {
   private CodeInsightTestFixture myFixture;
 
   @Override

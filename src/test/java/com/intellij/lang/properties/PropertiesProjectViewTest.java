@@ -9,7 +9,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.testFramework.PlatformTestUtil;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 
-public class PropertiesProjectViewTest extends LightPlatformCodeInsightFixtureTestCase {
+public abstract class PropertiesProjectViewTest extends LightPlatformCodeInsightFixtureTestCase {
   private TestProjectTreeStructure myStructure;
 
   @Override

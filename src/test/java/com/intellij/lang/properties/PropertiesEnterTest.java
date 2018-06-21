@@ -15,19 +15,20 @@
  */
 package com.intellij.lang.properties;
 
+import javax.annotation.Nonnull;
+
+import org.jetbrains.annotations.NonNls;
 import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.IdeActions;
 import com.intellij.openapi.application.PluginPathManager;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.actionSystem.EditorActionManager;
 import com.intellij.testFramework.LightPlatformCodeInsightTestCase;
-import org.jetbrains.annotations.NonNls;
-import javax.annotation.Nonnull;
 
 /**
  * @author cdr
  */
-public class PropertiesEnterTest extends LightPlatformCodeInsightTestCase {
+public abstract class PropertiesEnterTest extends LightPlatformCodeInsightTestCase {
   @NonNls private static final String BASE_PATH = "/propertiesFile/enter/";
 
   @Nonnull

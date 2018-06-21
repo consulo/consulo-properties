@@ -21,7 +21,7 @@ import consulo.testFramework.ParsingTestCase;
 /**
  * @author max
  */
-public class PropertiesParsingTest extends ParsingTestCase
+public abstract class PropertiesParsingTest extends ParsingTestCase
 {
 	public PropertiesParsingTest()
 	{

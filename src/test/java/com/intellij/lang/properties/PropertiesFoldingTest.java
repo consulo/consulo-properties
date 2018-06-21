@@ -21,9 +21,8 @@ import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCa
 /**
  * @author Rustam Vishnyakov
  */
-public class PropertiesFoldingTest extends LightPlatformCodeInsightFixtureTestCase
+public abstract class PropertiesFoldingTest extends LightPlatformCodeInsightFixtureTestCase
 {
-
 	@Override
 	protected String getTestDataPath()
 	{

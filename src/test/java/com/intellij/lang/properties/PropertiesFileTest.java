@@ -15,20 +15,20 @@
  */
 package com.intellij.lang.properties;
 
+import java.util.List;
+
+import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.properties.psi.PropertiesElementFactory;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.lang.properties.psi.Property;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.testFramework.LightPlatformTestCase;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NonNls;
-
-import java.util.List;
 
 /**
  * @author max
  */
-public class PropertiesFileTest extends LightPlatformTestCase {
+public abstract class PropertiesFileTest extends LightPlatformTestCase {
   private Property myPropertyToAdd;
 
   @Override
