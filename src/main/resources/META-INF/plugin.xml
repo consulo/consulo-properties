@@ -108,12 +108,7 @@
 		<iconDescriptorUpdater implementation="consulo.properties.xml.XmlPropertiesIconDescriptorUpdater" order="after xml"/>
 		<psi.referenceContributor language="XML" implementation="com.intellij.lang.properties.xml.XmlPropertiesReferenceContributor"/>
 		<lang.foldingBuilder language="Properties" implementationClass="com.intellij.lang.properties.editor.PropertiesFoldingBuilder"/>
-	</extensions>
 
-	<project-components>
-		<component>
-			<implementation-class>com.intellij.lang.properties.PropertiesFilesManager</implementation-class>
-			<skipForDefaultProject/>
-		</component>
-	</project-components>
+		<projectService serviceImplementation="com.intellij.lang.properties.PropertiesFilesManager" lazy="false" />
+	</extensions>
 </idea-plugin>

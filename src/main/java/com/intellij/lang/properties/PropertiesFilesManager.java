@@ -15,8 +15,13 @@
  */
 package com.intellij.lang.properties;
 
+import java.beans.PropertyChangeListener;
+import java.util.Collection;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
@@ -26,62 +31,65 @@ import com.intellij.openapi.vfs.encoding.EncodingManager;
 import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.indexing.FileBasedIndex;
-import javax.annotation.Nonnull;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.Collection;
 
 /**
  * @author max
  */
-public class PropertiesFilesManager extends AbstractProjectComponent {
-  public static PropertiesFilesManager getInstance(Project project) {
-    return project.getComponent(PropertiesFilesManager.class);
-  }
+@Singleton
+public class PropertiesFilesManager
+{
+	public static PropertiesFilesManager getInstance(Project project)
+	{
+		return project.getComponent(PropertiesFilesManager.class);
+	}
 
-  public PropertiesFilesManager(Project project) {
-    super(project);
-  }
+	private final Project myProject;
 
-  public void projectOpened() {
-    final PropertyChangeListener myListener = new PropertyChangeListener() {
-      public void propertyChange(final PropertyChangeEvent evt) {
-        String propertyName = evt.getPropertyName();
-        if (EncodingManager.PROP_NATIVE2ASCII_SWITCH.equals(propertyName) ||
-            EncodingManager.PROP_PROPERTIES_FILES_ENCODING.equals(propertyName)
-          ) {
-          DumbService.getInstance(myProject).smartInvokeLater(new Runnable(){
-            public void run() {
-              ApplicationManager.getApplication().runWriteAction(new Runnable(){
-                public void run() {
-                  if (myProject.isDisposed()) return;
-                  Collection<VirtualFile> filesToRefresh = FileBasedIndex.getInstance()
-                    .getContainingFiles(FileTypeIndex.NAME, PropertiesFileType.INSTANCE, GlobalSearchScope.allScope(myProject));
-                  VirtualFile[] virtualFiles = VfsUtil.toVirtualFileArray(filesToRefresh);
-                  FileDocumentManager.getInstance().saveAllDocuments();
+	@Inject
+	public PropertiesFilesManager(Project project, EncodingManager encodingManager)
+	{
+		myProject = project;
+		if(myProject.isDefault())
+		{
+			return;
+		}
 
-                  //force to re-detect encoding
-                  for (VirtualFile virtualFile : virtualFiles) {
-                    virtualFile.setCharset(null);
-                  }
-                  FileDocumentManager.getInstance().reloadFiles(virtualFiles);
-                }
-              });
-            }
-          });
-        }
-      }
-    };
-    EncodingManager.getInstance().addPropertyChangeListener(myListener,myProject);
-  }
+		final PropertyChangeListener myListener = evt ->
+		{
+			String propertyName = evt.getPropertyName();
+			if(EncodingManager.PROP_NATIVE2ASCII_SWITCH.equals(propertyName) ||
+					EncodingManager.PROP_PROPERTIES_FILES_ENCODING.equals(propertyName))
+			{
+				DumbService.getInstance(myProject).smartInvokeLater(new Runnable()
+				{
+					public void run()
+					{
+						ApplicationManager.getApplication().runWriteAction(() ->
+						{
+							if(myProject.isDisposed())
+							{
+								return;
+							}
+							Collection<VirtualFile> filesToRefresh = FileBasedIndex.getInstance().getContainingFiles(FileTypeIndex.NAME, PropertiesFileType.INSTANCE, GlobalSearchScope.allScope(myProject));
+							VirtualFile[] virtualFiles = VfsUtil.toVirtualFileArray(filesToRefresh);
+							FileDocumentManager.getInstance().saveAllDocuments();
 
-  @Nonnull
-  public String getComponentName() {
-    return "PropertiesFileManager";
-  }
+							//force to re-detect encoding
+							for(VirtualFile virtualFile : virtualFiles)
+							{
+								virtualFile.setCharset(null);
+							}
+							FileDocumentManager.getInstance().reloadFiles(virtualFiles);
+						});
+					}
+				});
+			}
+		};
+		encodingManager.addPropertyChangeListener(myListener, project);
+	}
 
-  public boolean processAllPropertiesFiles(final PropertiesFileProcessor processor) {
-    return PropertiesReferenceManager.getInstance(myProject).processAllPropertiesFiles(processor);
-  }
+	public boolean processAllPropertiesFiles(final PropertiesFileProcessor processor)
+	{
+		return PropertiesReferenceManager.getInstance(myProject).processAllPropertiesFiles(processor);
+	}
 }
