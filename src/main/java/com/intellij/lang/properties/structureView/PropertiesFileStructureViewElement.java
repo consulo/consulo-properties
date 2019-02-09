@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.Nonnull;
-import javax.swing.Icon;
 
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.structureView.impl.common.PsiTreeElementBase;
@@ -28,8 +27,8 @@ import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.psi.Property;
 import com.intellij.lang.properties.psi.impl.PropertiesFileImpl;
 import com.intellij.navigation.ItemPresentation;
-import consulo.awt.TargetAWT;
 import consulo.ide.IconDescriptorUpdaters;
+import consulo.ui.image.Image;
 
 /**
  * @author max
@@ -65,8 +64,8 @@ public class PropertiesFileStructureViewElement extends PsiTreeElementBase<Prope
         return null;
       }
 
-      public Icon getIcon(boolean open) {
-        return TargetAWT.to(IconDescriptorUpdaters.getIcon(getElement(), 0));
+      public Image getIcon() {
+        return IconDescriptorUpdaters.getIcon(getElement(), 0);
       }
     };
   }

@@ -19,6 +19,11 @@
  */
 package com.intellij.lang.properties.editor;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.lang.properties.IProperty;
@@ -26,12 +31,7 @@ import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.project.Project;
-
-import javax.swing.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import consulo.ui.image.Image;
 
 public class ResourceBundleFileStructureViewElement implements StructureViewTreeElement {
   private final Project myProject;
@@ -76,7 +76,7 @@ public class ResourceBundleFileStructureViewElement implements StructureViewTree
         return null;
       }
 
-      public Icon getIcon(boolean open) {
+      public Image getIcon() {
         return AllIcons.FileTypes.Properties;
       }
     };

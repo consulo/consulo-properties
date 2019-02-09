@@ -15,6 +15,12 @@
  */
 package com.intellij.lang.properties.structureView;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.util.treeView.smartTree.Group;
 import com.intellij.ide.util.treeView.smartTree.TreeElement;
@@ -23,12 +29,7 @@ import com.intellij.lang.properties.editor.ResourceBundlePropertyStructureViewEl
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.text.StringUtil;
-import javax.annotation.Nonnull;
-
-import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import consulo.ui.image.Image;
 
 /**
  * @author cdr
@@ -58,7 +59,7 @@ public class PropertiesPrefixGroup implements Group {
         return null;
       }
 
-      public Icon getIcon(boolean open) {
+      public Image getIcon() {
         return AllIcons.Nodes.Advice;
       }
     };

@@ -19,6 +19,9 @@
  */
 package com.intellij.lang.properties.editor;
 
+import java.awt.Color;
+
+import com.intellij.icons.AllIcons;
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.lang.properties.PropertiesHighlighter;
 import com.intellij.lang.properties.PropertiesUtil;
@@ -29,10 +32,7 @@ import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.project.Project;
-import com.intellij.util.PlatformIcons;
-
-import javax.swing.*;
-import java.awt.*;
+import consulo.ui.image.Image;
 
 public class ResourceBundlePropertyStructureViewElement implements StructureViewTreeElement {
   private final String myPropertyName;
@@ -76,8 +76,8 @@ public class ResourceBundlePropertyStructureViewElement implements StructureView
         return null;
       }
 
-      public Icon getIcon(boolean open) {
-        return PlatformIcons.PROPERTY_ICON;
+      public Image getIcon() {
+        return AllIcons.Nodes.Property;
       }
 
       @Override

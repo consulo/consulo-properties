@@ -17,7 +17,6 @@ package com.intellij.lang.properties.psi.impl;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.swing.Icon;
 
 import com.intellij.icons.AllIcons;
 import com.intellij.lang.ASTNode;
@@ -423,7 +422,7 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
         return getPropertiesFile().getName();
       }
 
-      public Icon getIcon(final boolean open) {
+      public Image getIcon() {
         return null;
       }
     };

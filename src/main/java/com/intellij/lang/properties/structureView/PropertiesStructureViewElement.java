@@ -15,12 +15,10 @@
  */
 package com.intellij.lang.properties.structureView;
 
-import javax.swing.Icon;
-
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.lang.properties.psi.Property;
 import com.intellij.navigation.ItemPresentation;
-import consulo.awt.TargetAWT;
+import consulo.ui.image.Image;
 
 /**
  * @author max
@@ -68,8 +66,8 @@ public class PropertiesStructureViewElement implements StructureViewTreeElement 
         return null;
       }
 
-      public Icon getIcon() {
-        return TargetAWT.to(myProperty.getIcon(0));
+      public Image getIcon() {
+        return myProperty.getIcon(0);
       }
     };
   }
