@@ -15,6 +15,11 @@
  */
 package com.intellij.lang.properties.psi.impl;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.swing.Icon;
+
+import com.intellij.icons.AllIcons;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.properties.PropertyManipulator;
 import com.intellij.lang.properties.parsing.PropertiesTokenTypes;
@@ -26,16 +31,17 @@ import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.*;
+import com.intellij.psi.LiteralTextEscaper;
+import com.intellij.psi.PsiComment;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiLanguageInjectionHost;
+import com.intellij.psi.PsiWhiteSpace;
+import com.intellij.psi.TokenType;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.SearchScope;
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.PlatformIcons;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import javax.swing.*;
+import consulo.ui.image.Image;
 
 /**
  * @author max
@@ -354,8 +360,8 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
     return unescape(getKey());
   }
 
-  public Icon getIcon(int flags) {
-    return PlatformIcons.PROPERTY_ICON;
+  public Image getIcon(int flags) {
+    return AllIcons.Nodes.Property;
   }
 
   public void delete() throws IncorrectOperationException {

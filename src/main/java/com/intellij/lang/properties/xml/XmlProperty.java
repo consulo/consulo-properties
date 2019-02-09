@@ -1,5 +1,9 @@
 package com.intellij.lang.properties.xml;
 
+import javax.annotation.Nonnull;
+
+import org.jetbrains.annotations.NonNls;
+import com.intellij.icons.AllIcons;
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.pom.PomRenameableTarget;
@@ -8,11 +12,7 @@ import com.intellij.psi.PsiInvalidElementAccessException;
 import com.intellij.psi.PsiTarget;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.PlatformIcons;
-import org.jetbrains.annotations.NonNls;
-import javax.annotation.Nonnull;
-
-import javax.swing.*;
+import consulo.ui.image.Image;
 
 /**
  * @author Dmitry Avdeev
@@ -99,8 +99,8 @@ public class XmlProperty implements IProperty, PomRenameableTarget, PsiTarget {
   }
 
   @Override
-  public Icon getIcon(int flags) {
-    return PlatformIcons.PROPERTY_ICON;
+  public Image getIcon(int flags) {
+    return AllIcons.Nodes.Property;
   }
 
   @Override
