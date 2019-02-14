@@ -15,7 +15,6 @@
  */
 package com.intellij.lang.properties;
 
-import java.beans.PropertyChangeListener;
 import java.util.Collection;
 
 import javax.inject.Inject;
@@ -31,6 +30,7 @@ import com.intellij.openapi.vfs.encoding.EncodingManager;
 import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.indexing.FileBasedIndex;
+import kava.beans.PropertyChangeListener;
 
 /**
  * @author max
@@ -54,7 +54,7 @@ public class PropertiesFilesManager
 			return;
 		}
 
-		final PropertyChangeListener myListener = evt ->
+		final PropertyChangeListener listener = evt ->
 		{
 			String propertyName = evt.getPropertyName();
 			if(EncodingManager.PROP_NATIVE2ASCII_SWITCH.equals(propertyName) ||
@@ -85,7 +85,7 @@ public class PropertiesFilesManager
 				});
 			}
 		};
-		encodingManager.addPropertyChangeListener(myListener, project);
+		encodingManager.addPropertyChangeListener(listener, project);
 	}
 
 	public boolean processAllPropertiesFiles(final PropertiesFileProcessor processor)

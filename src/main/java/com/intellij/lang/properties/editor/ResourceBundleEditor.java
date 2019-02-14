@@ -32,7 +32,6 @@ import java.awt.LayoutManager;
 import java.awt.Rectangle;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -107,6 +106,7 @@ import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.containers.ContainerUtilRt;
 import com.intellij.util.containers.Stack;
 import com.intellij.util.ui.UIUtil;
+import kava.beans.PropertyChangeListener;
 
 public class ResourceBundleEditor extends UserDataHolderBase implements FileEditor
 {
