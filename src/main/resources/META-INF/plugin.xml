@@ -62,6 +62,7 @@
 		<lang.psiStructureViewFactory language="Properties"
 									  implementationClass="com.intellij.lang.properties.structureView.PropertiesStructureViewBuilderFactory"/>
 		<lang.ast.leafFactory implementation="consulo.properties.PropertiesASTLeafFactory"/>
+		<lang.syntaxHighlighterFactory language="Properties" implementationClass="com.intellij.lang.properties.PropertiesSyntaxHighlighterFactory" />
 		<joinLinesHandler implementation="com.intellij.lang.properties.PropertiesJoinLinesHandler"/>
 
 		<enterHandlerDelegate implementation="com.intellij.codeInsight.editorActions.enter.EnterInPropertiesFileHandler"/>
