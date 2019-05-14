@@ -24,6 +24,8 @@ import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
 
+import javax.annotation.Nonnull;
+
 /**
  * @author cdr
  */
@@ -37,7 +39,7 @@ public class PropertiesFileStructureViewComponent extends PropertiesGroupingStru
     showToolbar();
   }
 
-  public Object getData(Key<?> dataId) {
+  public Object getData(@Nonnull Key dataId) {
     if (PlatformDataKeys.VIRTUAL_FILE == dataId) {
       return myPropertiesFile.getVirtualFile();
     }

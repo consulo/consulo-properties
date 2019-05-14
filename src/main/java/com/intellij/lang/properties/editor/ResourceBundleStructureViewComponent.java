@@ -15,15 +15,12 @@
  */
 package com.intellij.lang.properties.editor;
 
-import javax.annotation.Nonnull;
-
 import com.intellij.lang.properties.ResourceBundle;
-import consulo.properties.editor.actions.AddPropertyKeyAction;
-import consulo.properties.editor.actions.RemovePropertyKeyAction;
-import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author cdr
@@ -43,21 +40,13 @@ class ResourceBundleStructureViewComponent extends PropertiesGroupingStructureVi
 	}
 
 	@Override
-	public Object getData(@Nonnull Key<?> dataId)
+	public Object getData(@Nonnull Key dataId)
 	{
 		if(PlatformDataKeys.VIRTUAL_FILE == dataId)
 		{
 			return new ResourceBundleAsVirtualFile(myResourceBundle);
 		}
 		return super.getData(dataId);
-	}
-
-	@Override
-	protected boolean addCustomActions(@Nonnull DefaultActionGroup actionGroup)
-	{
-		actionGroup.add(new AddPropertyKeyAction(myResourceBundle, getTreeBuilder()));
-		actionGroup.add(new RemovePropertyKeyAction(myResourceBundle, getTreeBuilder()));
-		return true;
 	}
 
 	@Override
