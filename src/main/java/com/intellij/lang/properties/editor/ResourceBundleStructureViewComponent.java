@@ -18,7 +18,7 @@ package com.intellij.lang.properties.editor;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Key;
+import consulo.util.dataholder.Key;
 
 import javax.annotation.Nonnull;
 

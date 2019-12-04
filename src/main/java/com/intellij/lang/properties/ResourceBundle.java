@@ -22,13 +22,13 @@
  */
 package com.intellij.lang.properties;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.VirtualFile;
+import consulo.util.dataholder.Key;
+
+import javax.annotation.Nonnull;
+import java.util.List;
 
 public interface ResourceBundle {
   Key<ResourceBundle[]> ARRAY_DATA_KEY = Key.create("resource.bundle.array");

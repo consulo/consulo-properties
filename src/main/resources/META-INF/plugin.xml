@@ -14,7 +14,7 @@
   - limitations under the License.
   -->
 
-<idea-plugin>
+<consulo-plugin>
 	<id>com.intellij.properties</id>
 	<name>Properties Support</name>
 	<depends>com.intellij.xml</depends>
@@ -112,4 +112,4 @@
 
 		<projectService serviceImplementation="com.intellij.lang.properties.PropertiesFilesManager" lazy="false" />
 	</extensions>
-</idea-plugin>
+</consulo-plugin>

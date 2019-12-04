@@ -21,7 +21,6 @@ import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.lang.properties.psi.Property;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
@@ -35,6 +34,7 @@ import com.intellij.reference.SoftLazyValue;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.containers.MultiMap;
 import consulo.annotation.access.RequiredReadAction;
+import consulo.util.dataholder.Key;
 import gnu.trove.THashMap;
 import org.jetbrains.annotations.NonNls;
 
