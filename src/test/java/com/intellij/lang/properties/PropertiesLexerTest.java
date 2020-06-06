@@ -23,7 +23,7 @@ import com.intellij.testFramework.PlatformLiteFixture;
 /**
  * @author max
  */
-public class PropertiesLexerTest extends PlatformLiteFixture {
+public abstract class PropertiesLexerTest extends PlatformLiteFixture {
 
   public PropertiesLexerTest() {
   }
