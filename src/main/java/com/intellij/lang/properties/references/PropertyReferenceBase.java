@@ -31,13 +31,12 @@ import com.intellij.pom.references.PomService;
 import com.intellij.psi.*;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.NullableFunction;
-import com.intellij.util.PlatformIcons;
 import com.intellij.util.containers.ContainerUtil;
 import gnu.trove.THashSet;
 import gnu.trove.TObjectHashingStrategy;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -52,7 +51,7 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
     @Override
     public void renderElement(LookupElement element, LookupElementPresentation presentation) {
       IProperty property = (IProperty)element.getObject();
-      presentation.setIcon(PlatformIcons.PROPERTY_ICON);
+      presentation.setIcon(AllIcons.Nodes.Property);
       String key = StringUtil.notNullize(property.getUnescapedKey());
       presentation.setItemText(key);
 
@@ -277,7 +276,7 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
     return ContainerUtil.mapNotNull(variants, new NullableFunction<Object, LookupElement>() {
       @Override
       public LookupElement fun(Object o) {
-        if (o instanceof String) return LookupElementBuilder.create((String)o).withIcon(PlatformIcons.PROPERTY_ICON);
+        if (o instanceof String) return LookupElementBuilder.create((String)o).withIcon(AllIcons.Nodes.Property);
         IProperty property = (IProperty)o;
         String key = property.getKey();
         if (key == null) return null;
