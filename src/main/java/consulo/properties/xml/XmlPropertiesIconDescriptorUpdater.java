@@ -22,7 +22,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.xml.XmlFile;
 import consulo.ide.IconDescriptor;
 import consulo.ide.IconDescriptorUpdater;
-import icons.PropertiesIcons;
+import consulo.properties.icon.PropertiesIconGroup;
 
 /**
  * @author VISTALL
@@ -33,7 +33,7 @@ public class XmlPropertiesIconDescriptorUpdater implements IconDescriptorUpdater
   @Override
   public void updateIcon(@Nonnull IconDescriptor iconDescriptor, @Nonnull PsiElement element, int flags) {
     if(element instanceof XmlFile && XmlPropertiesFile.getPropertiesFile((XmlFile)element) != null) {
-       iconDescriptor.setMainIcon(PropertiesIcons.XmlProperties);
+       iconDescriptor.setMainIcon(PropertiesIconGroup.xmlProperties());
     }
   }
 }

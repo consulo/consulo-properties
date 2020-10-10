@@ -46,10 +46,6 @@ public class PropertiesColorsPage implements ColorSettingsPage {
     return OptionsBundle.message("properties.options.display.name");
   }
 
-  public Icon getIcon() {
-    return AllIcons.FileTypes.Properties;
-  }
-
   @Nonnull
   public AttributesDescriptor[] getAttributeDescriptors() {
     return ATTRS;
