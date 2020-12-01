@@ -25,12 +25,12 @@ import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.ui.GuiUtils;
+import consulo.ui.color.ColorValue;
+import consulo.ui.util.ColorValueUtil;
 import org.jetbrains.annotations.NonNls;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import java.awt.*;
 
 public class PropertiesDocumentationProvider extends AbstractDocumentationProvider {
   @Nullable
@@ -63,12 +63,12 @@ public class PropertiesDocumentationProvider extends AbstractDocumentationProvid
       @NonNls String info = "";
       if (text != null) {
         TextAttributes attributes = EditorColorsManager.getInstance().getGlobalScheme().getAttributes(PropertiesHighlighter.PROPERTY_COMMENT).clone();
-        Color background = attributes.getBackgroundColor();
+        ColorValue background = attributes.getBackgroundColor();
         if (background != null) {
-          info +="<div bgcolor=#"+ GuiUtils.colorToHex(background)+">";
+          info +="<div bgcolor=#"+ ColorValueUtil.toHex(background)+">";
         }
         String doc = StringUtil.join(StringUtil.split(text, "\n"), "<br>");
-        info += "<font color=#" + GuiUtils.colorToHex(attributes.getForegroundColor()) + ">" + doc + "</font>\n<br>";
+        info += "<font color=#" + ColorValueUtil.toHex(attributes.getForegroundColor()) + ">" + doc + "</font>\n<br>";
         if (background != null) {
           info += "</div>";
         }

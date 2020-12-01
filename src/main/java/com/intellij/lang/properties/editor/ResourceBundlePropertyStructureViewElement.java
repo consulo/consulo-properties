@@ -19,8 +19,6 @@
  */
 package com.intellij.lang.properties.editor;
 
-import java.awt.Color;
-
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.lang.properties.PropertiesHighlighter;
@@ -33,6 +31,7 @@ import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.project.Project;
 import consulo.ui.image.Image;
+import consulo.ui.style.StandardColors;
 
 public class ResourceBundlePropertyStructureViewElement implements StructureViewTreeElement {
   private final String myPropertyName;
@@ -44,7 +43,7 @@ public class ResourceBundlePropertyStructureViewElement implements StructureView
 
   static {
     TextAttributes textAttributes = EditorColorsManager.getInstance().getGlobalScheme().getAttributes(PropertiesHighlighter.PROPERTY_KEY).clone();
-    textAttributes.setForegroundColor(Color.red);
+    textAttributes.setForegroundColor(StandardColors.RED);
     INCOMPLETE_PROPERTY_KEY = TextAttributesKey.createTextAttributesKey("INCOMPLETE_PROPERTY_KEY", textAttributes);
 
   }

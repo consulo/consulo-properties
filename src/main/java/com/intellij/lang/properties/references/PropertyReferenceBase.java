@@ -32,6 +32,7 @@ import com.intellij.psi.*;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.NullableFunction;
 import com.intellij.util.containers.ContainerUtil;
+import consulo.awt.TargetAWT;
 import gnu.trove.THashSet;
 import gnu.trove.TObjectHashingStrategy;
 
@@ -86,7 +87,7 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
       }
 
       TextAttributes attrs = EditorColorsManager.getInstance().getGlobalScheme().getAttributes(PropertiesHighlighter.PROPERTY_VALUE);
-      presentation.setTailText(value, attrs.getForegroundColor());
+      presentation.setTailText(value, TargetAWT.to(attrs.getForegroundColor()));
     }
   };
   protected final String myKey;
