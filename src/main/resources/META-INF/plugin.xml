@@ -62,7 +62,7 @@
 		<lang.psiStructureViewFactory language="Properties"
 									  implementationClass="com.intellij.lang.properties.structureView.PropertiesStructureViewBuilderFactory"/>
 		<lang.ast.leafFactory implementation="consulo.properties.PropertiesASTLeafFactory"/>
-		<lang.syntaxHighlighterFactory language="Properties" implementationClass="com.intellij.lang.properties.PropertiesSyntaxHighlighterFactory" />
+		<lang.syntaxHighlighterFactory language="Properties" implementationClass="com.intellij.lang.properties.PropertiesSyntaxHighlighterFactory"/>
 		<joinLinesHandler implementation="com.intellij.lang.properties.PropertiesJoinLinesHandler"/>
 
 		<enterHandlerDelegate implementation="com.intellij.codeInsight.editorActions.enter.EnterInPropertiesFileHandler"/>
@@ -110,6 +110,10 @@
 		<psi.referenceContributor language="XML" implementation="com.intellij.lang.properties.xml.XmlPropertiesReferenceContributor"/>
 		<lang.foldingBuilder language="Properties" implementationClass="com.intellij.lang.properties.editor.PropertiesFoldingBuilder"/>
 
-		<projectService serviceImplementation="com.intellij.lang.properties.PropertiesFilesManager" lazy="false" />
+		<projectService serviceImplementation="com.intellij.lang.properties.PropertiesFilesManager"/>
 	</extensions>
+
+	<projectListeners>
+		<listener topic="com.intellij.openapi.vfs.encoding.EncodingManagerListener" class="com.intellij.lang.properties.PropertiesFilesManager$MyTopic"/>
+	</projectListeners>
 </consulo-plugin>

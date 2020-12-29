@@ -15,22 +15,24 @@
  */
 package com.intellij.lang.properties;
 
-import java.util.Collection;
-
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
-
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.encoding.EncodingManager;
+import com.intellij.openapi.vfs.encoding.EncodingManagerListener;
 import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.indexing.FileBasedIndex;
-import kava.beans.PropertyChangeListener;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Collection;
 
 /**
  * @author max
@@ -38,25 +40,19 @@ import kava.beans.PropertyChangeListener;
 @Singleton
 public class PropertiesFilesManager
 {
-	public static PropertiesFilesManager getInstance(Project project)
+	public static class MyTopic implements EncodingManagerListener
 	{
-		return project.getComponent(PropertiesFilesManager.class);
-	}
+		private final Project myProject;
 
-	private final Project myProject;
-
-	@Inject
-	public PropertiesFilesManager(Project project, EncodingManager encodingManager)
-	{
-		myProject = project;
-		if(myProject.isDefault())
+		@Inject
+		public MyTopic(Project project)
 		{
-			return;
+			myProject = project;
 		}
 
-		final PropertyChangeListener listener = evt ->
+		@Override
+		public void propertyChanged(@Nullable Document document, @Nonnull String propertyName, Object oldValue, Object newValue)
 		{
-			String propertyName = evt.getPropertyName();
 			if(EncodingManager.PROP_NATIVE2ASCII_SWITCH.equals(propertyName) ||
 					EncodingManager.PROP_PROPERTIES_FILES_ENCODING.equals(propertyName))
 			{
@@ -84,8 +80,21 @@ public class PropertiesFilesManager
 					}
 				});
 			}
-		};
-		encodingManager.addPropertyChangeListener(listener, project);
+		}
+	}
+
+	@Nonnull
+	public static PropertiesFilesManager getInstance(Project project)
+	{
+		return project.getInstance(PropertiesFilesManager.class);
+	}
+
+	private final Project myProject;
+
+	@Inject
+	public PropertiesFilesManager(Project project)
+	{
+		myProject = project;
 	}
 
 	public boolean processAllPropertiesFiles(final PropertiesFileProcessor processor)
