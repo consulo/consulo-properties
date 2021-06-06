@@ -1,35 +1,25 @@
 package com.intellij.lang.properties.xml;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import net.n3.nanoxml.StdXMLReader;
-
 import com.intellij.ide.highlighter.XmlFileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.io.StreamUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.indexing.DataIndexer;
-import com.intellij.util.indexing.FileBasedIndex;
-import com.intellij.util.indexing.FileBasedIndexExtension;
-import com.intellij.util.indexing.FileContent;
-import com.intellij.util.indexing.ID;
+import com.intellij.util.indexing.*;
 import com.intellij.util.io.DataExternalizer;
 import com.intellij.util.io.EnumeratorStringDescriptor;
 import com.intellij.util.io.IOUtil;
 import com.intellij.util.io.KeyDescriptor;
 import com.intellij.util.text.CharArrayUtil;
 import com.intellij.util.xml.NanoXmlUtil;
+import net.n3.nanoxml.StdXMLReader;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Dmitry Avdeev
@@ -155,13 +145,13 @@ public class XmlPropertiesIndex extends FileBasedIndexExtension<XmlPropertiesInd
 	}
 
 	@Override
-	public int getHashCode(Key value)
+	public int hashCode(Key value)
 	{
 		return value.hashCode();
 	}
 
 	@Override
-	public boolean isEqual(Key val1, Key val2)
+	public boolean equals(Key val1, Key val2)
 	{
 		return val1.isMarker == val2.isMarker && Comparing.equal(val1.key, val2.key);
 	}

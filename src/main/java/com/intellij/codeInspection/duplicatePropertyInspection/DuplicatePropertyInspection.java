@@ -15,38 +15,7 @@
  */
 package com.intellij.codeInspection.duplicatePropertyInspection;
 
-import gnu.trove.THashSet;
-import gnu.trove.TIntProcedure;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-
-import com.intellij.codeInspection.GlobalInspectionContext;
-import com.intellij.codeInspection.GlobalSimpleInspectionTool;
-import com.intellij.codeInspection.HTMLComposer;
-import com.intellij.codeInspection.InspectionManager;
-import com.intellij.codeInspection.InspectionsBundle;
-import com.intellij.codeInspection.ProblemDescriptionsProcessor;
-import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
+import com.intellij.codeInspection.*;
 import com.intellij.codeInspection.ex.GlobalInspectionContextImpl;
 import com.intellij.codeInspection.reference.RefManager;
 import com.intellij.concurrency.JobLauncher;
@@ -75,6 +44,14 @@ import com.intellij.util.CommonProcessors;
 import com.intellij.util.Processor;
 import com.intellij.util.text.CharArrayUtil;
 import com.intellij.util.text.StringSearcher;
+
+import javax.annotation.Nonnull;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 
 public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool
 {
@@ -320,29 +297,23 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool
 			for(final PsiFile file : psiFilesWithDuplicates)
 			{
 				CharSequence text = file.getViewProvider().getContents();
-				LowLevelSearchUtil.processTextOccurrences(text, 0, text.length(), searcher, progress,
-						new TIntProcedure()
-				{
-					@Override
-					public boolean execute(int offset)
+				LowLevelSearchUtil.processTextOccurrences(text, 0, text.length(), searcher, progress, offset -> {
+					PsiElement element = file.findElementAt(offset);
+					if(element != null && element.getParent() instanceof Property)
 					{
-						PsiElement element = file.findElementAt(offset);
-						if(element != null && element.getParent() instanceof Property)
+						final Property property = (Property) element.getParent();
+						if(Comparing.equal(property.getValue(), value) && element.getStartOffsetInParent() != 0)
 						{
-							final Property property = (Property) element.getParent();
-							if(Comparing.equal(property.getValue(), value) && element.getStartOffsetInParent() != 0)
+							if(duplicatesCount[0] == 0)
 							{
-								if(duplicatesCount[0] == 0)
-								{
-									message.append(InspectionsBundle.message("duplicate.property.value.problem" +
-											".descriptor", property.getValue()));
-								}
-								surroundWithHref(message, element, true);
-								duplicatesCount[0]++;
+								message.append(InspectionsBundle.message("duplicate.property.value.problem" +
+										".descriptor", property.getValue()));
 							}
+							surroundWithHref(message, element, true);
+							duplicatesCount[0]++;
 						}
-						return true;
 					}
+					return true;
 				});
 			}
 			if(duplicatesCount[0] > 1)
@@ -482,7 +453,7 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool
 		});
 		for(String word : words)
 		{
-			final Set<PsiFile> files = new THashSet<PsiFile>();
+			final Set<PsiFile> files = new HashSet<PsiFile>();
 			searchHelper.processAllFilesWithWord(word, scope, new CommonProcessors.CollectProcessor<PsiFile>(files),
 					true);
 			if(resultFiles.isEmpty())

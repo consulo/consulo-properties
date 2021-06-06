@@ -25,14 +25,9 @@ import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
-import com.intellij.util.SmartList;
 import consulo.util.dataholder.Key;
-import gnu.trove.THashMap;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ResourceBundleGrouper implements TreeStructureProvider, DumbAware {
   private final Project myProject;
@@ -44,7 +39,7 @@ public class ResourceBundleGrouper implements TreeStructureProvider, DumbAware {
   public Collection<AbstractTreeNode> modify(AbstractTreeNode parent, Collection<AbstractTreeNode> children, ViewSettings settings) {
     if (parent instanceof ResourceBundleNode) return children;
 
-    Map<ResourceBundle,Collection<PropertiesFile>> childBundles = new THashMap<ResourceBundle, Collection<PropertiesFile>>();
+    Map<ResourceBundle,Collection<PropertiesFile>> childBundles = new HashMap<>();
     for (AbstractTreeNode child : children) {
       Object f = child.getValue();
       if (f instanceof PsiFile) {
@@ -53,7 +48,7 @@ public class ResourceBundleGrouper implements TreeStructureProvider, DumbAware {
           ResourceBundle bundle = propertiesFile.getResourceBundle();
           Collection<PropertiesFile> files = childBundles.get(bundle);
           if (files == null) {
-            files = new SmartList<PropertiesFile>();
+            files = new ArrayList<>();
             childBundles.put(bundle, files);
           }
           files.add(propertiesFile);

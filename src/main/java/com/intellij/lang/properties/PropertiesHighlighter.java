@@ -15,11 +15,6 @@
  */
 package com.intellij.lang.properties;
 
-import gnu.trove.THashMap;
-
-import java.util.Map;
-
-import javax.annotation.Nonnull;
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.lang.properties.parsing.PropertiesTokenTypes;
 import com.intellij.lexer.Lexer;
@@ -30,6 +25,10 @@ import com.intellij.openapi.options.OptionsBundle;
 import com.intellij.openapi.util.Pair;
 import com.intellij.psi.StringEscapesTokenTypes;
 import com.intellij.psi.tree.IElementType;
+
+import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author max
@@ -72,8 +71,8 @@ public class PropertiesHighlighter extends SyntaxHighlighterBase {
   );
 
   static {
-    keys1 = new THashMap<IElementType, TextAttributesKey>();
-    keys2 = new THashMap<IElementType, TextAttributesKey>();
+    keys1 = new HashMap<IElementType, TextAttributesKey>();
+    keys2 = new HashMap<IElementType, TextAttributesKey>();
 
     keys1.put(PropertiesTokenTypes.VALUE_CHARACTERS, PROPERTY_VALUE);
     keys1.put(PropertiesTokenTypes.END_OF_LINE_COMMENT, PROPERTY_COMMENT);
@@ -91,7 +90,7 @@ public class PropertiesHighlighter extends SyntaxHighlighterBase {
     return pack(keys1.get(tokenType), keys2.get(tokenType));
   }
 
-  public static final Map<TextAttributesKey, Pair<String, HighlightSeverity>> DISPLAY_NAMES = new THashMap<TextAttributesKey, Pair<String, HighlightSeverity>>(6);
+  public static final Map<TextAttributesKey, Pair<String, HighlightSeverity>> DISPLAY_NAMES = new HashMap<TextAttributesKey, Pair<String, HighlightSeverity>>();
   static {
     DISPLAY_NAMES.put(PROPERTY_KEY, new Pair<String, HighlightSeverity>(OptionsBundle.message("options.properties.attribute.descriptor.property.key"),null));
     DISPLAY_NAMES.put(PROPERTY_VALUE, new Pair<String, HighlightSeverity>(OptionsBundle.message("options.properties.attribute.descriptor.property.value"), null));

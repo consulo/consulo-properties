@@ -15,14 +15,6 @@
  */
 package com.intellij.lang.properties.editor;
 
-import gnu.trove.TIntHashSet;
-
-import java.io.Writer;
-import java.util.Properties;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.psi.PropertiesFile;
@@ -38,6 +30,13 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.util.SystemProperties;
+import consulo.util.collection.primitive.ints.IntSet;
+import consulo.util.collection.primitive.ints.IntSets;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.Writer;
+import java.util.Properties;
 
 /**
  * @author Denis Zhdanov
@@ -48,8 +47,8 @@ public class ResourceBundleUtil {
   private static final String NATIVE_2_ASCII_CONVERSION_PATTERN = SystemProperties.getBooleanProperty("idea.native2ascii.lowercase", false)
                                                                   ? "\\u%04x" : "\\u%04X";
 
-  private static final TIntHashSet SYMBOLS_TO_ESCAPE = new TIntHashSet(new int[]{'#', '!', '=', ':'});
-  private static final TIntHashSet UNICODE_SYMBOLS   = new TIntHashSet(new int[]{
+  private static final IntSet SYMBOLS_TO_ESCAPE = IntSets.newHashSet(new int[]{'#', '!', '=', ':'});
+  private static final IntSet UNICODE_SYMBOLS   = IntSets.newHashSet(new int[]{
     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'A', 'a', 'A', 'b', 'B', 'c', 'C', 'd', 'D', 'e', 'E', 'f', 'F'
   });
   private static final char        ESCAPE_SYMBOL     = '\\';

@@ -60,8 +60,6 @@ import com.intellij.util.containers.Stack;
 import com.intellij.util.ui.UIUtil;
 import consulo.util.dataholder.Key;
 import consulo.util.dataholder.UserDataHolderBase;
-import gnu.trove.THashMap;
-import gnu.trove.THashSet;
 import kava.beans.PropertyChangeListener;
 import org.jetbrains.annotations.NonNls;
 
@@ -93,12 +91,12 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 	private final ResourceBundle myResourceBundle;
 	private final Map<PropertiesFile, JPanel> myTitledPanels;
 	private final JComponent myNoPropertySelectedPanel = new NoPropertySelectedPanel().getComponent();
-	private final Map<Editor, DocumentListener> myDocumentListeners = new THashMap<Editor, DocumentListener>();
+	private final Map<Editor, DocumentListener> myDocumentListeners = new HashMap<Editor, DocumentListener>();
 	private final Project myProject;
 	private final DataProviderPanel myDataProviderPanel;
 	// user pressed backslash in the corresponding editor.
 	// we cannot store it back to properties file right now, so just append the backslash to the editor and wait for the subsequent chars
-	private final Set<PropertiesFile> myBackSlashPressed = new THashSet<PropertiesFile>();
+	private final Set<PropertiesFile> myBackSlashPressed = new HashSet<PropertiesFile>();
 	private final Alarm myUpdateEditorAlarm = new Alarm();
 	private final Alarm mySelectionChangeAlarm = new Alarm(Alarm.ThreadToUse.SWING_THREAD);
 
@@ -151,8 +149,8 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 		});
 		installPropertiesChangeListeners();
 
-		myEditors = new THashMap<PropertiesFile, Editor>();
-		myTitledPanels = new THashMap<PropertiesFile, JPanel>();
+		myEditors = new HashMap<PropertiesFile, Editor>();
+		myTitledPanels = new HashMap<PropertiesFile, JPanel>();
 		recreateEditorsPanel();
 
 		TreeElement[] children = myStructureViewComponent.getTreeModel().getRoot().getChildren();

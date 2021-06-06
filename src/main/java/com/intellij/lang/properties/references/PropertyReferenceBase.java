@@ -32,8 +32,8 @@ import com.intellij.psi.*;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.NullableFunction;
 import com.intellij.util.containers.ContainerUtil;
-import gnu.trove.THashSet;
-import gnu.trove.TObjectHashingStrategy;
+import consulo.util.collection.HashingStrategy;
+import consulo.util.collection.Sets;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,7 +46,7 @@ import java.util.Set;
  * @author nik
  */
 public abstract class PropertyReferenceBase implements PsiPolyVariantReference, EmptyResolveMessageProvider {
-  private static final Logger LOG = Logger.getInstance("#com.intellij.lang.properties.references.PropertyReferenceBase");
+  private static final Logger LOG = Logger.getInstance(PropertyReferenceBase.class);
   private static final LookupElementRenderer<LookupElement> LOOKUP_ELEMENT_RENDERER = new LookupElementRenderer<LookupElement>() {
     @Override
     public void renderElement(LookupElement element, LookupElementPresentation presentation) {
@@ -238,8 +238,8 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
 
   @Nonnull
   public Object[] getVariants() {
-    final Set<Object> variants = new THashSet<Object>(new TObjectHashingStrategy<Object>() {
-      public int computeHashCode(final Object object) {
+    final Set<Object> variants = Sets.newHashSet(new HashingStrategy<Object>() {
+      public int hashCode(final Object object) {
         if (object instanceof IProperty) {
           final String key = ((IProperty)object).getKey();
           return key == null ? 0 : key.hashCode();
