@@ -25,6 +25,10 @@
 	<version>SNAPSHOT</version>
 	<depends config-file="com.intellij.spellchecker.xml" optional="true">com.intellij.spellchecker</depends>
 
+	<tags>
+		<tag>markup.language</tag>
+	</tags>
+
 	<extensionPoints>
 		<extensionPoint name="implicitPropertyUsageProvider" interface="com.intellij.codeInspection.unused.ImplicitPropertyUsageProvider"/>
 	</extensionPoints>
