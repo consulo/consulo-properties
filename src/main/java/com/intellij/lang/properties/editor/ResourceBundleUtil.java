@@ -29,7 +29,6 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
-import com.intellij.util.SystemProperties;
 import consulo.util.collection.primitive.ints.IntSet;
 import consulo.util.collection.primitive.ints.IntSets;
 
@@ -44,8 +43,8 @@ import java.util.Properties;
  */
 public class ResourceBundleUtil {
 
-  private static final String NATIVE_2_ASCII_CONVERSION_PATTERN = SystemProperties.getBooleanProperty("idea.native2ascii.lowercase", false)
-                                                                  ? "\\u%04x" : "\\u%04X";
+  //  SystemProperties.getBooleanProperty("idea.native2ascii.lowercase", false) ?"\\u%04x":"\\u%04X";
+  private static final String NATIVE_2_ASCII_CONVERSION_PATTERN = "\\u%04X";
 
   private static final IntSet SYMBOLS_TO_ESCAPE = IntSets.newHashSet(new int[]{'#', '!', '=', ':'});
   private static final IntSet UNICODE_SYMBOLS   = IntSets.newHashSet(new int[]{
