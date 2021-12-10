@@ -15,11 +15,6 @@
  */
 package com.intellij.lang.properties;
 
-import java.nio.charset.Charset;
-
-import javax.annotation.Nonnull;
-
-import org.jetbrains.annotations.NonNls;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.intellij.openapi.util.Pair;
@@ -27,7 +22,12 @@ import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.encoding.EncodingManager;
 import consulo.fileTypes.FileTypeWithPredefinedCharset;
+import consulo.localize.LocalizeValue;
+import consulo.properties.localize.PropertiesLocalize;
 import consulo.ui.image.Image;
+
+import javax.annotation.Nonnull;
+import java.nio.charset.Charset;
 
 /**
  * @author max
@@ -35,9 +35,7 @@ import consulo.ui.image.Image;
 public class PropertiesFileType extends LanguageFileType implements FileTypeWithPredefinedCharset
 {
 	public static final LanguageFileType INSTANCE = new PropertiesFileType();
-	@NonNls
 	public static final String DEFAULT_EXTENSION = "properties";
-	@NonNls
 	public static final String DOT_DEFAULT_EXTENSION = "." + DEFAULT_EXTENSION;
 
 	private PropertiesFileType()
@@ -54,9 +52,9 @@ public class PropertiesFileType extends LanguageFileType implements FileTypeWith
 
 	@Override
 	@Nonnull
-	public String getDescription()
+	public LocalizeValue getDescription()
 	{
-		return PropertiesBundle.message("properties.files.file.type.description");
+		return PropertiesLocalize.propertiesFilesFileTypeDescription();
 	}
 
 	@Override
@@ -66,6 +64,7 @@ public class PropertiesFileType extends LanguageFileType implements FileTypeWith
 		return DEFAULT_EXTENSION;
 	}
 
+	@Nonnull
 	@Override
 	public Image getIcon()
 	{

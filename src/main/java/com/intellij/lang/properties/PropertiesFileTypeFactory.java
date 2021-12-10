@@ -25,6 +25,6 @@ import com.intellij.openapi.fileTypes.FileTypeFactory;
  */
 public class PropertiesFileTypeFactory extends FileTypeFactory {
   public void createFileTypes(@Nonnull FileTypeConsumer consumer) {
-    consumer.consume(PropertiesFileType.INSTANCE, PropertiesFileType.DEFAULT_EXTENSION);
+    consumer.consume(PropertiesFileType.INSTANCE);
   }
 }

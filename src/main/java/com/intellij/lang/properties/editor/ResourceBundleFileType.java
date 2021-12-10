@@ -15,33 +15,28 @@
  */
 package com.intellij.lang.properties.editor;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.fileTypes.ex.FakeFileType;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.lang.properties.PropertiesBundle;
+import consulo.localize.LocalizeValue;
+import consulo.properties.localize.PropertiesLocalize;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author cdr
  */
 class ResourceBundleFileType extends FakeFileType {
   @Nonnull
-  public String getName() {
+  public String getId() {
     return "ResourceBundle";
   }
 
   @Nonnull
-  public String getDescription() {
-    return PropertiesBundle.message("resourcebundle.fake.file.type.description");
+  public LocalizeValue getDescription() {
+    return PropertiesLocalize.resourcebundleFakeFileTypeDescription();
   }
 
   public boolean isMyFileType(VirtualFile file) {
     return file instanceof ResourceBundleAsVirtualFile;
-  }
-
-  public SyntaxHighlighter getHighlighter(Project project, final VirtualFile virtualFile) {
-    return null;
   }
 }

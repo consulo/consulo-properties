@@ -1,0 +1,76 @@
+duplicate.property.key.error.message:
+  text: Duplicate property key
+rename.prefix.based.property.key.error.message:
+  text: Could not rename property key ''{1}'' based on prefix ''{0}'' by name ''{2}'', change prefix first
+properties.files.file.type.description:
+  text: Properties files
+remove.property.intention.text:
+  text: Remove property
+rename.bundle.enter.new.resource.bundle.base.name.prompt.text:
+  text: Enter new resource bundle base name
+rename.bundle.enter.new.resource.bundle.key.name.prompt.text:
+  text: Enter new resource bundle key name
+rename.resource.bundle.dialog.title:
+  text: Rename Resource Bundle
+rename.resource.bundle.key.dialog.title:
+  text: Rename Resource Bundle Key
+properties.files.inspection.group.display.name:
+  text: Properties Files
+unused.property.inspection.display.name:
+  text: Unused Property
+searching.for.property.key.progress.text:
+  text: Searching for {0}
+unused.property.problem.descriptor.name:
+  text: Unused property
+remove.property.quick.fix.name:
+  text: Remove Property
+no.property.selected.panel.label:
+  text: <html><body><center><b>Please select property name on the left to edit its values</body></html>
+properties.structure.view.group.by.label:
+  text: 'Group by:'
+select.property.separator.dialog.text:
+  text: Select separator
+select.property.separator.dialog.title:
+  text: Property Keys Separator
+select.separator.action.with.empty.separator.name:
+  text: other...
+resourcebundle.fake.file.type.description:
+  text: ResourceBundle fake file type
+property.key.expected.parsing.error.message:
+  text: property key expected
+project.view.resource.bundle.tree.node.text:
+  text: Resource Bundle ''{0}''
+structure.view.group.by.prefixes.action.name:
+  text: Group by Prefixes
+structure.view.group.by.prefixes.action.description:
+  text: Groups properties by common key prefixes
+unused.message.format.parameter.display.name:
+  text: Missing message format parameter
+unused.message.format.parameter.problem.descriptor:
+  text: 'Using parameter {0} without using parameter {1} in <code>#ref<code> #loc'
+unresolved.property.key:
+  text: Cannot resolve property key
+unused.property.suppress.for.property:
+  text: Suppress for this property
+unused.property.suppress.for.file:
+  text: Suppress for whole file
+action.I18nize.text:
+  text: Internationali_ze...
+action.I18nize.description:
+  text: Replace Java string literal or JSP text with internationalized expression
+create.property.quickfix.text:
+  text: Create Property
+unescape:
+  text: Unescape
+trail.spaces.property.inspection.display.name:
+  text: Trailing Spaces in Property
+button.add.property.description:
+  text: Add property
+add.dialog.property.name:
+  text: 'Property name:'
+add.dialog.property.title:
+  text: Enter Property Name
+remove.dialog.confirm.title:
+  text: Confirm
+remove.dialog.confirm.description:
+  text: 'Are you sure want to delete selected properties: [{0}] ?'
