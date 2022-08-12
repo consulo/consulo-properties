@@ -1,12 +1,13 @@
 package com.intellij.lang.properties;
 
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.util.Iconable;
-import com.intellij.pom.Navigatable;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiInvalidElementAccessException;
-import com.intellij.util.IncorrectOperationException;
+import consulo.component.util.Iconable;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiInvalidElementAccessException;
+import consulo.language.util.IncorrectOperationException;
+import consulo.navigation.Navigatable;
 import org.jetbrains.annotations.NonNls;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

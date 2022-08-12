@@ -24,16 +24,16 @@ package com.intellij.lang.properties.psi;
 
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.ResourceBundle;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.util.IncorrectOperationException;
+import consulo.language.psi.PsiDirectory;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.util.IncorrectOperationException;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
 import org.jetbrains.annotations.NonNls;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -75,7 +75,7 @@ public interface PropertiesFile {
    *
    * @param property to add. Typically you create the property via {@link PropertiesElementFactory}.
    * @return newly added property.
-   * It is this value you use to do actual PSI work, e.g. call {@link com.intellij.psi.PsiElement#delete()} to remove this property from the file.
+   * It is this value you use to do actual PSI work, e.g. call {@link PsiElement#delete()} to remove this property from the file.
    * @throws IncorrectOperationException
    * @deprecated
    * @see #addProperty(String, String)
@@ -89,7 +89,7 @@ public interface PropertiesFile {
    * @param property to add. Typically you create the property via {@link com.intellij.lang.properties.psi.PropertiesElementFactory}.
    * @param anchor property after which to add the new property
    * @return newly added property.
-   * It is this value you use to do actual PSI work, e.g. call {@link com.intellij.psi.PsiElement#delete()} to remove this property from the file.
+   * It is this value you use to do actual PSI work, e.g. call {@link PsiElement#delete()} to remove this property from the file.
    * @throws IncorrectOperationException
    */
   @Nonnull

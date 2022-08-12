@@ -19,23 +19,39 @@
  */
 package com.intellij.lang.properties.structureView;
 
-import com.intellij.ide.structureView.StructureView;
-import com.intellij.ide.structureView.StructureViewBuilder;
-import com.intellij.lang.PsiStructureViewFactory;
+import com.intellij.lang.properties.PropertiesLanguage;
 import com.intellij.lang.properties.psi.impl.PropertiesFileImpl;
-import com.intellij.openapi.fileEditor.FileEditor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiFile;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.fileEditor.FileEditor;
+import consulo.fileEditor.structureView.StructureView;
+import consulo.fileEditor.structureView.StructureViewBuilder;
+import consulo.language.Language;
+import consulo.language.editor.structureView.PsiStructureViewFactory;
+import consulo.language.psi.PsiFile;
+import consulo.project.Project;
+
 import javax.annotation.Nonnull;
 
-public class PropertiesStructureViewBuilderFactory implements PsiStructureViewFactory {
-  @Nonnull
-  public StructureViewBuilder getStructureViewBuilder(final PsiFile psiFile) {
-    return new StructureViewBuilder() {
-      @Nonnull
-      public StructureView createStructureView(FileEditor fileEditor, Project project) {
-        return new PropertiesFileStructureViewComponent(project, (PropertiesFileImpl)psiFile, fileEditor);
-      }
-    };
-  }
+@ExtensionImpl
+public class PropertiesStructureViewBuilderFactory implements PsiStructureViewFactory
+{
+	@Nonnull
+	public StructureViewBuilder getStructureViewBuilder(final PsiFile psiFile)
+	{
+		return new StructureViewBuilder()
+		{
+			@Nonnull
+			public StructureView createStructureView(FileEditor fileEditor, Project project)
+			{
+				return new PropertiesFileStructureViewComponent(project, (PropertiesFileImpl) psiFile, fileEditor);
+			}
+		};
+	}
+
+	@Nonnull
+	@Override
+	public Language getLanguage()
+	{
+		return PropertiesLanguage.INSTANCE;
+	}
 }

@@ -15,34 +15,52 @@
  */
 package com.intellij.lang.properties.xml;
 
-import javax.annotation.Nonnull;
-
 import com.intellij.lang.properties.PropertiesUtil;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.patterns.XmlPatterns;
-import com.intellij.pom.references.PomService;
-import com.intellij.psi.*;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.psi.xml.XmlTag;
-import com.intellij.util.ProcessingContext;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.pom.PomService;
+import consulo.language.psi.*;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.ProcessingContext;
+import consulo.xml.lang.xml.XMLLanguage;
+import consulo.xml.patterns.XmlPatterns;
+import consulo.xml.psi.xml.XmlTag;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author Dmitry Avdeev
- *         Date: 9/15/11
+ * Date: 9/15/11
  */
-public class XmlPropertiesReferenceContributor extends PsiReferenceContributor {
-  @Override
-  public void registerReferenceProviders(PsiReferenceRegistrar registrar) {
-    registrar.registerReferenceProvider(XmlPatterns.xmlAttributeValue().withLocalName("key"),
-                                        new PsiReferenceProvider() {
-      @Nonnull
-      @Override
-      public PsiReference[] getReferencesByElement(@Nonnull PsiElement element, @Nonnull ProcessingContext context) {
-        PropertiesFile propertiesFile = PropertiesUtil.getPropertiesFile(element.getContainingFile());
-        if (propertiesFile == null) return PsiReference.EMPTY_ARRAY;
-        XmlProperty property = new XmlProperty(PsiTreeUtil.getParentOfType(element, XmlTag.class), (XmlPropertiesFile)propertiesFile);
-        return new PsiReference[] { new PsiReferenceBase.Immediate<PsiElement>(element, PomService.convertToPsi(property))};
-      }
-    });
-  }
+@ExtensionImpl
+public class XmlPropertiesReferenceContributor extends PsiReferenceContributor
+{
+	@Override
+	public void registerReferenceProviders(PsiReferenceRegistrar registrar)
+	{
+		registrar.registerReferenceProvider(XmlPatterns.xmlAttributeValue().withLocalName("key"),
+				new PsiReferenceProvider()
+				{
+					@Nonnull
+					@Override
+					public PsiReference[] getReferencesByElement(@Nonnull PsiElement element, @Nonnull ProcessingContext context)
+					{
+						PropertiesFile propertiesFile = PropertiesUtil.getPropertiesFile(element.getContainingFile());
+						if(propertiesFile == null)
+						{
+							return PsiReference.EMPTY_ARRAY;
+						}
+						XmlProperty property = new XmlProperty(PsiTreeUtil.getParentOfType(element, XmlTag.class), (XmlPropertiesFile) propertiesFile);
+						return new PsiReference[]{new PsiReferenceBase.Immediate<PsiElement>(element, PomService.convertToPsi(property))};
+					}
+				});
+	}
+
+	@Nonnull
+	@Override
+	public Language getLanguage()
+	{
+		return XMLLanguage.INSTANCE;
+	}
 }

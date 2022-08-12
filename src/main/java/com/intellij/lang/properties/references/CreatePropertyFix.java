@@ -15,31 +15,32 @@
  */
 package com.intellij.lang.properties.references;
 
-import com.intellij.codeInsight.CodeInsightBundle;
-import com.intellij.codeInsight.FileModificationService;
-import com.intellij.codeInsight.intention.IntentionAction;
-import com.intellij.codeInspection.LocalQuickFix;
-import com.intellij.codeInspection.ProblemDescriptor;
 import com.intellij.lang.properties.PropertiesBundle;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.command.CommandProcessor;
-import com.intellij.openapi.command.undo.UndoUtil;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Pair;
-import com.intellij.psi.PsiAnchor;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.util.IncorrectOperationException;
+import consulo.application.ApplicationManager;
+import consulo.codeEditor.Editor;
+import consulo.language.editor.CodeInsightBundle;
+import consulo.language.editor.FileModificationService;
+import consulo.language.editor.inspection.LocalQuickFix;
+import consulo.language.editor.inspection.ProblemDescriptor;
+import consulo.language.editor.intention.IntentionAction;
+import consulo.language.editor.util.LanguageUndoUtil;
+import consulo.language.impl.psi.PsiAnchor;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.util.IncorrectOperationException;
+import consulo.logging.Logger;
+import consulo.project.Project;
+import consulo.undoRedo.CommandProcessor;
+import consulo.util.lang.Pair;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Collection;
 import java.util.List;
 
-public class CreatePropertyFix implements IntentionAction, LocalQuickFix {
+public class CreatePropertyFix implements IntentionAction, LocalQuickFix
+{
   private static final Logger LOG = Logger.getInstance("#com.intellij.codeInsight.i18n.I18nizeQuickFix");
   private final PsiAnchor myElement;
   private final String myKey;
@@ -149,7 +150,7 @@ public class CreatePropertyFix implements IntentionAction, LocalQuickFix {
     for (PropertiesFile selectedFile : selectedPropertiesFiles) {
       if (!FileModificationService.getInstance().prepareFileForWrite(selectedFile.getContainingFile())) return;
     }
-    UndoUtil.markPsiFileForUndo(psiElement.getContainingFile());
+    LanguageUndoUtil.markPsiFileForUndo(psiElement.getContainingFile());
 
     ApplicationManager.getApplication().runWriteAction(new Runnable() {
       public void run() {

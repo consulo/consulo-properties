@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.properties.editor;
 
-import com.intellij.ide.structureView.StructureViewModel;
+import consulo.fileEditor.structureView.StructureViewModel;
 
 /**
  * @author max

@@ -19,21 +19,22 @@
  */
 package com.intellij.lang.properties.editor;
 
+import com.intellij.lang.properties.IProperty;
+import com.intellij.lang.properties.ResourceBundle;
+import com.intellij.lang.properties.psi.PropertiesFile;
+import consulo.application.AllIcons;
+import consulo.fileEditor.structureView.StructureViewTreeElement;
+import consulo.navigation.ItemPresentation;
+import consulo.project.Project;
+import consulo.ui.image.Image;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.intellij.icons.AllIcons;
-import com.intellij.ide.structureView.StructureViewTreeElement;
-import com.intellij.lang.properties.IProperty;
-import com.intellij.lang.properties.ResourceBundle;
-import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.navigation.ItemPresentation;
-import com.intellij.openapi.project.Project;
-import consulo.ui.image.Image;
-
-public class ResourceBundleFileStructureViewElement implements StructureViewTreeElement {
+public class ResourceBundleFileStructureViewElement implements StructureViewTreeElement
+{
   private final Project myProject;
   private final ResourceBundle myResourceBundle;
 

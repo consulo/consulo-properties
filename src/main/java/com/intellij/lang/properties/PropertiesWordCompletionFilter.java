@@ -19,13 +19,27 @@
  */
 package com.intellij.lang.properties;
 
-import com.intellij.lang.DefaultWordCompletionFilter;
-import com.intellij.lang.properties.parsing.PropertiesElementTypes;
-import com.intellij.psi.tree.IElementType;
-import consulo.lang.LanguageVersion;
+import com.intellij.lang.properties.parsing.PropertiesStubElementTypes;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.ast.IElementType;
+import consulo.language.editor.completion.WordCompletionElementFilter;
+import consulo.language.version.LanguageVersion;
 
-public class PropertiesWordCompletionFilter extends DefaultWordCompletionFilter {
-  public boolean isWordCompletionEnabledIn(final IElementType element, LanguageVersion languageVersion) {
-    return super.isWordCompletionEnabledIn(element, languageVersion) || element == PropertiesElementTypes.PROPERTY;
-  }
+import javax.annotation.Nonnull;
+
+@ExtensionImpl
+public class PropertiesWordCompletionFilter implements WordCompletionElementFilter
+{
+	public boolean isWordCompletionEnabledIn(final IElementType element, LanguageVersion languageVersion)
+	{
+		return WordCompletionElementFilter.super.isWordCompletionEnabledIn(element, languageVersion) || element == PropertiesStubElementTypes.PROPERTY;
+	}
+
+	@Nonnull
+	@Override
+	public Language getLanguage()
+	{
+		return PropertiesLanguage.INSTANCE;
+	}
 }

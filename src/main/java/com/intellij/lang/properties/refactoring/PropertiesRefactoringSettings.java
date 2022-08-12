@@ -15,30 +15,42 @@
  */
 package com.intellij.lang.properties.refactoring;
 
-import com.intellij.openapi.components.*;
-import com.intellij.util.xmlb.XmlSerializerUtil;
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ServiceAPI;
+import consulo.annotation.component.ServiceImpl;
+import consulo.component.persist.State;
+import consulo.component.persist.Storage;
+import consulo.ide.ServiceManager;
+import consulo.util.xml.serializer.XmlSerializerUtil;
+import jakarta.inject.Singleton;
 
 @State(
-  name = "PropertiesRefactoringSettings",
-  storages = {
-    @Storage(
-      file = StoragePathMacros.APP_CONFIG + "/other.xml"
-    )}
+		name = "PropertiesRefactoringSettings",
+		storages = {
+				@Storage(
+						file = consulo.component.persist.StoragePathMacros.APP_CONFIG + "/other.xml"
+				)
+		}
 )
-public class PropertiesRefactoringSettings implements PersistentStateComponent<PropertiesRefactoringSettings> {
+@ServiceAPI(ComponentScope.APPLICATION)
+@ServiceImpl
+@Singleton
+public class PropertiesRefactoringSettings implements consulo.component.persist.PersistentStateComponent<PropertiesRefactoringSettings>
+{
+	public boolean RENAME_SEARCH_IN_COMMENTS = false;
 
+	public static PropertiesRefactoringSettings getInstance()
+	{
+		return ServiceManager.getService(PropertiesRefactoringSettings.class);
+	}
 
-  public boolean RENAME_SEARCH_IN_COMMENTS = false;
+	public PropertiesRefactoringSettings getState()
+	{
+		return this;
+	}
 
-  public static PropertiesRefactoringSettings getInstance() {
-    return ServiceManager.getService(PropertiesRefactoringSettings.class);
-  }
-
-  public PropertiesRefactoringSettings getState() {
-    return this;
-  }
-
-  public void loadState(PropertiesRefactoringSettings state) {
-    XmlSerializerUtil.copyBean(state, this);
-  }
+	public void loadState(PropertiesRefactoringSettings state)
+	{
+		XmlSerializerUtil.copyBean(state, this);
+	}
 }

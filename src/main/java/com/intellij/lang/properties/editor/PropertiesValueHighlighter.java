@@ -16,7 +16,7 @@
 package com.intellij.lang.properties.editor;
 
 import com.intellij.lang.properties.PropertiesHighlighter;
-import com.intellij.lexer.Lexer;
+import consulo.language.lexer.Lexer;
 import javax.annotation.Nonnull;
 
 /**

@@ -15,151 +15,202 @@
  */
 package com.intellij.lang.properties;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.codeInsight.FileModificationService;
-import com.intellij.codeInspection.CustomSuppressableInspectionTool;
-import com.intellij.codeInspection.LocalInspectionTool;
-import com.intellij.codeInspection.SuppressIntentionAction;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.lang.properties.psi.PropertiesList;
 import com.intellij.lang.properties.psi.Property;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.IncorrectOperationException;
+import consulo.codeEditor.Editor;
+import consulo.document.Document;
+import consulo.language.editor.FileModificationService;
+import consulo.language.editor.inspection.CustomSuppressableInspectionTool;
+import consulo.language.editor.inspection.LocalInspectionTool;
+import consulo.language.editor.intention.SuppressIntentionAction;
+import consulo.language.psi.*;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.IncorrectOperationException;
+import consulo.logging.Logger;
+import consulo.project.Project;
 import org.jetbrains.annotations.NonNls;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: cdr
  */
-public abstract class PropertySuppressableInspectionBase extends LocalInspectionTool implements CustomSuppressableInspectionTool {
-  private static final Logger LOG = Logger.getInstance("#com.intellij.lang.properties.PropertySuppressableInspectionBase");
-  @Nonnull
-  public String getGroupDisplayName() {
-    return PropertiesBundle.message("properties.files.inspection.group.display.name");
-  }
+public abstract class PropertySuppressableInspectionBase extends LocalInspectionTool implements CustomSuppressableInspectionTool
+{
+	private static final Logger LOG = Logger.getInstance(PropertySuppressableInspectionBase.class);
 
-  public SuppressIntentionAction[] getSuppressActions(final PsiElement element) {
-    return new SuppressIntentionAction[] {new SuppressSinglePropertyFix(getShortName()), new SuppressForFile(getShortName())};
-  }
+	@Nonnull
+	public String getGroupDisplayName()
+	{
+		return PropertiesBundle.message("properties.files.inspection.group.display.name");
+	}
 
-  public boolean isSuppressedFor(@Nonnull PsiElement element) {
-    Property property = PsiTreeUtil.getParentOfType(element, Property.class, false);
-    PropertiesFile file;
-    if (property == null) {
-      PsiFile containingFile = element.getContainingFile();
-      if (containingFile instanceof PropertiesFile) {
-        file = (PropertiesFile)containingFile;
-      }
-      else {
-        return false;
-      }
-    }
-    else {
-      PsiElement prev = property.getPrevSibling();
-      while (prev instanceof PsiWhiteSpace || prev instanceof PsiComment) {
-        if (prev instanceof PsiComment) {
-          @NonNls String text = prev.getText();
-          if (text.contains("suppress") && text.contains("\"" + getShortName() + "\"")) return true;
-        }
-        prev = prev.getPrevSibling();
-      }
-      file = property.getPropertiesFile();
-    }
-    PsiElement leaf = file.getContainingFile().findElementAt(0);
-    while (leaf instanceof PsiWhiteSpace) leaf = leaf.getNextSibling();
+	@Nonnull
+	@Override
+	public String[] getGroupPath()
+	{
+		return new String[]{getGroupDisplayName()};
+	}
 
-    while (leaf instanceof PsiComment) {
-      @NonNls String text = leaf.getText();
-      if (text.contains("suppress") && text.contains("\"" + getShortName() + "\"") && text.contains("file")) {
-        return true;
-      }
-      leaf = leaf.getNextSibling();
-      if (leaf instanceof PsiWhiteSpace) leaf = leaf.getNextSibling();
-      // comment before first property get bound to the file, not property
-      if (leaf instanceof PropertiesList && leaf.getFirstChild() == property && text.contains("suppress") && text.contains("\"" + getShortName() + "\"")) {
-        return true;
-      }
-    }
+	public SuppressIntentionAction[] getSuppressActions(final PsiElement element)
+	{
+		return new SuppressIntentionAction[]{
+				new SuppressSinglePropertyFix(getShortName()),
+				new SuppressForFile(getShortName())
+		};
+	}
 
-    return false;
-  }
+	public boolean isSuppressedFor(@Nonnull PsiElement element)
+	{
+		Property property = PsiTreeUtil.getParentOfType(element, Property.class, false);
+		PropertiesFile file;
+		if(property == null)
+		{
+			PsiFile containingFile = element.getContainingFile();
+			if(containingFile instanceof PropertiesFile)
+			{
+				file = (PropertiesFile) containingFile;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			PsiElement prev = property.getPrevSibling();
+			while(prev instanceof PsiWhiteSpace || prev instanceof PsiComment)
+			{
+				if(prev instanceof PsiComment)
+				{
+					@NonNls String text = prev.getText();
+					if(text.contains("suppress") && text.contains("\"" + getShortName() + "\""))
+					{
+						return true;
+					}
+				}
+				prev = prev.getPrevSibling();
+			}
+			file = property.getPropertiesFile();
+		}
+		PsiElement leaf = file.getContainingFile().findElementAt(0);
+		while(leaf instanceof PsiWhiteSpace)
+		{
+			leaf = leaf.getNextSibling();
+		}
 
-  private static class SuppressSinglePropertyFix extends SuppressIntentionAction {
-    private final String shortName;
+		while(leaf instanceof PsiComment)
+		{
+			@NonNls String text = leaf.getText();
+			if(text.contains("suppress") && text.contains("\"" + getShortName() + "\"") && text.contains("file"))
+			{
+				return true;
+			}
+			leaf = leaf.getNextSibling();
+			if(leaf instanceof PsiWhiteSpace)
+			{
+				leaf = leaf.getNextSibling();
+			}
+			// comment before first property get bound to the file, not property
+			if(leaf instanceof PropertiesList && leaf.getFirstChild() == property && text.contains("suppress") && text.contains("\"" + getShortName() + "\""))
+			{
+				return true;
+			}
+		}
 
-    public SuppressSinglePropertyFix(String shortName) {
-      this.shortName = shortName;
-    }
+		return false;
+	}
 
-    @Nonnull
-    public String getText() {
-      return PropertiesBundle.message("unused.property.suppress.for.property");
-    }
+	private static class SuppressSinglePropertyFix extends SuppressIntentionAction
+	{
+		private final String shortName;
 
-    @Nonnull
-    public String getFamilyName() {
-      return PropertiesBundle.message("unused.property.suppress.for.property");
-    }
+		public SuppressSinglePropertyFix(String shortName)
+		{
+			this.shortName = shortName;
+		}
 
-    public boolean isAvailable(@Nonnull final Project project, final Editor editor, @Nonnull final PsiElement element) {
-      final Property property = PsiTreeUtil.getParentOfType(element, Property.class);
-      return property != null && property.isValid();
-    }
+		@Nonnull
+		public String getText()
+		{
+			return PropertiesBundle.message("unused.property.suppress.for.property");
+		}
 
-    public void invoke(@Nonnull final Project project, final Editor editor, @Nonnull final PsiElement element) throws IncorrectOperationException {
-      final PsiFile file = element.getContainingFile();
-      if (!FileModificationService.getInstance().prepareFileForWrite(file)) return;
+		@Nonnull
+		public String getFamilyName()
+		{
+			return PropertiesBundle.message("unused.property.suppress.for.property");
+		}
 
-      final Property property = PsiTreeUtil.getParentOfType(element, Property.class);
-      LOG.assertTrue(property != null);
-      final int start = property.getTextRange().getStartOffset();
+		public boolean isAvailable(@Nonnull final Project project, final Editor editor, @Nonnull final PsiElement element)
+		{
+			final Property property = PsiTreeUtil.getParentOfType(element, Property.class);
+			return property != null && property.isValid();
+		}
 
-      @NonNls final Document doc = PsiDocumentManager.getInstance(project).getDocument(file);
-      LOG.assertTrue(doc != null);
-      final int line = doc.getLineNumber(start);
-      final int lineStart = doc.getLineStartOffset(line);
+		public void invoke(@Nonnull final Project project, final Editor editor, @Nonnull final PsiElement element) throws IncorrectOperationException
+		{
+			final PsiFile file = element.getContainingFile();
+			if(!FileModificationService.getInstance().prepareFileForWrite(file))
+			{
+				return;
+			}
 
-      doc.insertString(lineStart, "# suppress inspection \"" + shortName +
-                                  "\"\n");
-    }
-  }
+			final Property property = PsiTreeUtil.getParentOfType(element, Property.class);
+			LOG.assertTrue(property != null);
+			final int start = property.getTextRange().getStartOffset();
 
-  private static class SuppressForFile extends SuppressIntentionAction {
-    private final String shortName;
+			@NonNls final Document doc = PsiDocumentManager.getInstance(project).getDocument(file);
+			LOG.assertTrue(doc != null);
+			final int line = doc.getLineNumber(start);
+			final int lineStart = doc.getLineStartOffset(line);
 
-    public SuppressForFile(String shortName) {
-      this.shortName = shortName;
-    }
+			doc.insertString(lineStart, "# suppress inspection \"" + shortName +
+					"\"\n");
+		}
+	}
 
-    @Nonnull
-    public String getText() {
-      return PropertiesBundle.message("unused.property.suppress.for.file");
-    }
+	private static class SuppressForFile extends SuppressIntentionAction
+	{
+		private final String shortName;
 
-    @Nonnull
-    public String getFamilyName() {
-      return PropertiesBundle.message("unused.property.suppress.for.file");
-    }
+		public SuppressForFile(String shortName)
+		{
+			this.shortName = shortName;
+		}
 
-    public boolean isAvailable(@Nonnull final Project project, final Editor editor, @Nonnull final PsiElement element) {
-      return element.isValid() && element.getContainingFile() instanceof PropertiesFile;
-    }
+		@Nonnull
+		public String getText()
+		{
+			return PropertiesBundle.message("unused.property.suppress.for.file");
+		}
 
-    public void invoke(@Nonnull final Project project, final Editor editor, @Nonnull final PsiElement element) throws IncorrectOperationException {
-      final PsiFile file = element.getContainingFile();
-      if (!FileModificationService.getInstance().prepareFileForWrite(file)) return;
+		@Nonnull
+		public String getFamilyName()
+		{
+			return PropertiesBundle.message("unused.property.suppress.for.file");
+		}
 
-      @NonNls final Document doc = PsiDocumentManager.getInstance(project).getDocument(file);
-      LOG.assertTrue(doc != null, file);
+		public boolean isAvailable(@Nonnull final Project project, final Editor editor, @Nonnull final PsiElement element)
+		{
+			return element.isValid() && element.getContainingFile() instanceof PropertiesFile;
+		}
 
-      doc.insertString(0, "# suppress inspection \"" +
-                          shortName +
-                          "\" for whole file\n");
-    }
-  }
+		public void invoke(@Nonnull final Project project, final Editor editor, @Nonnull final PsiElement element) throws IncorrectOperationException
+		{
+			final PsiFile file = element.getContainingFile();
+			if(!FileModificationService.getInstance().prepareFileForWrite(file))
+			{
+				return;
+			}
+
+			@NonNls final Document doc = PsiDocumentManager.getInstance(project).getDocument(file);
+			LOG.assertTrue(doc != null, file);
+
+			doc.insertString(0, "# suppress inspection \"" +
+					shortName +
+					"\" for whole file\n");
+		}
+	}
 }

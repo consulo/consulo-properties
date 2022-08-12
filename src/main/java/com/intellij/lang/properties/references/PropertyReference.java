@@ -15,16 +15,15 @@
  */
 package com.intellij.lang.properties.references;
 
-import java.util.List;
+import com.intellij.lang.properties.psi.PropertiesFile;
+import consulo.document.util.TextRange;
+import consulo.language.editor.inspection.LocalQuickFix;
+import consulo.language.editor.inspection.LocalQuickFixProvider;
+import consulo.language.psi.PsiElement;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import com.intellij.codeInspection.LocalQuickFix;
-import com.intellij.codeInspection.LocalQuickFixProvider;
-import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
+import java.util.List;
 
 /**
  * @author cdr

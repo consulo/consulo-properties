@@ -15,16 +15,16 @@
  */
 package com.intellij.lang.properties;
 
-import com.intellij.lang.annotation.HighlightSeverity;
+import consulo.configurable.OptionsBundle;
+import consulo.language.ast.StringEscapesTokenTypes;
+import consulo.language.editor.annotation.HighlightSeverity;
 import com.intellij.lang.properties.parsing.PropertiesTokenTypes;
-import com.intellij.lexer.Lexer;
-import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
-import com.intellij.openapi.options.OptionsBundle;
-import com.intellij.openapi.util.Pair;
-import com.intellij.psi.StringEscapesTokenTypes;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.lexer.Lexer;
+import consulo.codeEditor.DefaultLanguageHighlighterColors;
+import consulo.colorScheme.TextAttributesKey;
+import consulo.language.editor.highlight.SyntaxHighlighterBase;
+import consulo.util.lang.Pair;
+import consulo.language.ast.IElementType;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;

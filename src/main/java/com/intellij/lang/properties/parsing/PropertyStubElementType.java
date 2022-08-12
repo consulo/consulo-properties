@@ -19,20 +19,21 @@
  */
 package com.intellij.lang.properties.parsing;
 
+import com.intellij.lang.properties.PropertiesLanguage;
 import com.intellij.lang.properties.psi.Property;
 import com.intellij.lang.properties.psi.PropertyKeyIndex;
 import com.intellij.lang.properties.psi.PropertyStub;
 import com.intellij.lang.properties.psi.impl.PropertyImpl;
 import com.intellij.lang.properties.psi.impl.PropertyStubImpl;
-import com.intellij.psi.stubs.*;
-import com.intellij.util.io.StringRef;
-import javax.annotation.Nonnull;
+import consulo.index.io.StringRef;
+import consulo.language.psi.stub.*;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 
 public class PropertyStubElementType extends IStubElementType<PropertyStub, Property> {
   public PropertyStubElementType() {
-    super("PROPERTY", PropertiesElementTypes.LANG);
+    super("PROPERTY", PropertiesLanguage.INSTANCE);
   }
 
   public Property createPsi(@Nonnull final PropertyStub stub) {
@@ -45,7 +46,7 @@ public class PropertyStubElementType extends IStubElementType<PropertyStub, Prop
 
   @Nonnull
   public String getExternalId() {
-    return "properties.prop";
+    return "properties.PROPERTY";
   }
 
   public void serialize(@Nonnull final PropertyStub stub, @Nonnull final StubOutputStream dataStream) throws IOException {

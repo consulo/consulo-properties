@@ -15,30 +15,43 @@
  */
 package com.intellij.lang.properties;
 
-import com.intellij.codeInsight.completion.*;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.util.Consumer;
+import consulo.annotation.access.RequiredReadAction;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.editor.completion.*;
+
 import javax.annotation.Nonnull;
 
 /**
  * @author peter
  */
-public class PropertiesCompletionContributor extends CompletionContributor {
-  @Override
-  public void fillCompletionVariants(CompletionParameters parameters, final CompletionResultSet result) {
-    if (parameters.isExtendedCompletion()) {
-      CompletionService.getCompletionService().getVariantsFromContributors(parameters.delegateToClassName(), null, new Consumer<CompletionResult>() {
-        public void consume(final CompletionResult completionResult) {
-          result.passResult(completionResult);
-        }
-      });
-    }
-  }
+@ExtensionImpl(id = "propertiesCompletion", order = "before javaClassReference")
+public class PropertiesCompletionContributor extends CompletionContributor
+{
+	@RequiredReadAction
+	@Override
+	public void fillCompletionVariants(CompletionParameters parameters, final CompletionResultSet result)
+	{
+		if(parameters.isExtendedCompletion())
+		{
+			CompletionService.getCompletionService().getVariantsFromContributors(parameters.delegateToClassName(), null, result::passResult);
+		}
+	}
 
-  @Override
-  public void beforeCompletion(@Nonnull CompletionInitializationContext context) {
-    if (context.getFile() instanceof PropertiesFile) {
-      context.setDummyIdentifier(CompletionUtil.DUMMY_IDENTIFIER_TRIMMED);
-    }
-  }
+	@Override
+	public void beforeCompletion(@Nonnull CompletionInitializationContext context)
+	{
+		if(context.getFile() instanceof PropertiesFile)
+		{
+			context.setDummyIdentifier(CompletionUtilCore.DUMMY_IDENTIFIER_TRIMMED);
+		}
+	}
+
+	@Nonnull
+	@Override
+	public Language getLanguage()
+	{
+		return PropertiesLanguage.INSTANCE;
+	}
 }

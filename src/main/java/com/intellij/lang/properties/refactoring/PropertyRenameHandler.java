@@ -15,58 +15,72 @@
  */
 package com.intellij.lang.properties.refactoring;
 
+import com.intellij.lang.properties.references.PropertyReferenceBase;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.codeEditor.Editor;
+import consulo.codeEditor.ScrollType;
+import consulo.dataContext.DataContext;
+import consulo.language.editor.LangDataKeys;
+import consulo.language.editor.TargetElementUtil;
+import consulo.language.editor.refactoring.rename.PsiElementRenameHandler;
+import consulo.language.psi.*;
+import consulo.project.Project;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import com.intellij.lang.properties.references.PropertyReferenceBase;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.LangDataKeys;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.ScrollType;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.ResolveResult;
-import com.intellij.psi.impl.source.resolve.reference.impl.PsiMultiReference;
-import com.intellij.refactoring.rename.PsiElementRenameHandler;
-import consulo.codeInsight.TargetElementUtil;
 
 /**
  * @author Dmitry Avdeev
  */
-public class PropertyRenameHandler extends PsiElementRenameHandler {
+@ExtensionImpl
+public class PropertyRenameHandler extends PsiElementRenameHandler
+{
+	public boolean isAvailableOnDataContext(final DataContext dataContext)
+	{
+		final Editor editor = dataContext.getData(LangDataKeys.EDITOR);
+		if(editor != null)
+		{
+			if(getPsiElement(editor) != null)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
-  public boolean isAvailableOnDataContext(final DataContext dataContext) {
-    final Editor editor = dataContext.getData(LangDataKeys.EDITOR);
-    if (editor != null) {
-      if (getPsiElement(editor) != null) return true;
-    }
-    return false;
-  }
+	@Nullable
+	private static PsiElement getPsiElement(final Editor editor)
+	{
+		final PsiReference reference = TargetElementUtil.findReference(editor);
+		if(reference instanceof PropertyReferenceBase)
+		{
+			final ResolveResult[] resolveResults = ((PropertyReferenceBase) reference).multiResolve(false);
+			return resolveResults.length > 0 ? resolveResults[0].getElement() : null;
+		}
+		else if(reference instanceof PsiMultiReference)
+		{
+			final PsiReference[] references = ((PsiMultiReference) reference).getReferences();
+			for(PsiReference psiReference : references)
+			{
+				if(psiReference instanceof PropertyReferenceBase)
+				{
+					final ResolveResult[] resolveResults = ((PropertyReferenceBase) psiReference).multiResolve(false);
+					if(resolveResults.length > 0)
+					{
+						return resolveResults[0].getElement();
+					}
+				}
+			}
+		}
+		return null;
+	}
 
-  @Nullable
-  private static PsiElement getPsiElement(final Editor editor) {
-    final PsiReference reference = TargetElementUtil.findReference(editor);
-    if (reference instanceof PropertyReferenceBase) {
-      final ResolveResult[] resolveResults = ((PropertyReferenceBase)reference).multiResolve(false);
-      return resolveResults.length > 0 ? resolveResults[0].getElement() : null;
-    } else if (reference instanceof PsiMultiReference) {
-      final PsiReference[] references = ((PsiMultiReference)reference).getReferences();
-      for (PsiReference psiReference : references) {
-        if (psiReference instanceof PropertyReferenceBase) {
-          final ResolveResult[] resolveResults = ((PropertyReferenceBase)psiReference).multiResolve(false);
-          if (resolveResults.length > 0) return resolveResults[0].getElement();
-        }
-      }
-    }
-    return null;
-  }
-
-  @Override
-  public void invoke(@Nonnull final Project project, final Editor editor, final PsiFile file, final DataContext dataContext) {
-    PsiElement element = getPsiElement(editor);
-    editor.getScrollingModel().scrollToCaret(ScrollType.MAKE_VISIBLE);
-    final PsiElement nameSuggestionContext = file.findElementAt(editor.getCaretModel().getOffset());
-    invoke(element, project, nameSuggestionContext, editor);
-  }
+	@Override
+	public void invoke(@Nonnull final Project project, final Editor editor, final PsiFile file, final DataContext dataContext)
+	{
+		PsiElement element = getPsiElement(editor);
+		editor.getScrollingModel().scrollToCaret(ScrollType.MAKE_VISIBLE);
+		final PsiElement nameSuggestionContext = file.findElementAt(editor.getCaretModel().getOffset());
+		invoke(element, project, nameSuggestionContext, editor);
+	}
 }

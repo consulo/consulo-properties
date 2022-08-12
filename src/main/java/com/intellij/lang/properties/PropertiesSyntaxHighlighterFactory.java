@@ -1,14 +1,17 @@
 package com.intellij.lang.properties;
 
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.editor.highlight.SingleLazyInstanceSyntaxHighlighterFactory;
+import consulo.language.editor.highlight.SyntaxHighlighter;
 
-import com.intellij.openapi.fileTypes.SingleLazyInstanceSyntaxHighlighterFactory;
-import com.intellij.openapi.fileTypes.SyntaxHighlighter;
+import javax.annotation.Nonnull;
 
 /**
  * @author VISTALL
  * @since 2019-02-25
  */
+@ExtensionImpl
 public class PropertiesSyntaxHighlighterFactory extends SingleLazyInstanceSyntaxHighlighterFactory
 {
 	@Nonnull
@@ -16,5 +19,12 @@ public class PropertiesSyntaxHighlighterFactory extends SingleLazyInstanceSyntax
 	protected SyntaxHighlighter createHighlighter()
 	{
 		return new PropertiesHighlighter();
+	}
+
+	@Nonnull
+	@Override
+	public Language getLanguage()
+	{
+		return PropertiesLanguage.INSTANCE;
 	}
 }

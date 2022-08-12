@@ -15,25 +15,27 @@
  */
 package com.intellij.lang.properties.references;
 
-import com.intellij.codeInsight.daemon.EmptyResolveMessageProvider;
-import com.intellij.codeInsight.lookup.*;
-import com.intellij.icons.AllIcons;
 import com.intellij.lang.properties.*;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.editor.colors.EditorColorsManager;
-import com.intellij.openapi.editor.markup.TextAttributes;
-import com.intellij.openapi.roots.ProjectRootManager;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.pom.references.PomService;
-import com.intellij.psi.*;
-import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.NullableFunction;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.application.AllIcons;
+import consulo.colorScheme.EditorColorsManager;
+import consulo.colorScheme.TextAttributes;
+import consulo.document.util.TextRange;
+import consulo.language.editor.completion.lookup.LookupElement;
+import consulo.language.editor.completion.lookup.LookupElementBuilder;
+import consulo.language.editor.completion.lookup.LookupElementPresentation;
+import consulo.language.editor.completion.lookup.LookupElementRenderer;
+import consulo.language.pom.PomService;
+import consulo.language.psi.*;
+import consulo.language.util.IncorrectOperationException;
+import consulo.logging.Logger;
+import consulo.module.content.ProjectRootManager;
+import consulo.util.collection.ContainerUtil;
 import consulo.util.collection.HashingStrategy;
+import consulo.util.collection.Lists;
 import consulo.util.collection.Sets;
+import consulo.util.lang.Comparing;
+import consulo.util.lang.StringUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -41,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 /**
  * @author nik
@@ -69,20 +72,6 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
 
       if (hasBundle) {
         presentation.setTypeText(resourceBundle.getBaseName(), AllIcons.FileTypes.Properties);
-      }
-
-      if (presentation instanceof RealLookupElementPresentation && value != null) {
-        value = "=" + value;
-        int limit = 1000;
-        if (value.length() > limit || !((RealLookupElementPresentation)presentation).hasEnoughSpaceFor(value, false)) {
-          if (value.length() > limit) {
-            value = value.substring(0, limit);
-          }
-          while (value.length() > 0 && !((RealLookupElementPresentation)presentation).hasEnoughSpaceFor(value + "...", false)) {
-            value = value.substring(0, value.length() - 1);
-          }
-          value += "...";
-        }
       }
 
       TextAttributes attrs = EditorColorsManager.getInstance().getGlobalScheme().getAttributes(PropertiesHighlighter.PROPERTY_VALUE);
@@ -141,7 +130,8 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
     return myKey;
   }
 
-  public PsiElement handleElementRename(String newElementName) throws IncorrectOperationException {
+  public PsiElement handleElementRename(String newElementName) throws IncorrectOperationException
+  {
     /*PsiElementFactory factory = JavaPsiFacade.getInstance(myElement.getProject()).getElementFactory();
 
     if (myElement instanceof PsiLiteralExpression) {
@@ -157,7 +147,8 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
     /*}*/
   }
 
-  public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException {
+  public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException
+  {
     throw new IncorrectOperationException("not implemented");
   }
 
@@ -211,7 +202,7 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
       }
     }
     // put default properties file first
-    ContainerUtil.quickSort(properties, new Comparator<IProperty>() {
+    Lists.quickSort(properties, new Comparator<IProperty>() {
       public int compare(final IProperty o1, final IProperty o2) {
         String name1 = o1.getPropertiesFile().getName();
         String name2 = o2.getPropertiesFile().getName();
@@ -273,9 +264,9 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
   }
 
   protected static Object[] getVariants(Set<Object> variants) {
-    return ContainerUtil.mapNotNull(variants, new NullableFunction<Object, LookupElement>() {
+    return ContainerUtil.mapNotNull(variants, new Function<Object, Object>() {
       @Override
-      public LookupElement fun(Object o) {
+      public LookupElement apply(Object o) {
         if (o instanceof String) return LookupElementBuilder.create((String)o).withIcon(AllIcons.Nodes.Property);
         IProperty property = (IProperty)o;
         String key = property.getKey();

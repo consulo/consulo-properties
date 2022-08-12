@@ -15,95 +15,136 @@
  */
 package com.intellij.lang.properties;
 
-import com.intellij.codeInspection.InspectionManager;
-import com.intellij.codeInspection.LocalQuickFix;
-import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.lang.ASTNode;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.lang.properties.psi.impl.PropertyImpl;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.util.SmartList;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.progress.ProgressManager;
+import consulo.document.Document;
+import consulo.document.util.TextRange;
+import consulo.language.Language;
+import consulo.language.ast.ASTNode;
+import consulo.language.editor.inspection.LocalQuickFix;
+import consulo.language.editor.inspection.ProblemDescriptor;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.scheme.InspectionManager;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.language.psi.PsiDocumentManager;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.project.Project;
+import consulo.util.collection.SmartList;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
  * @author cdr
  */
-public class TrailingSpacesInPropertyInspection extends PropertySuppressableInspectionBase {
-  @Nonnull
-  public String getDisplayName() {
-    return PropertiesBundle.message("trail.spaces.property.inspection.display.name");
-  }
+@ExtensionImpl
+public class TrailingSpacesInPropertyInspection extends PropertySuppressableInspectionBase
+{
+	@Nonnull
+	public String getDisplayName()
+	{
+		return PropertiesBundle.message("trail.spaces.property.inspection.display.name");
+	}
 
-  @Nonnull
-  public String getShortName() {
-    return "TrailingSpacesInProperty";
-  }
+	@Nullable
+	@Override
+	public Language getLanguage()
+	{
+		return PropertiesLanguage.INSTANCE;
+	}
 
-  public ProblemDescriptor[] checkFile(@Nonnull PsiFile file, @Nonnull final InspectionManager manager, final boolean isOnTheFly) {
-    if (!(file instanceof PropertiesFile)) return null;
-    final List<IProperty> properties = ((PropertiesFile)file).getProperties();
-    final List<ProblemDescriptor> descriptors = new SmartList<ProblemDescriptor>();
+	@Nonnull
+	public String getShortName()
+	{
+		return "TrailingSpacesInProperty";
+	}
 
-    for (IProperty property : properties) {
-      ProgressManager.checkCanceled();
+	@Nonnull
+	@Override
+	public HighlightDisplayLevel getDefaultLevel()
+	{
+		return HighlightDisplayLevel.WARNING;
+	}
 
-      ASTNode keyNode = ((PropertyImpl)property).getKeyNode();
-      if (keyNode != null) {
-        PsiElement key = keyNode.getPsi();
-        TextRange textRange = getTrailingSpaces(key);
-        if (textRange != null) {
-          descriptors.add(manager.createProblemDescriptor(key, textRange, "Trailing Spaces", ProblemHighlightType.GENERIC_ERROR_OR_WARNING, true, RemoveTrailingSpacesFix.INSTANCE));
-        }
-      }
-      ASTNode valueNode = ((PropertyImpl)property).getValueNode();
-      if (valueNode != null) {
-        PsiElement value = valueNode.getPsi();
-        TextRange textRange = getTrailingSpaces(value);
-        if (textRange != null) {
-          descriptors.add(manager.createProblemDescriptor(value, textRange, "Trailing Spaces", ProblemHighlightType.GENERIC_ERROR_OR_WARNING, true, RemoveTrailingSpacesFix.INSTANCE));
-        }
-      }
-    }
-    return descriptors.toArray(new ProblemDescriptor[descriptors.size()]);
-  }
+	public ProblemDescriptor[] checkFile(@Nonnull PsiFile file, @Nonnull final InspectionManager manager, final boolean isOnTheFly)
+	{
+		if(!(file instanceof PropertiesFile))
+		{
+			return null;
+		}
+		final List<IProperty> properties = ((PropertiesFile) file).getProperties();
+		final List<ProblemDescriptor> descriptors = new SmartList<ProblemDescriptor>();
 
-  private static TextRange getTrailingSpaces(PsiElement element) {
-    String key = element.getText();
+		for(IProperty property : properties)
+		{
+			ProgressManager.checkCanceled();
 
-    return PropertyImpl.trailingSpaces(key);
-  }
+			ASTNode keyNode = ((PropertyImpl) property).getKeyNode();
+			if(keyNode != null)
+			{
+				PsiElement key = keyNode.getPsi();
+				TextRange textRange = getTrailingSpaces(key);
+				if(textRange != null)
+				{
+					descriptors.add(manager.createProblemDescriptor(key, textRange, "Trailing Spaces", ProblemHighlightType.GENERIC_ERROR_OR_WARNING, true, RemoveTrailingSpacesFix.INSTANCE));
+				}
+			}
+			ASTNode valueNode = ((PropertyImpl) property).getValueNode();
+			if(valueNode != null)
+			{
+				PsiElement value = valueNode.getPsi();
+				TextRange textRange = getTrailingSpaces(value);
+				if(textRange != null)
+				{
+					descriptors.add(manager.createProblemDescriptor(value, textRange, "Trailing Spaces", ProblemHighlightType.GENERIC_ERROR_OR_WARNING, true, RemoveTrailingSpacesFix.INSTANCE));
+				}
+			}
+		}
+		return descriptors.toArray(new ProblemDescriptor[descriptors.size()]);
+	}
 
-  private static class RemoveTrailingSpacesFix implements LocalQuickFix {
-    private static final RemoveTrailingSpacesFix INSTANCE = new RemoveTrailingSpacesFix();
-    @Nonnull
-    public String getName() {
-      return "Remove Trailing Spaces";
-    }
+	private static TextRange getTrailingSpaces(PsiElement element)
+	{
+		String key = element.getText();
 
-    @Nonnull
-    public String getFamilyName() {
-      return getName();
-    }
+		return PropertyImpl.trailingSpaces(key);
+	}
 
-    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
-      PsiElement element = descriptor.getPsiElement();
-      PsiElement parent = element == null ? null : element.getParent();
-      if (!(parent instanceof PropertyImpl)) return;
-      TextRange textRange = getTrailingSpaces(element);
-      if (textRange != null) {
-        Document document = PsiDocumentManager.getInstance(project).getDocument(element.getContainingFile());
-        TextRange docRange = textRange.shiftRight(element.getTextRange().getStartOffset());
-        document.deleteString(docRange.getStartOffset(), docRange.getEndOffset());
-      }
-    }
-  }
+	private static class RemoveTrailingSpacesFix implements LocalQuickFix
+	{
+		private static final RemoveTrailingSpacesFix INSTANCE = new RemoveTrailingSpacesFix();
+
+		@Nonnull
+		public String getName()
+		{
+			return "Remove Trailing Spaces";
+		}
+
+		@Nonnull
+		public String getFamilyName()
+		{
+			return getName();
+		}
+
+		public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor)
+		{
+			PsiElement element = descriptor.getPsiElement();
+			PsiElement parent = element == null ? null : element.getParent();
+			if(!(parent instanceof PropertyImpl))
+			{
+				return;
+			}
+			TextRange textRange = getTrailingSpaces(element);
+			if(textRange != null)
+			{
+				Document document = PsiDocumentManager.getInstance(project).getDocument(element.getContainingFile());
+				TextRange docRange = textRange.shiftRight(element.getTextRange().getStartOffset());
+				document.deleteString(docRange.getStartOffset(), docRange.getEndOffset());
+			}
+		}
+	}
 }

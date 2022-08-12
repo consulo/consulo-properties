@@ -19,13 +19,14 @@
  */
 package com.intellij.lang.properties.psi.impl;
 
-import javax.annotation.Nonnull;
-import com.intellij.extapi.psi.StubBasedPsiElementBase;
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.Language;
 import com.intellij.lang.properties.PropertiesLanguage;
-import com.intellij.psi.stubs.IStubElementType;
-import com.intellij.psi.stubs.StubElement;
+import consulo.language.Language;
+import consulo.language.ast.ASTNode;
+import consulo.language.impl.psi.stub.StubBasedPsiElementBase;
+import consulo.language.psi.stub.IStubElementType;
+import consulo.language.psi.stub.StubElement;
+
+import javax.annotation.Nonnull;
 
 public class PropertiesStubElementImpl <T extends StubElement> extends StubBasedPsiElementBase<T> {
   public PropertiesStubElementImpl(final T stub, IStubElementType nodeType) {

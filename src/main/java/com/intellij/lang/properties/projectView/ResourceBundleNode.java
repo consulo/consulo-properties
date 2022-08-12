@@ -19,32 +19,32 @@
  */
 package com.intellij.lang.properties.projectView;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import com.intellij.icons.AllIcons;
-import com.intellij.ide.projectView.PresentationData;
-import com.intellij.ide.projectView.ProjectViewNode;
-import com.intellij.ide.projectView.ViewSettings;
-import com.intellij.ide.projectView.impl.nodes.PsiFileNode;
-import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.lang.properties.PropertiesBundle;
 import com.intellij.lang.properties.PropertiesFileType;
 import com.intellij.lang.properties.PropertiesUtil;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.editor.ResourceBundleAsVirtualFile;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.fileEditor.FileEditorManager;
-import com.intellij.openapi.fileEditor.OpenFileDescriptor;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
+import consulo.application.AllIcons;
+import consulo.fileEditor.FileEditorManager;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiManager;
+import consulo.navigation.OpenFileDescriptor;
+import consulo.navigation.OpenFileDescriptorFactory;
+import consulo.project.Project;
+import consulo.project.ui.view.tree.AbstractTreeNode;
+import consulo.project.ui.view.tree.ProjectViewNode;
+import consulo.project.ui.view.tree.PsiFileNode;
+import consulo.project.ui.view.tree.ViewSettings;
+import consulo.ui.ex.tree.PresentationData;
+import consulo.virtualFileSystem.VirtualFile;
 
-public class ResourceBundleNode extends ProjectViewNode<ResourceBundle>{
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+public class ResourceBundleNode extends ProjectViewNode<ResourceBundle> {
   public ResourceBundleNode(Project project, ResourceBundle resourceBundle, final ViewSettings settings) {
     super(project, resourceBundle, settings);
   }
@@ -89,7 +89,7 @@ public class ResourceBundleNode extends ProjectViewNode<ResourceBundle>{
   }
 
   public void navigate(final boolean requestFocus) {
-    OpenFileDescriptor descriptor = new OpenFileDescriptor(getProject(), new ResourceBundleAsVirtualFile(getValue()));
+    OpenFileDescriptor descriptor = OpenFileDescriptorFactory.getInstance(getProject()).builder(new ResourceBundleAsVirtualFile(getValue())).build();
     FileEditorManager.getInstance(getProject()).openTextEditor(descriptor, requestFocus);
   }
 

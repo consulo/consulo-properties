@@ -19,22 +19,27 @@
  */
 package com.intellij.lang.properties.psi;
 
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.stub.StringStubIndexExtension;
+import consulo.language.psi.stub.StubIndexKey;
+
 import javax.annotation.Nonnull;
 
-import com.intellij.psi.stubs.StringStubIndexExtension;
-import com.intellij.psi.stubs.StubIndexKey;
+@ExtensionImpl
+public class PropertyKeyIndex extends StringStubIndexExtension<Property>
+{
+	public static final StubIndexKey<String, Property> KEY = StubIndexKey.createIndexKey("properties.index");
 
-public class PropertyKeyIndex extends StringStubIndexExtension<Property> {
-  public static final StubIndexKey<String, Property> KEY = StubIndexKey.createIndexKey("properties.index");
+	private static final PropertyKeyIndex ourInstance = new PropertyKeyIndex();
 
-  private static final PropertyKeyIndex ourInstance = new PropertyKeyIndex();
+	public static PropertyKeyIndex getInstance()
+	{
+		return ourInstance;
+	}
 
-  public static PropertyKeyIndex getInstance() {
-    return ourInstance;
-  }
-
-  @Nonnull
-  public StubIndexKey<String, Property> getKey() {
-    return KEY;
-  }
+	@Nonnull
+	public StubIndexKey<String, Property> getKey()
+	{
+		return KEY;
+	}
 }

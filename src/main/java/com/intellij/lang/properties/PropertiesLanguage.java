@@ -15,15 +15,17 @@
  */
 package com.intellij.lang.properties;
 
-import com.intellij.lang.Language;
+import consulo.language.Language;
 
 /**
  * @author max
  */
-public class PropertiesLanguage extends Language {
-  public static final PropertiesLanguage INSTANCE = new PropertiesLanguage();
+public class PropertiesLanguage extends Language
+{
+	public static final PropertiesLanguage INSTANCE = new PropertiesLanguage();
 
-  public PropertiesLanguage() {
-    super("Properties", "text/properties");
-  }
+	public PropertiesLanguage()
+	{
+		super("Properties", "text/properties");
+	}
 }

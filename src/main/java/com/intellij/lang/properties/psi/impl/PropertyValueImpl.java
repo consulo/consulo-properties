@@ -17,16 +17,17 @@ package com.intellij.lang.properties.psi.impl;
 
 import javax.annotation.Nonnull;
 
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.impl.source.resolve.reference.ReferenceProvidersRegistry;
-import com.intellij.psi.impl.source.tree.LeafPsiElement;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.ast.IElementType;
+import consulo.language.impl.psi.LeafPsiElement;
+import consulo.language.psi.PsiReference;
+import consulo.language.psi.ReferenceProvidersRegistry;
 import org.jetbrains.annotations.NonNls;
 
 /**
  * @author cdr
  */
-public class PropertyValueImpl extends LeafPsiElement {
+public class PropertyValueImpl extends LeafPsiElement
+{
   public PropertyValueImpl(IElementType type, CharSequence text) {
     super(type, text);
   }

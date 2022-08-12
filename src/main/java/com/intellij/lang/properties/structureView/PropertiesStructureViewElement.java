@@ -15,9 +15,9 @@
  */
 package com.intellij.lang.properties.structureView;
 
-import com.intellij.ide.structureView.StructureViewTreeElement;
+import consulo.fileEditor.structureView.StructureViewTreeElement;
 import com.intellij.lang.properties.psi.Property;
-import com.intellij.navigation.ItemPresentation;
+import consulo.navigation.ItemPresentation;
 import consulo.ui.image.Image;
 
 /**

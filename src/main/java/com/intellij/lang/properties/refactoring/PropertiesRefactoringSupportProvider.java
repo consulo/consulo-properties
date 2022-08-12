@@ -19,11 +19,26 @@
  */
 package com.intellij.lang.properties.refactoring;
 
-import com.intellij.lang.refactoring.RefactoringSupportProvider;
-import com.intellij.psi.PsiElement;
+import com.intellij.lang.properties.PropertiesLanguage;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.editor.refactoring.RefactoringSupportProvider;
+import consulo.language.psi.PsiElement;
 
-public class PropertiesRefactoringSupportProvider extends RefactoringSupportProvider {
-  public boolean isSafeDeleteAvailable(PsiElement element) {
-    return true;
-  }
+import javax.annotation.Nonnull;
+
+@ExtensionImpl
+public class PropertiesRefactoringSupportProvider extends RefactoringSupportProvider
+{
+	public boolean isSafeDeleteAvailable(PsiElement element)
+	{
+		return true;
+	}
+
+	@Nonnull
+	@Override
+	public Language getLanguage()
+	{
+		return PropertiesLanguage.INSTANCE;
+	}
 }

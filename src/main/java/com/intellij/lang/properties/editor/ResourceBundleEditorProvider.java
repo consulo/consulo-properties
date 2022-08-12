@@ -15,30 +15,30 @@
  */
 package com.intellij.lang.properties.editor;
 
-import javax.annotation.Nonnull;
-
-import org.jdom.Element;
 import com.intellij.lang.properties.PropertiesUtil;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.fileEditor.FileEditor;
-import com.intellij.openapi.fileEditor.FileEditorPolicy;
-import com.intellij.openapi.fileEditor.FileEditorProvider;
-import com.intellij.openapi.fileEditor.FileEditorState;
-import com.intellij.openapi.fileTypes.FileTypeConsumer;
-import com.intellij.openapi.fileTypes.FileTypeFactory;
-import com.intellij.openapi.project.DumbAware;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Computable;
-import com.intellij.openapi.util.Disposer;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.ApplicationManager;
+import consulo.application.dumb.DumbAware;
+import consulo.application.util.function.Computable;
+import consulo.disposer.Disposer;
+import consulo.fileEditor.FileEditor;
+import consulo.fileEditor.FileEditorPolicy;
+import consulo.fileEditor.FileEditorProvider;
+import consulo.fileEditor.FileEditorState;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiManager;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
+import org.jdom.Element;
 
-public class ResourceBundleEditorProvider extends FileTypeFactory implements FileEditorProvider, DumbAware
+import javax.annotation.Nonnull;
+
+@ExtensionImpl
+public class ResourceBundleEditorProvider implements FileEditorProvider, DumbAware
 {
-	private static final ResourceBundleFileType RESOURCE_BUNDLE_FILE_TYPE = new ResourceBundleFileType();
+	public static final ResourceBundleFileType RESOURCE_BUNDLE_FILE_TYPE = new ResourceBundleFileType();
 
 	@Override
 	public boolean accept(@Nonnull final Project project, @Nonnull final VirtualFile file)
@@ -111,12 +111,5 @@ public class ResourceBundleEditorProvider extends FileTypeFactory implements Fil
 	public String getEditorTypeId()
 	{
 		return "ResourceBundle";
-	}
-
-
-	@Override
-	public void createFileTypes(@Nonnull final FileTypeConsumer consumer)
-	{
-		consumer.consume(RESOURCE_BUNDLE_FILE_TYPE, "");
 	}
 }

@@ -15,10 +15,10 @@
  */
 package com.intellij.lang.properties.psi.impl;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.properties.parsing.PropertiesElementTypes;
+import com.intellij.lang.properties.parsing.PropertiesStubElementTypes;
 import com.intellij.lang.properties.psi.PropertiesList;
 import com.intellij.lang.properties.psi.PropertiesListStub;
+import consulo.language.ast.ASTNode;
 
 /**
  * @author max
@@ -29,7 +29,7 @@ public class PropertiesListImpl extends PropertiesStubElementImpl<PropertiesList
   }
 
   public PropertiesListImpl(final PropertiesListStub stub) {
-    super(stub, PropertiesElementTypes.PROPERTIES_LIST);
+    super(stub, PropertiesStubElementTypes.PROPERTIES_LIST);
   }
 
   public String toString() {

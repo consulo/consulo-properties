@@ -19,47 +19,58 @@
  */
 package com.intellij.lang.properties.editor;
 
-import com.intellij.ide.SelectInContext;
-import com.intellij.ide.structureView.newStructureView.StructureViewComponent;
-import com.intellij.ide.util.treeView.AbstractTreeNode;
-import com.intellij.ide.util.treeView.AbstractTreeUi;
-import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.PropertiesUtil;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.actionSystem.DataProvider;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.application.ModalityState;
-import com.intellij.openapi.application.WriteAction;
-import com.intellij.openapi.command.CommandProcessor;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.editor.*;
-import com.intellij.openapi.editor.colors.EditorColorsManager;
-import com.intellij.openapi.editor.colors.EditorColorsScheme;
-import com.intellij.openapi.editor.event.DocumentAdapter;
-import com.intellij.openapi.editor.event.DocumentEvent;
-import com.intellij.openapi.editor.event.DocumentListener;
-import com.intellij.openapi.editor.ex.EditorEx;
-import com.intellij.openapi.editor.ex.util.LexerEditorHighlighter;
-import com.intellij.openapi.fileEditor.*;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.Disposer;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.*;
-import com.intellij.psi.*;
-import com.intellij.ui.IdeBorderFactory;
-import com.intellij.ui.JBColor;
-import com.intellij.ui.JBSplitter;
-import com.intellij.ui.components.JBScrollPane;
-import com.intellij.util.Alarm;
-import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.containers.ContainerUtilRt;
-import com.intellij.util.containers.Stack;
-import com.intellij.util.ui.UIUtil;
+import consulo.application.Application;
+import consulo.application.ApplicationManager;
+import consulo.application.WriteAction;
+import consulo.codeEditor.*;
+import consulo.colorScheme.EditorColorsManager;
+import consulo.colorScheme.EditorColorsScheme;
+import consulo.dataContext.DataProvider;
+import consulo.document.Document;
+import consulo.document.FileDocumentManager;
+import consulo.document.event.DocumentAdapter;
+import consulo.document.event.DocumentEvent;
+import consulo.document.event.DocumentListener;
+import consulo.fileEditor.*;
+import consulo.fileEditor.event.FileEditorManagerAdapter;
+import consulo.fileEditor.event.FileEditorManagerEvent;
+import consulo.fileEditor.event.FileEditorManagerListener;
+import consulo.fileEditor.structureView.tree.TreeElement;
+import consulo.ide.impl.idea.ide.structureView.newStructureView.StructureViewComponent;
+import consulo.language.editor.highlight.LexerEditorHighlighter;
+import consulo.language.psi.PsiDocumentManager;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiManager;
+import consulo.language.psi.event.PsiTreeChangeAdapter;
+import consulo.language.psi.event.PsiTreeChangeEvent;
+import consulo.language.util.IncorrectOperationException;
+import consulo.logging.Logger;
+import consulo.project.Project;
+import consulo.project.ui.view.SelectInContext;
+import consulo.project.ui.view.tree.AbstractTreeNode;
+import consulo.ui.ex.JBColor;
+import consulo.ui.ex.awt.IdeBorderFactory;
+import consulo.ui.ex.awt.JBScrollPane;
+import consulo.ui.ex.awt.JBSplitter;
+import consulo.ui.ex.awt.UIUtil;
+import consulo.ui.ex.awt.tree.AbstractTreeUi;
+import consulo.ui.ex.awt.util.Alarm;
+import consulo.undoRedo.CommandProcessor;
+import consulo.util.collection.Stack;
 import consulo.util.dataholder.Key;
 import consulo.util.dataholder.UserDataHolderBase;
+import consulo.util.lang.Comparing;
+import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
+import consulo.virtualFileSystem.event.VirtualFileAdapter;
+import consulo.virtualFileSystem.event.VirtualFileEvent;
+import consulo.virtualFileSystem.event.VirtualFileListener;
+import consulo.virtualFileSystem.event.VirtualFilePropertyEvent;
 import kava.beans.PropertyChangeListener;
 import org.jetbrains.annotations.NonNls;
 
@@ -80,7 +91,7 @@ import java.util.function.Supplier;
 
 public class ResourceBundleEditor extends UserDataHolderBase implements FileEditor
 {
-	private static final Logger LOG = Logger.getInstance("#com.intellij.lang.properties.editor.ResourceBundleEditor");
+	private static final Logger LOG = Logger.getInstance(ResourceBundleEditor.class);
 	@NonNls
 	private static final String VALUES = "values";
 	@NonNls
@@ -162,7 +173,7 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 		}
 		myDataProviderPanel = new DataProviderPanel(panel);
 
-		project.getMessageBus().connect(project).subscribe(FileEditorManagerListener.FILE_EDITOR_MANAGER, new FileEditorManagerAdapter()
+		project.getMessageBus().connect(project).subscribe(FileEditorManagerListener.class, new FileEditorManagerAdapter()
 		{
 			@Override
 			public void selectionChanged(@Nonnull FileEditorManagerEvent event)
@@ -236,7 +247,7 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 			return;
 		}
 
-		Stack<DefaultMutableTreeNode> toCheck = ContainerUtilRt.newStack();
+		Stack<DefaultMutableTreeNode> toCheck = consulo.ide.impl.idea.util.containers.ContainerUtilRt.newStack();
 		toCheck.push((DefaultMutableTreeNode) root);
 		DefaultMutableTreeNode nodeToSelect = null;
 		while(!toCheck.isEmpty())
@@ -745,7 +756,7 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 					}
 				});
 			}
-		}, 300, ModalityState.stateForComponent(getComponent()));
+		}, 300, Application.get().getModalityStateForComponent(getComponent()));
 	}
 
 	@Nullable
@@ -924,7 +935,7 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 		VirtualFileManager.getInstance().removeVirtualFileListener(myVfsListener);
 
 		myDisposed = true;
-		Disposer.dispose(myStructureViewComponent);
+		consulo.ide.impl.idea.openapi.util.Disposer.dispose(myStructureViewComponent);
 		releaseAllEditors();
 	}
 

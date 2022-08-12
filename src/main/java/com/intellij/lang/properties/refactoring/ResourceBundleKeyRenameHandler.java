@@ -21,16 +21,17 @@ import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.editor.ResourceBundleEditor;
 import com.intellij.lang.properties.editor.ResourceBundleUtil;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.fileEditor.FileEditorStateLevel;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.InputValidator;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.refactoring.rename.RenameHandler;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.dataContext.DataContext;
+import consulo.application.ApplicationManager;
+import consulo.codeEditor.Editor;
+import consulo.fileEditor.FileEditorStateLevel;
+import consulo.language.psi.PsiFile;
+import consulo.ui.ex.InputValidator;
+import consulo.ui.ex.awt.Messages;
+import consulo.language.psi.PsiElement;
+import consulo.language.editor.refactoring.rename.RenameHandler;
+import consulo.project.Project;
 
 import javax.annotation.Nonnull;
 import java.util.HashSet;
@@ -42,6 +43,7 @@ import java.util.Set;
  * @author Denis Zhdanov
  * @since 11/9/10 4:13 PM
  */
+@ExtensionImpl
 public class ResourceBundleKeyRenameHandler implements RenameHandler {
 
   @Override

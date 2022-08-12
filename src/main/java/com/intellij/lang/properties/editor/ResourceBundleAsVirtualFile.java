@@ -19,18 +19,16 @@
  */
 package com.intellij.lang.properties.editor;
 
-import com.intellij.ide.presentation.Presentation;
 import com.intellij.lang.properties.ResourceBundle;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileSystem;
-import javax.annotation.Nonnull;
+import consulo.virtualFileSystem.LocalFileSystem;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileSystem;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-@Presentation(icon = "AllIcons.Nodes.ResourceBundle")
 public class ResourceBundleAsVirtualFile extends VirtualFile {
   private final ResourceBundle myResourceBundle;
 

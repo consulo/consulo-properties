@@ -2,14 +2,15 @@ package com.intellij.lang.properties.psi.impl;
 
 import javax.annotation.Nonnull;
 
-import com.intellij.openapi.util.ProperTextRange;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.LiteralTextEscaper;
+import consulo.document.util.ProperTextRange;
+import consulo.document.util.TextRange;
+import consulo.language.psi.LiteralTextEscaper;
 
 /**
  * @author gregsh
  */
-public class PropertyImplEscaper extends LiteralTextEscaper<PropertyImpl> {
+public class PropertyImplEscaper extends LiteralTextEscaper<PropertyImpl>
+{
   private int[] outSourceOffsets;
 
   public PropertyImplEscaper(PropertyImpl value) {

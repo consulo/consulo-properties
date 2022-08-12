@@ -16,20 +16,23 @@
 
 package consulo.properties;
 
+import com.intellij.lang.properties.parsing.PropertiesTokenTypes;
+import com.intellij.lang.properties.psi.impl.PropertyValueImpl;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.ast.IElementType;
+import consulo.language.impl.ast.ASTLeafFactory;
+import consulo.language.impl.ast.LeafElement;
+import consulo.language.impl.psi.PsiCommentImpl;
+import consulo.language.version.LanguageVersion;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.intellij.lang.properties.parsing.PropertiesTokenTypes;
-import com.intellij.lang.properties.psi.impl.PropertyValueImpl;
-import com.intellij.psi.impl.source.tree.LeafElement;
-import com.intellij.psi.impl.source.tree.PsiCommentImpl;
-import com.intellij.psi.tree.IElementType;
-import consulo.lang.LanguageVersion;
-import consulo.psi.tree.ASTLeafFactory;
 
 /**
  * @author cdr
  */
+@ExtensionImpl
 public class PropertiesASTLeafFactory implements ASTLeafFactory
 {
   @Override

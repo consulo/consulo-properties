@@ -16,16 +16,18 @@
 package com.intellij.lang.properties.parsing;
 
 import javax.annotation.Nonnull;
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.PsiBuilder;
-import com.intellij.lang.PsiParser;
-import com.intellij.psi.tree.IElementType;
-import consulo.lang.LanguageVersion;
+
+import consulo.language.parser.PsiBuilder;
+import consulo.language.ast.IElementType;
+import consulo.language.ast.ASTNode;
+import consulo.language.parser.PsiParser;
+import consulo.language.version.LanguageVersion;
 
 /**
  * @author max
  */
-public class PropertiesParser implements PsiParser {
+public class PropertiesParser implements PsiParser
+{
   @Nonnull
   public ASTNode parse(@Nonnull IElementType root, @Nonnull PsiBuilder builder, @Nonnull LanguageVersion languageVersion) {
     final PsiBuilder.Marker rootMarker = builder.mark();
@@ -33,7 +35,7 @@ public class PropertiesParser implements PsiParser {
     while (!builder.eof()) {
       Parsing.parseProperty(builder);
     }
-    propertiesList.done(PropertiesElementTypes.PROPERTIES_LIST);
+    propertiesList.done(PropertiesStubElementTypes.PROPERTIES_LIST);
     rootMarker.done(root);
     return builder.getTreeBuilt();
   }

@@ -20,12 +20,13 @@
 package com.intellij.lang.properties.editor;
 
 import com.intellij.lang.properties.parsing.PropertiesTokenTypes;
-import com.intellij.lexer.EmptyLexer;
-import com.intellij.lexer.LayeredLexer;
-import com.intellij.lexer.StringLiteralLexer;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.lexer.EmptyLexer;
+import consulo.language.lexer.StringLiteralLexer;
+import consulo.language.ast.IElementType;
+import consulo.language.lexer.LayeredLexer;
 
-public class PropertiesValueHighlightingLexer extends LayeredLexer {
+public class PropertiesValueHighlightingLexer extends LayeredLexer
+{
   public PropertiesValueHighlightingLexer() {
       super(new EmptyLexer(){
         public IElementType getTokenType() {

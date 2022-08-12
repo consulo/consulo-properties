@@ -22,14 +22,14 @@ import java.util.Properties;
 
 import javax.annotation.Nonnull;
 
+import consulo.language.psi.PsiFileFactory;
 import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.PropertiesFileType;
 import com.intellij.lang.properties.editor.ResourceBundleUtil;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.UserDataCache;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiFileFactory;
+import consulo.project.Project;
+import consulo.application.util.UserDataCache;
+import consulo.util.lang.StringUtil;
 
 /**
  * @author cdr
@@ -52,7 +52,7 @@ public class PropertiesElementFactory {
   @Nonnull
   public static PropertiesFile createPropertiesFile(@Nonnull Project project, @NonNls @Nonnull String text) {
     @NonNls String filename = "dummy." + PropertiesFileType.INSTANCE.getDefaultExtension();
-    return (PropertiesFile)PsiFileFactory.getInstance(project)
+    return (PropertiesFile) PsiFileFactory.getInstance(project)
       .createFileFromText(filename, PropertiesFileType.INSTANCE, text);
   }
 

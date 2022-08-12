@@ -15,16 +15,16 @@
  */
 package com.intellij.lang.properties;
 
-import com.intellij.icons.AllIcons;
-import com.intellij.openapi.fileTypes.LanguageFileType;
-import com.intellij.openapi.util.Pair;
-import com.intellij.openapi.vfs.CharsetToolkit;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.encoding.EncodingManager;
-import consulo.fileTypes.FileTypeWithPredefinedCharset;
+import consulo.application.AllIcons;
+import consulo.language.file.LanguageFileType;
+import consulo.util.io.CharsetToolkit;
+import consulo.virtualFileSystem.encoding.EncodingManager;
 import consulo.localize.LocalizeValue;
 import consulo.properties.localize.PropertiesLocalize;
 import consulo.ui.image.Image;
+import consulo.util.lang.Pair;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.fileType.FileTypeWithPredefinedCharset;
 
 import javax.annotation.Nonnull;
 import java.nio.charset.Charset;

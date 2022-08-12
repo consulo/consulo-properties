@@ -15,28 +15,29 @@
  */
 package com.intellij.lang.properties;
 
-import com.intellij.codeInsight.FileModificationService;
-import com.intellij.codeInsight.intention.IntentionAction;
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.annotation.Annotation;
-import com.intellij.lang.annotation.AnnotationHolder;
-import com.intellij.lang.annotation.Annotator;
-import com.intellij.lang.annotation.HighlightSeverity;
+import consulo.codeEditor.Editor;
+import consulo.document.util.TextRange;
+import consulo.language.ast.ASTNode;
+import consulo.language.ast.IElementType;
+import consulo.language.editor.annotation.Annotation;
+import consulo.language.editor.annotation.AnnotationHolder;
+import consulo.language.editor.annotation.Annotator;
+import consulo.language.editor.annotation.HighlightSeverity;
 import com.intellij.lang.properties.editor.PropertiesValueHighlighter;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.lang.properties.psi.Property;
 import com.intellij.lang.properties.psi.impl.PropertyImpl;
-import com.intellij.lexer.Lexer;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.colors.EditorColorsManager;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.openapi.editor.markup.TextAttributes;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Pair;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.lexer.Lexer;
+import consulo.colorScheme.EditorColorsManager;
+import consulo.colorScheme.TextAttributesKey;
+import consulo.colorScheme.TextAttributes;
+import consulo.language.psi.PsiElement;
+import consulo.project.Project;
+import consulo.util.lang.Pair;
+import consulo.language.psi.PsiFile;
+import consulo.language.editor.FileModificationService;
+import consulo.language.editor.intention.IntentionAction;
+
 import javax.annotation.Nonnull;
 
 import java.util.Collection;
@@ -73,7 +74,7 @@ public class PropertiesAnnotator implements Annotator {
       IElementType elementType = lexer.getTokenType();
       TextAttributesKey[] keys = highlighter.getTokenHighlights(elementType);
       for (TextAttributesKey key : keys) {
-        Pair<String,HighlightSeverity> pair = PropertiesHighlighter.DISPLAY_NAMES.get(key);
+        Pair<String, HighlightSeverity> pair = PropertiesHighlighter.DISPLAY_NAMES.get(key);
         String displayName = pair.getFirst();
         HighlightSeverity severity = pair.getSecond();
         if (severity != null) {
