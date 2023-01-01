@@ -19,27 +19,24 @@
  */
 package com.intellij.lang.properties;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
+import com.intellij.lang.properties.psi.PropertiesFile;
+import consulo.application.Application;
+import consulo.application.ApplicationManager;
+import consulo.application.util.function.Computable;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiManager;
+import consulo.project.Project;
+import consulo.util.collection.Lists;
+import consulo.util.collection.SmartList;
+import consulo.util.lang.Comparing;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
 import org.jetbrains.annotations.NonNls;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.application.Application;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.Computable;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
-import com.intellij.util.SmartList;
-import com.intellij.util.containers.ContainerUtil;
+import java.util.Collections;
+import java.util.List;
 
 public class ResourceBundleImpl implements ResourceBundle
 {
@@ -126,14 +123,7 @@ public class ResourceBundleImpl implements ResourceBundle
 	{
 		List<PropertiesFile> files = getPropertiesFiles(project);
 		// put default properties file first
-		ContainerUtil.quickSort(files, new Comparator<PropertiesFile>()
-		{
-			@Override
-			public int compare(final PropertiesFile o1, final PropertiesFile o2)
-			{
-				return Comparing.compare(o1.getName(), o2.getName());
-			}
-		});
+		Lists.quickSort(files, (o1, o2) -> Comparing.compare(o1.getName(), o2.getName()));
 		return files.get(0);
 	}
 

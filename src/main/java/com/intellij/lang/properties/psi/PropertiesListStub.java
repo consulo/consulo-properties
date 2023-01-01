@@ -19,7 +19,8 @@
  */
 package com.intellij.lang.properties.psi;
 
-import com.intellij.psi.stubs.StubElement;
+import consulo.language.psi.stub.StubElement;
 
-public interface PropertiesListStub extends StubElement<PropertiesList> {
+public interface PropertiesListStub extends StubElement<PropertiesList>
+{
 }

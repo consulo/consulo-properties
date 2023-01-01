@@ -15,19 +15,21 @@
  */
 package com.intellij.lang.properties;
 
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.ide.IdeBundle;
+import consulo.language.editor.refactoring.util.DeleteTypeDescriptionLocation;
+import consulo.language.psi.ElementDescriptionLocation;
+import consulo.language.psi.ElementDescriptionProvider;
+import consulo.language.psi.PsiElement;
+import consulo.usage.UsageViewLongNameLocation;
 
-import com.intellij.ide.IdeBundle;
-import com.intellij.ide.util.DeleteTypeDescriptionLocation;
-import com.intellij.psi.ElementDescriptionLocation;
-import com.intellij.psi.ElementDescriptionProvider;
-import com.intellij.psi.PsiElement;
-import com.intellij.usageView.UsageViewLongNameLocation;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
  * @author yole
  */
+@ExtensionImpl
 public class PropertiesDescriptionProvider implements ElementDescriptionProvider {
   public String getElementDescription(@Nonnull final PsiElement element, @Nullable final ElementDescriptionLocation location) {
     if (element instanceof IProperty) {

@@ -19,17 +19,17 @@
  */
 package com.intellij.lang.properties.editor;
 
-import com.intellij.icons.AllIcons;
-import com.intellij.ide.structureView.StructureViewTreeElement;
+import consulo.application.AllIcons;
+import consulo.colorScheme.TextAttributes;
+import consulo.fileEditor.structureView.StructureViewTreeElement;
 import com.intellij.lang.properties.PropertiesHighlighter;
 import com.intellij.lang.properties.PropertiesUtil;
 import com.intellij.lang.properties.ResourceBundle;
-import com.intellij.navigation.ColoredItemPresentation;
-import com.intellij.navigation.ItemPresentation;
-import com.intellij.openapi.editor.colors.EditorColorsManager;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.openapi.editor.markup.TextAttributes;
-import com.intellij.openapi.project.Project;
+import consulo.navigation.ItemPresentation;
+import consulo.ui.ex.ColoredItemPresentation;
+import consulo.colorScheme.EditorColorsManager;
+import consulo.colorScheme.TextAttributesKey;
+import consulo.project.Project;
 import consulo.ui.image.Image;
 import consulo.ui.style.StandardColors;
 

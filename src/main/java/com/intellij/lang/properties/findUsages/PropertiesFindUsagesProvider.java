@@ -15,46 +15,61 @@
  */
 package com.intellij.lang.properties.findUsages;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.lang.findUsages.FindUsagesProvider;
 import com.intellij.lang.properties.IProperty;
+import com.intellij.lang.properties.PropertiesLanguage;
 import com.intellij.lang.properties.parsing.PropertiesWordsScanner;
-import com.intellij.lang.cacheBuilder.WordsScanner;
-import com.intellij.lang.LangBundle;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiNamedElement;
-import com.intellij.find.impl.HelpID;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.LangBundle;
+import consulo.language.Language;
+import consulo.language.cacheBuilder.WordsScanner;
+import consulo.language.findUsage.FindUsagesProvider;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiNamedElement;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author cdr
  */
-public class PropertiesFindUsagesProvider implements FindUsagesProvider {
-  public boolean canFindUsagesFor(@Nonnull PsiElement psiElement) {
-    return psiElement instanceof PsiNamedElement;
-  }
+@ExtensionImpl
+public class PropertiesFindUsagesProvider implements FindUsagesProvider
+{
+	public boolean canFindUsagesFor(@Nonnull PsiElement psiElement)
+	{
+		return psiElement instanceof PsiNamedElement;
+	}
 
-  public String getHelpId(@Nonnull PsiElement psiElement) {
-    return HelpID.FIND_OTHER_USAGES;
-  }
+	@Nonnull
+	public String getType(@Nonnull PsiElement element)
+	{
+		if(element instanceof IProperty)
+		{
+			return LangBundle.message("terms.property");
+		}
+		return "";
+	}
 
-  @Nonnull
-  public String getType(@Nonnull PsiElement element) {
-    if (element instanceof IProperty) return LangBundle.message("terms.property");
-    return "";
-  }
+	@Nonnull
+	public String getDescriptiveName(@Nonnull PsiElement element)
+	{
+		return ((PsiNamedElement) element).getName();
+	}
 
-  @Nonnull
-  public String getDescriptiveName(@Nonnull PsiElement element) {
-    return ((PsiNamedElement)element).getName();
-  }
+	@Nonnull
+	public String getNodeText(@Nonnull PsiElement element, boolean useFullName)
+	{
+		return getDescriptiveName(element);
+	}
 
-  @Nonnull
-  public String getNodeText(@Nonnull PsiElement element, boolean useFullName) {
-    return getDescriptiveName(element);
-  }
+	public WordsScanner getWordsScanner()
+	{
+		return new PropertiesWordsScanner();
+	}
 
-  public WordsScanner getWordsScanner() {
-    return new PropertiesWordsScanner();
-  }
+	@Nonnull
+	@Override
+	public Language getLanguage()
+	{
+		return PropertiesLanguage.INSTANCE;
+	}
 }

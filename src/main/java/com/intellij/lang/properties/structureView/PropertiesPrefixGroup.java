@@ -15,26 +15,26 @@
  */
 package com.intellij.lang.properties.structureView;
 
+import com.intellij.lang.properties.IProperty;
+import com.intellij.lang.properties.editor.ResourceBundlePropertyStructureViewElement;
+import consulo.application.AllIcons;
+import consulo.fileEditor.structureView.tree.Group;
+import consulo.fileEditor.structureView.tree.TreeElement;
+import consulo.navigation.ItemPresentation;
+import consulo.ui.image.Image;
+import consulo.util.lang.Comparing;
+import consulo.util.lang.StringUtil;
+
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.icons.AllIcons;
-import com.intellij.ide.util.treeView.smartTree.Group;
-import com.intellij.ide.util.treeView.smartTree.TreeElement;
-import com.intellij.lang.properties.IProperty;
-import com.intellij.lang.properties.editor.ResourceBundlePropertyStructureViewElement;
-import com.intellij.navigation.ItemPresentation;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.text.StringUtil;
-import consulo.ui.image.Image;
-
 /**
  * @author cdr
  */
-public class PropertiesPrefixGroup implements Group {
+public class PropertiesPrefixGroup implements Group
+{
   private final Collection<TreeElement> myProperties;
   private final @Nonnull
   String myPrefix;

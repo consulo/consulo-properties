@@ -15,25 +15,24 @@
  */
 package com.intellij.lang.properties.editor;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.jetbrains.annotations.NonNls;
-import com.intellij.ide.structureView.newStructureView.StructureViewComponent;
 import com.intellij.lang.properties.PropertiesBundle;
 import com.intellij.lang.properties.structureView.GroupByWordPrefixes;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DefaultActionGroup;
-import com.intellij.openapi.actionSystem.Presentation;
-import com.intellij.openapi.fileEditor.FileEditor;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
+import consulo.fileEditor.FileEditor;
+import consulo.project.Project;
+import consulo.ui.ex.action.AnAction;
+import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.DefaultActionGroup;
+import consulo.ui.ex.action.Presentation;
+import consulo.ui.ex.awt.Messages;
+import org.jetbrains.annotations.NonNls;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author cdr
  */
-public class PropertiesGroupingStructureViewComponent extends StructureViewComponent
+public class PropertiesGroupingStructureViewComponent extends consulo.ide.impl.idea.ide.structureView.newStructureView.StructureViewComponent
 {
 	protected PropertiesGroupingStructureViewComponent(
 			Project project, FileEditor editor, PropertiesGroupingStructureViewModel structureViewModel)

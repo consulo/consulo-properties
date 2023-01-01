@@ -15,32 +15,35 @@
  */
 package com.intellij.lang.properties;
 
-import javax.annotation.Nonnull;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiReference;
+import consulo.language.psi.PsiReferenceProvider;
+import consulo.language.util.ProcessingContext;
 
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.PsiReferenceProvider;
-import com.intellij.util.ProcessingContext;
+import javax.annotation.Nonnull;
 
 /**
  * @author yole
  */
-public class ResourceBundleReferenceProvider extends PsiReferenceProvider {
+public class ResourceBundleReferenceProvider extends PsiReferenceProvider
+{
+	protected boolean mySoft;
 
-  protected boolean mySoft;
+	public ResourceBundleReferenceProvider()
+	{
+		this(false);
+	}
 
-  public ResourceBundleReferenceProvider() {
-    this(false);    
-  }
+	public ResourceBundleReferenceProvider(boolean soft)
+	{
+		mySoft = soft;
+	}
 
-  public ResourceBundleReferenceProvider(boolean soft) {
-    mySoft = soft;
-  }
-
-  @Nonnull
-  public PsiReference[] getReferencesByElement(@Nonnull PsiElement element, @Nonnull final ProcessingContext context) {
-        ResourceBundleReference reference = new ResourceBundleReference(element, mySoft);
-        return new PsiReference[] { reference };
-  }
+	@Nonnull
+	public PsiReference[] getReferencesByElement(@Nonnull PsiElement element, @Nonnull final ProcessingContext context)
+	{
+		ResourceBundleReference reference = new ResourceBundleReference(element, mySoft);
+		return new PsiReference[]{reference};
+	}
 
 }

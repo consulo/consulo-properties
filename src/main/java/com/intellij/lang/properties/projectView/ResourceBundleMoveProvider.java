@@ -15,26 +15,28 @@
  */
 package com.intellij.lang.properties.projectView;
 
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nullable;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiElement;
-import com.intellij.refactoring.move.MoveHandlerDelegate;
-import com.intellij.refactoring.move.moveFilesOrDirectories.MoveFilesOrDirectoriesHandler;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.dataContext.DataContext;
+import consulo.language.editor.CommonDataKeys;
+import consulo.language.editor.refactoring.move.MoveHandlerDelegate;
+import consulo.language.editor.refactoring.move.fileOrDirectory.MoveFilesOrDirectoriesHandler;
+import consulo.language.psi.PsiDirectory;
+import consulo.language.psi.PsiElement;
+import consulo.logging.Logger;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Set;
 
 /**
  * User: anna
  * Date: Aug 26, 2010
  */
+@ExtensionImpl
 public class ResourceBundleMoveProvider extends MoveHandlerDelegate {
-  private static final Logger LOG = Logger.getInstance("#" + ResourceBundleMoveProvider.class.getName());
+  private static final Logger LOG = Logger.getInstance(ResourceBundleMoveProvider.class);
 
   @Override
   public boolean canMove(DataContext dataContext) {

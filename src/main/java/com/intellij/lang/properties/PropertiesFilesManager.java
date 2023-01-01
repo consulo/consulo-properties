@@ -15,74 +15,23 @@
  */
 package com.intellij.lang.properties;
 
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.project.DumbService;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VfsUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.encoding.EncodingManager;
-import com.intellij.openapi.vfs.encoding.EncodingManagerListener;
-import com.intellij.psi.search.FileTypeIndex;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.util.indexing.FileBasedIndex;
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ServiceAPI;
+import consulo.annotation.component.ServiceImpl;
+import consulo.project.Project;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Collection;
 
 /**
  * @author max
  */
 @Singleton
+@ServiceAPI(ComponentScope.PROJECT)
+@ServiceImpl
 public class PropertiesFilesManager
 {
-	public static class MyTopic implements EncodingManagerListener
-	{
-		private final Project myProject;
-
-		@Inject
-		public MyTopic(Project project)
-		{
-			myProject = project;
-		}
-
-		@Override
-		public void propertyChanged(@Nullable Document document, @Nonnull String propertyName, Object oldValue, Object newValue)
-		{
-			if(EncodingManager.PROP_NATIVE2ASCII_SWITCH.equals(propertyName) ||
-					EncodingManager.PROP_PROPERTIES_FILES_ENCODING.equals(propertyName))
-			{
-				DumbService.getInstance(myProject).smartInvokeLater(new Runnable()
-				{
-					public void run()
-					{
-						ApplicationManager.getApplication().runWriteAction(() ->
-						{
-							if(myProject.isDisposed())
-							{
-								return;
-							}
-							Collection<VirtualFile> filesToRefresh = FileBasedIndex.getInstance().getContainingFiles(FileTypeIndex.NAME, PropertiesFileType.INSTANCE, GlobalSearchScope.allScope(myProject));
-							VirtualFile[] virtualFiles = VfsUtil.toVirtualFileArray(filesToRefresh);
-							FileDocumentManager.getInstance().saveAllDocuments();
-
-							//force to re-detect encoding
-							for(VirtualFile virtualFile : virtualFiles)
-							{
-								virtualFile.setCharset(null);
-							}
-							FileDocumentManager.getInstance().reloadFiles(virtualFiles);
-						});
-					}
-				});
-			}
-		}
-	}
-
 	@Nonnull
 	public static PropertiesFilesManager getInstance(Project project)
 	{

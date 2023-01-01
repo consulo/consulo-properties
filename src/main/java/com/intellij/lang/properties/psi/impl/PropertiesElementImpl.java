@@ -16,9 +16,10 @@
 package com.intellij.lang.properties.psi.impl;
 
 import javax.annotation.Nonnull;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.Language;
+
+import consulo.language.Language;
+import consulo.language.impl.psi.ASTWrapperPsiElement;
+import consulo.language.ast.ASTNode;
 import com.intellij.lang.properties.PropertiesLanguage;
 
 /**

@@ -15,18 +15,18 @@
  */
 package com.intellij.lang.properties.editor;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.ide.structureView.FileEditorPositionListener;
-import com.intellij.ide.structureView.ModelListener;
-import com.intellij.ide.structureView.StructureViewTreeElement;
-import com.intellij.ide.util.treeView.smartTree.Filter;
-import com.intellij.ide.util.treeView.smartTree.Grouper;
-import com.intellij.ide.util.treeView.smartTree.Sorter;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.structureView.GroupByWordPrefixes;
 import com.intellij.lang.properties.structureView.PropertiesSeparatorManager;
-import com.intellij.openapi.project.Project;
+import consulo.fileEditor.structureView.StructureViewTreeElement;
+import consulo.fileEditor.structureView.event.FileEditorPositionListener;
+import consulo.fileEditor.structureView.event.ModelListener;
+import consulo.fileEditor.structureView.tree.Filter;
+import consulo.fileEditor.structureView.tree.Grouper;
+import consulo.fileEditor.structureView.tree.Sorter;
+import consulo.project.Project;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author max

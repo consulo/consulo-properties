@@ -19,18 +19,20 @@
  */
 package com.intellij.lang.properties.parsing;
 
+import com.intellij.lang.properties.PropertiesLanguage;
 import com.intellij.lang.properties.psi.PropertiesList;
 import com.intellij.lang.properties.psi.PropertiesListStub;
 import com.intellij.lang.properties.psi.impl.PropertiesListImpl;
 import com.intellij.lang.properties.psi.impl.PropertiesListStubImpl;
-import com.intellij.psi.stubs.*;
+import consulo.language.psi.stub.*;
+
 import javax.annotation.Nonnull;
 
 import java.io.IOException;
 
 public class PropertyListStubElementType extends IStubElementType<PropertiesListStub, PropertiesList> {
   public PropertyListStubElementType() {
-    super("PROPERTIES_LIST", PropertiesElementTypes.LANG);
+    super("PROPERTIES_LIST", PropertiesLanguage.INSTANCE);
   }
 
   public PropertiesList createPsi(@Nonnull final PropertiesListStub stub) {
@@ -43,7 +45,7 @@ public class PropertyListStubElementType extends IStubElementType<PropertiesList
 
   @Nonnull
   public String getExternalId() {
-    return "properties.propertieslist";
+    return "properties.PROPERTIES_LIST";
   }
 
   public void serialize(@Nonnull final PropertiesListStub stub, @Nonnull final StubOutputStream dataStream) throws IOException {

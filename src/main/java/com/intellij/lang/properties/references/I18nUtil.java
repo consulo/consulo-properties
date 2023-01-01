@@ -15,23 +15,23 @@
  */
 package com.intellij.lang.properties.references;
 
-import com.intellij.lang.injection.InjectedLanguageManager;
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.PropertiesFileProcessor;
 import com.intellij.lang.properties.PropertiesReferenceManager;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ProjectFileIndex;
-import com.intellij.openapi.roots.ProjectRootManager;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.util.IncorrectOperationException;
-import javax.annotation.Nonnull;
+import consulo.language.inject.InjectedLanguageManager;
+import consulo.language.psi.PsiDocumentManager;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.util.IncorrectOperationException;
+import consulo.module.Module;
+import consulo.module.content.ProjectFileIndex;
+import consulo.module.content.ProjectRootManager;
+import consulo.project.Project;
+import consulo.util.io.FileUtil;
+import consulo.virtualFileSystem.VirtualFile;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -62,7 +62,8 @@ public class I18nUtil {
   public static void createProperty(final Project project,
                                     final Collection<PropertiesFile> propertiesFiles,
                                     final String key,
-                                    final String value) throws IncorrectOperationException {
+                                    final String value) throws IncorrectOperationException
+  {
     for (PropertiesFile file : propertiesFiles) {
       PsiDocumentManager documentManager = PsiDocumentManager.getInstance(project);
       documentManager.commitDocument(documentManager.getDocument(file.getContainingFile()));

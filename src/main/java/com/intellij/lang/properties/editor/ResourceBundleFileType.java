@@ -15,28 +15,32 @@
  */
 package com.intellij.lang.properties.editor;
 
-import com.intellij.openapi.fileTypes.ex.FakeFileType;
-import com.intellij.openapi.vfs.VirtualFile;
 import consulo.localize.LocalizeValue;
 import consulo.properties.localize.PropertiesLocalize;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.fileType.FakeFileType;
 
 import javax.annotation.Nonnull;
 
 /**
  * @author cdr
  */
-class ResourceBundleFileType extends FakeFileType {
-  @Nonnull
-  public String getId() {
-    return "ResourceBundle";
-  }
+class ResourceBundleFileType extends FakeFileType
+{
+	@Nonnull
+	public String getId()
+	{
+		return "ResourceBundle";
+	}
 
-  @Nonnull
-  public LocalizeValue getDescription() {
-    return PropertiesLocalize.resourcebundleFakeFileTypeDescription();
-  }
+	@Nonnull
+	public LocalizeValue getDescription()
+	{
+		return PropertiesLocalize.resourcebundleFakeFileTypeDescription();
+	}
 
-  public boolean isMyFileType(VirtualFile file) {
-    return file instanceof ResourceBundleAsVirtualFile;
-  }
+	public boolean isMyFileType(VirtualFile file)
+	{
+		return file instanceof ResourceBundleAsVirtualFile;
+	}
 }

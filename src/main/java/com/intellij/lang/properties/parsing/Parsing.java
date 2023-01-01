@@ -19,9 +19,9 @@
  */
 package com.intellij.lang.properties.parsing;
 
-import com.intellij.lang.PsiBuilder;
+import consulo.language.parser.PsiBuilder;
 import com.intellij.lang.properties.PropertiesBundle;
-import com.intellij.openapi.diagnostic.Logger;
+import consulo.logging.Logger;
 
 public class Parsing {
   private static final Logger LOG = Logger.getInstance("#com.intellij.lang.properties.parsing.Parsing");
@@ -35,7 +35,7 @@ public class Parsing {
         parseKeyValueSeparator(builder);
         parseValue(builder);
       }
-      prop.done(PropertiesElementTypes.PROPERTY);
+      prop.done(PropertiesStubElementTypes.PROPERTY);
     }
     else {
       builder.advanceLexer();

@@ -16,25 +16,20 @@
 package com.intellij.lang.properties;
 
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.psi.*;
-import com.intellij.util.Function;
-import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.language.psi.*;
+import consulo.language.util.IncorrectOperationException;
+import consulo.util.collection.ContainerUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * @author yole
  */
 public class ResourceBundleReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference, BundleNameEvaluator {
-  private static final Function<PropertiesFile,PsiElement> PROPERTIES_FILE_PSI_ELEMENT_FUNCTION = new Function<PropertiesFile, PsiElement>() {
-    @Override
-    public PsiElement fun(PropertiesFile propertiesFile) {
-      return propertiesFile.getContainingFile();
-    }
-  };
+  private static final Function<PropertiesFile,PsiElement> PROPERTIES_FILE_PSI_ELEMENT_FUNCTION = PropertiesFile::getContainingFile;
   private String myBundleName;
 
   public ResourceBundleReference(final PsiElement element) {
@@ -64,7 +59,8 @@ public class ResourceBundleReference extends PsiReferenceBase<PsiElement> implem
     return myBundleName;
   }
 
-  public PsiElement handleElementRename(String newElementName) throws IncorrectOperationException {
+  public PsiElement handleElementRename(String newElementName) throws IncorrectOperationException
+  {
     if (newElementName.endsWith(PropertiesFileType.DOT_DEFAULT_EXTENSION)) {
       newElementName = newElementName.substring(0, newElementName.lastIndexOf(PropertiesFileType.DOT_DEFAULT_EXTENSION));
     }

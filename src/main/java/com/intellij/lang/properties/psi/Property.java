@@ -23,9 +23,9 @@
 package com.intellij.lang.properties.psi;
 
 import com.intellij.lang.properties.IProperty;
-import com.intellij.psi.NavigatablePsiElement;
-import com.intellij.psi.PsiNamedElement;
-import com.intellij.psi.StubBasedPsiElement;
+import consulo.language.psi.NavigatablePsiElement;
+import consulo.language.psi.PsiNamedElement;
+import consulo.language.psi.StubBasedPsiElement;
 
 /**
  * @see com.intellij.lang.properties.psi.PropertiesElementFactory

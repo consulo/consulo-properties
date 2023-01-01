@@ -15,22 +15,22 @@
  */
 package com.intellij.lang.properties;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.codeInspection.LocalQuickFix;
-import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.lang.properties.psi.Property;
-import com.intellij.util.IncorrectOperationException;
+import consulo.language.editor.inspection.LocalQuickFix;
+import consulo.language.editor.inspection.ProblemDescriptor;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.IncorrectOperationException;
+import consulo.logging.Logger;
+import consulo.project.Project;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author cdr
 */
 public class RemovePropertyLocalFix implements LocalQuickFix {
-  private static final Logger LOG = Logger.getInstance("#com.intellij.lang.properties.RemovePropertyLocalFix");
+  private static final Logger LOG = Logger.getInstance(RemovePropertyLocalFix.class);
   public static final RemovePropertyLocalFix INSTANCE = new RemovePropertyLocalFix();
 
   @Nonnull

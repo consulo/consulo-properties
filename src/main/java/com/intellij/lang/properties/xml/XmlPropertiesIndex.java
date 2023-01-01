@@ -1,17 +1,22 @@
 package com.intellij.lang.properties.xml;
 
-import com.intellij.ide.highlighter.XmlFileType;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.io.StreamUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.indexing.*;
-import com.intellij.util.io.DataExternalizer;
-import com.intellij.util.io.EnumeratorStringDescriptor;
-import com.intellij.util.io.IOUtil;
-import com.intellij.util.io.KeyDescriptor;
-import com.intellij.util.text.CharArrayUtil;
-import com.intellij.util.xml.NanoXmlUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.index.io.DataIndexer;
+import consulo.index.io.EnumeratorStringDescriptor;
+import consulo.index.io.ID;
+import consulo.index.io.KeyDescriptor;
+import consulo.index.io.data.DataExternalizer;
+import consulo.index.io.data.IOUtil;
+import consulo.language.psi.stub.FileBasedIndex;
+import consulo.language.psi.stub.FileBasedIndexExtension;
+import consulo.language.psi.stub.FileContent;
+import consulo.project.Project;
+import consulo.util.io.Readers;
+import consulo.util.io.StreamUtil;
+import consulo.util.lang.Comparing;
+import consulo.util.xml.fastReader.NanoXmlUtil;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.xml.ide.highlighter.XmlFileType;
 import net.n3.nanoxml.StdXMLReader;
 
 import javax.annotation.Nonnull;
@@ -25,6 +30,7 @@ import java.util.Map;
  * @author Dmitry Avdeev
  *         Date: 7/25/11
  */
+@ExtensionImpl
 public class XmlPropertiesIndex extends FileBasedIndexExtension<XmlPropertiesIndex.Key, String> implements FileBasedIndex.InputFilter,
 		DataIndexer<XmlPropertiesIndex.Key, String, FileContent>, KeyDescriptor<XmlPropertiesIndex.Key>
 {
@@ -110,7 +116,7 @@ public class XmlPropertiesIndex extends FileBasedIndexExtension<XmlPropertiesInd
 	@Nullable
 	private static MyIXMLBuilderAdapter parse(CharSequence text, boolean stopIfAccepted)
 	{
-		StdXMLReader reader = new StdXMLReader(CharArrayUtil.readerFromCharSequence(text))
+		StdXMLReader reader = new StdXMLReader(Readers.readerFromCharSequence(text))
 		{
 			@Override
 			public Reader openStream(String publicID, String systemID) throws IOException

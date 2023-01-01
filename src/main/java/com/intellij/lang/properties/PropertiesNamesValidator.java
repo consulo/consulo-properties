@@ -15,18 +15,33 @@
  */
 package com.intellij.lang.properties;
 
-import com.intellij.lang.refactoring.NamesValidator;
-import com.intellij.openapi.project.Project;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.editor.refactoring.NamesValidator;
+import consulo.project.Project;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author yole
  */
-public class PropertiesNamesValidator implements NamesValidator {
-  public boolean isKeyword(final String name, final Project project) {
-    return false;
-  }
+@ExtensionImpl
+public class PropertiesNamesValidator implements NamesValidator
+{
+	public boolean isKeyword(final String name, final Project project)
+	{
+		return false;
+	}
 
-  public boolean isIdentifier(final String name, final Project project) {
-    return true;
-  }
+	public boolean isIdentifier(final String name, final Project project)
+	{
+		return true;
+	}
+
+	@Nonnull
+	@Override
+	public Language getLanguage()
+	{
+		return PropertiesLanguage.INSTANCE;
+	}
 }

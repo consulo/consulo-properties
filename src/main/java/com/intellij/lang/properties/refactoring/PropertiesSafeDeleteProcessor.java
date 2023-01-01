@@ -17,14 +17,15 @@ package com.intellij.lang.properties.refactoring;
 
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.refactoring.RefactoringSettings;
-import com.intellij.refactoring.safeDelete.NonCodeUsageSearchInfo;
-import com.intellij.refactoring.safeDelete.SafeDeleteProcessor;
-import com.intellij.refactoring.safeDelete.SafeDeleteProcessorDelegate;
-import com.intellij.usageView.UsageInfo;
-import com.intellij.util.IncorrectOperationException;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.refactoring.RefactoringSettings;
+import consulo.language.editor.refactoring.safeDelete.NonCodeUsageSearchInfo;
+import consulo.language.editor.refactoring.safeDelete.SafeDeleteProcessor;
+import consulo.language.editor.refactoring.safeDelete.SafeDeleteProcessorDelegate;
+import consulo.language.psi.PsiElement;
+import consulo.language.util.IncorrectOperationException;
+import consulo.project.Project;
+import consulo.usage.UsageInfo;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,61 +35,75 @@ import java.util.List;
 /**
  * @author yole
  */
-public class PropertiesSafeDeleteProcessor implements SafeDeleteProcessorDelegate {
-  public boolean handlesElement(final PsiElement element) {
-    return element instanceof PropertiesFile;
-  }
+@ExtensionImpl
+public class PropertiesSafeDeleteProcessor implements SafeDeleteProcessorDelegate
+{
+	public boolean handlesElement(final PsiElement element)
+	{
+		return element instanceof PropertiesFile;
+	}
 
-  public NonCodeUsageSearchInfo findUsages(final PsiElement element, final PsiElement[] allElementsToDelete, final List<UsageInfo> result) {
-    PropertiesFile file = (PropertiesFile) element;
-    List<PsiElement> elements = new ArrayList<PsiElement>();
-    elements.add(file.getContainingFile());
-    for (IProperty property : file.getProperties()) {
-      elements.add(property.getPsiElement());
-    }
-    for(PsiElement psiElement: elements) {
-      SafeDeleteProcessor.findGenericElementUsages(psiElement, result, allElementsToDelete);
-    }
-    return new NonCodeUsageSearchInfo(SafeDeleteProcessor.getDefaultInsideDeletedCondition(allElementsToDelete), elements);
-  }
+	public NonCodeUsageSearchInfo findUsages(final PsiElement element, final PsiElement[] allElementsToDelete, final List<UsageInfo> result)
+	{
+		PropertiesFile file = (PropertiesFile) element;
+		List<PsiElement> elements = new ArrayList<PsiElement>();
+		elements.add(file.getContainingFile());
+		for(IProperty property : file.getProperties())
+		{
+			elements.add(property.getPsiElement());
+		}
+		for(PsiElement psiElement : elements)
+		{
+			SafeDeleteProcessor.findGenericElementUsages(psiElement, result, allElementsToDelete);
+		}
+		return new NonCodeUsageSearchInfo(SafeDeleteProcessor.getDefaultInsideDeletedCondition(allElementsToDelete), elements);
+	}
 
-  public Collection<PsiElement> getElementsToSearch(final PsiElement element, final Collection<PsiElement> allElementsToDelete) {
-    return Collections.singletonList(element);
-  }
+	public Collection<PsiElement> getElementsToSearch(final PsiElement element, final Collection<PsiElement> allElementsToDelete)
+	{
+		return Collections.singletonList(element);
+	}
 
-  public Collection<PsiElement> getAdditionalElementsToDelete(final PsiElement element, final Collection<PsiElement> allElementsToDelete,
-                                                              final boolean askUser) {
-    return null;
-  }
+	public Collection<PsiElement> getAdditionalElementsToDelete(final PsiElement element, final Collection<PsiElement> allElementsToDelete, final boolean askUser)
+	{
+		return null;
+	}
 
-  public Collection<String> findConflicts(final PsiElement element, final PsiElement[] allElementsToDelete) {
-    return null;
-  }
+	public Collection<String> findConflicts(final PsiElement element, final PsiElement[] allElementsToDelete)
+	{
+		return null;
+	}
 
-  public UsageInfo[] preprocessUsages(final Project project, final UsageInfo[] usages) {
-    return usages;
-  }
+	public UsageInfo[] preprocessUsages(final Project project, final UsageInfo[] usages)
+	{
+		return usages;
+	}
 
-  public void prepareForDeletion(final PsiElement element) throws IncorrectOperationException {
-  }
+	public void prepareForDeletion(final PsiElement element) throws IncorrectOperationException
+	{
+	}
 
-  @Override
-  public boolean isToSearchInComments(PsiElement element) {
-    return RefactoringSettings.getInstance().SAFE_DELETE_SEARCH_IN_COMMENTS;
-  }
+	@Override
+	public boolean isToSearchInComments(PsiElement element)
+	{
+		return RefactoringSettings.getInstance().SAFE_DELETE_SEARCH_IN_COMMENTS;
+	}
 
-  @Override
-  public boolean isToSearchForTextOccurrences(PsiElement element) {
-    return RefactoringSettings.getInstance().SAFE_DELETE_SEARCH_IN_NON_JAVA;
-  }
+	@Override
+	public boolean isToSearchForTextOccurrences(PsiElement element)
+	{
+		return RefactoringSettings.getInstance().SAFE_DELETE_SEARCH_IN_NON_JAVA;
+	}
 
-  @Override
-  public void setToSearchInComments(PsiElement element, boolean enabled) {
-    RefactoringSettings.getInstance().SAFE_DELETE_SEARCH_IN_COMMENTS = enabled;
-  }
+	@Override
+	public void setToSearchInComments(PsiElement element, boolean enabled)
+	{
+		RefactoringSettings.getInstance().SAFE_DELETE_SEARCH_IN_COMMENTS = enabled;
+	}
 
-  @Override
-  public void setToSearchForTextOccurrences(PsiElement element, boolean enabled) {
-    RefactoringSettings.getInstance().SAFE_DELETE_SEARCH_IN_NON_JAVA = enabled;
-  }
+	@Override
+	public void setToSearchForTextOccurrences(PsiElement element, boolean enabled)
+	{
+		RefactoringSettings.getInstance().SAFE_DELETE_SEARCH_IN_NON_JAVA = enabled;
+	}
 }

@@ -25,15 +25,20 @@ import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.ResourceBundleImpl;
 import com.intellij.lang.properties.editor.ResourceBundleAsVirtualFile;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.components.*;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.psi.FileViewProvider;
-import com.intellij.psi.PsiManager;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ServiceAPI;
+import consulo.annotation.component.ServiceImpl;
+import consulo.component.persist.State;
+import consulo.component.persist.Storage;
+import consulo.ide.ServiceManager;
+import consulo.language.file.FileViewProvider;
+import consulo.language.psi.PsiManager;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
 import consulo.util.collection.primitive.ints.IntMaps;
 import consulo.util.collection.primitive.ints.IntObjectMap;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
 import jakarta.inject.Singleton;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
@@ -43,15 +48,16 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Singleton
-@State(
-		name = "PropertiesSeparatorManager",
+@State(name = "PropertiesSeparatorManager",
 		storages = {
 				@Storage(
-						file = StoragePathMacros.APP_CONFIG + "/other.xml"
+						file = consulo.component.persist.StoragePathMacros.APP_CONFIG + "/other.xml"
 				)
 		}
 )
-public class PropertiesSeparatorManager implements PersistentStateComponent<Element>
+@ServiceAPI(ComponentScope.APPLICATION)
+@ServiceImpl
+public class PropertiesSeparatorManager implements consulo.component.persist.PersistentStateComponent<Element>
 {
 	@NonNls
 	private static final String FILE_ELEMENT = "file";

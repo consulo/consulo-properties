@@ -15,23 +15,27 @@
  */
 package com.intellij.lang.properties.projectView;
 
-import com.intellij.ide.projectView.TreeStructureProvider;
-import com.intellij.ide.projectView.ViewSettings;
-import com.intellij.ide.util.treeView.AbstractTreeNode;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.project.ui.view.tree.AbstractTreeNode;
 import com.intellij.lang.properties.PropertiesUtil;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
-import com.intellij.openapi.project.DumbAware;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiFile;
+import consulo.language.editor.PlatformDataKeys;
+import consulo.application.dumb.DumbAware;
+import consulo.project.Project;
+import consulo.language.psi.PsiFile;
+import consulo.project.ui.view.tree.TreeStructureProvider;
+import consulo.project.ui.view.tree.ViewSettings;
 import consulo.util.dataholder.Key;
+import jakarta.inject.Inject;
 
 import java.util.*;
 
+@ExtensionImpl
 public class ResourceBundleGrouper implements TreeStructureProvider, DumbAware {
   private final Project myProject;
 
+  @Inject
   public ResourceBundleGrouper(Project project) {
     myProject = project;
   }

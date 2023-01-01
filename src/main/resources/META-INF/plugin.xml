@@ -23,101 +23,11 @@
 	</description>
 	<vendor>JetBrains</vendor>
 	<version>SNAPSHOT</version>
-	<depends config-file="com.intellij.spellchecker.xml" optional="true">com.intellij.spellchecker</depends>
+
+	<depends>com.intellij.xml</depends>
+	<depends optional="true">com.intellij.spellchecker</depends>
 
 	<tags>
 		<tag>markup.language</tag>
 	</tags>
-
-	<extensionPoints>
-		<extensionPoint name="implicitPropertyUsageProvider" interface="com.intellij.codeInspection.unused.ImplicitPropertyUsageProvider"/>
-	</extensionPoints>
-
-	<extensions defaultExtensionNs="com.intellij.copyright">
-		<updater filetype="Properties"
-				 implementationClass="com.maddyhome.idea.copyright.psi.UpdatePropertiesFileCopyright$UpdatePropertiesFileCopyrightProvider"/>
-	</extensions>
-
-	<extensions defaultExtensionNs="com.intellij.xml">
-		<standardResource url="http://java.sun.com/dtd/properties.dtd" path="schemas/properties.dtd"/>
-	</extensions>
-
-	<extensions defaultExtensionNs="com.intellij">
-		<applicationService serviceInterface="com.intellij.lang.properties.LastSelectedPropertiesFileStore"
-							serviceImplementation="com.intellij.lang.properties.LastSelectedPropertiesFileStore"/>
-		<applicationService serviceInterface="com.intellij.lang.properties.refactoring.PropertiesRefactoringSettings"
-							serviceImplementation="com.intellij.lang.properties.refactoring.PropertiesRefactoringSettings"/>
-		<annotator language="Properties" implementationClass="com.intellij.lang.properties.PropertiesAnnotator"/>
-		<completion.contributor language="Properties" implementationClass="com.intellij.lang.properties.PropertiesCompletionContributor"
-								id="propertiesCompletion" order="before javaClassReference"/>
-		<lang.refactoringSupport language="Properties"
-								 implementationClass="com.intellij.lang.properties.refactoring.PropertiesRefactoringSupportProvider"/>
-		<lang.documentationProvider language="Properties" implementationClass="com.intellij.lang.properties.PropertiesDocumentationProvider"/>
-		<lang.findUsagesProvider language="Properties"
-								 implementationClass="com.intellij.lang.properties.findUsages.PropertiesFindUsagesProvider"/>
-		<lang.elementManipulator forClass="com.intellij.lang.properties.psi.impl.PropertyValueImpl"
-								 implementationClass="com.intellij.lang.properties.PropertyValueManipulator"/>
-		<lang.elementManipulator forClass="com.intellij.lang.properties.psi.impl.PropertyImpl"
-								 implementationClass="com.intellij.lang.properties.PropertyManipulator"/>
-		<applicationService serviceInterface="com.intellij.lang.properties.structureView.PropertiesSeparatorManager"
-							serviceImplementation="com.intellij.lang.properties.structureView.PropertiesSeparatorManager"/>
-		<codeInsight.wordCompletionFilter language="Properties"
-										  implementationClass="com.intellij.lang.properties.PropertiesWordCompletionFilter"/>
-		<lang.psiStructureViewFactory language="Properties"
-									  implementationClass="com.intellij.lang.properties.structureView.PropertiesStructureViewBuilderFactory"/>
-		<lang.ast.leafFactory implementation="consulo.properties.PropertiesASTLeafFactory"/>
-		<lang.syntaxHighlighterFactory language="Properties" implementationClass="com.intellij.lang.properties.PropertiesSyntaxHighlighterFactory"/>
-		<joinLinesHandler implementation="com.intellij.lang.properties.PropertiesJoinLinesHandler"/>
-
-		<enterHandlerDelegate implementation="com.intellij.codeInsight.editorActions.enter.EnterInPropertiesFileHandler"/>
-
-		<lang.parserDefinition language="Properties" implementationClass="com.intellij.lang.properties.parsing.PropertiesParserDefinition"/>
-		<renameHandler implementation="com.intellij.lang.properties.refactoring.ResourceBundleRenameHandler"/>
-		<renameHandler implementation="com.intellij.lang.properties.refactoring.ResourceBundleKeyRenameHandler"/>
-		<renameHandler implementation="com.intellij.lang.properties.refactoring.PropertyRenameHandler"/>
-		<stubElementTypeHolder class="com.intellij.lang.properties.parsing.PropertiesElementTypes"/>
-		<renamePsiElementProcessor implementation="com.intellij.lang.properties.refactoring.RenamePropertyProcessor"/>
-		<lang.commenter language="Properties" implementationClass="com.intellij.lang.properties.PropertiesCommenter"/>
-		<stubIndex implementation="com.intellij.lang.properties.psi.PropertyKeyIndex"/>
-		<lang.namesValidator language="Properties" implementationClass="com.intellij.lang.properties.PropertiesNamesValidator"/>
-		<refactoring.safeDeleteProcessor implementation="com.intellij.lang.properties.refactoring.PropertiesSafeDeleteProcessor"/>
-		<refactoring.moveHandler implementation="com.intellij.lang.properties.projectView.ResourceBundleMoveProvider"/>
-		<colorSettingsPage implementation="com.intellij.openapi.options.colors.pages.PropertiesColorsPage"/>
-		<treeStructureProvider implementation="com.intellij.lang.properties.projectView.ResourceBundleGrouper"/>
-		<elementDescriptionProvider implementation="com.intellij.lang.properties.PropertiesDescriptionProvider"/>
-		<fileTypeFactory implementation="com.intellij.lang.properties.PropertiesFileTypeFactory"/>
-		<fileTypeFactory implementation="com.intellij.lang.properties.editor.ResourceBundleEditorProvider"/>
-		<favoriteNodeProvider implementation="com.intellij.ide.favoritesTreeView.ResourcesFavoriteNodeProvider"/>
-
-		<localInspection language="Properties" shortName="UnusedProperty" bundle="messages.PropertiesBundle"
-						 key="unused.property.inspection.display.name"
-						 groupKey="properties.files.inspection.group.display.name" enabledByDefault="true" level="WARNING"
-						 implementationClass="com.intellij.codeInspection.unused.UnusedPropertyInspection"/>
-		<globalInspection shortName="DuplicatePropertyInspection" bundle="messages.InspectionsBundle" key="duplicate.property.display.name"
-						  groupKey="group.names.properties.files" enabledByDefault="false" level="WARNING"
-						  implementationClass="com.intellij.codeInspection.duplicatePropertyInspection.DuplicatePropertyInspection"/>
-		<localInspection language="Properties" shortName="TrailingSpacesInProperty" bundle="messages.PropertiesBundle"
-						 key="trail.spaces.property.inspection.display.name" groupKey="properties.files.inspection.group.display.name"
-						 enabledByDefault="true" level="WARNING"
-						 implementationClass="com.intellij.lang.properties.TrailingSpacesInPropertyInspection"/>
-
-		<idIndexer filetype="Properties" implementationClass="com.intellij.psi.impl.cache.impl.idCache.PropertiesIdIndexer"/>
-		<todoIndexer filetype="Properties" implementationClass="com.intellij.psi.impl.cache.impl.idCache.PropertiesTodoIndexer"/>
-
-		<projectService serviceInterface="com.intellij.lang.properties.PropertiesReferenceManager"
-						serviceImplementation="com.intellij.lang.properties.PropertiesReferenceManager"/>
-
-		<fileEditorProvider implementation="com.intellij.lang.properties.editor.ResourceBundleEditorProvider"/>
-		<fileBasedIndex implementation="com.intellij.lang.properties.xml.XmlPropertiesIndex"/>
-
-		<iconDescriptorUpdater implementation="consulo.properties.xml.XmlPropertiesIconDescriptorUpdater" order="after xml"/>
-		<psi.referenceContributor language="XML" implementation="com.intellij.lang.properties.xml.XmlPropertiesReferenceContributor"/>
-		<lang.foldingBuilder language="Properties" implementationClass="com.intellij.lang.properties.editor.PropertiesFoldingBuilder"/>
-
-		<projectService serviceImplementation="com.intellij.lang.properties.PropertiesFilesManager"/>
-	</extensions>
-
-	<projectListeners>
-		<listener topic="com.intellij.openapi.vfs.encoding.EncodingManagerListener" class="com.intellij.lang.properties.PropertiesFilesManager$MyTopic"/>
-	</projectListeners>
 </consulo-plugin>

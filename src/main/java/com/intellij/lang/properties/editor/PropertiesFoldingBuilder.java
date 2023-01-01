@@ -15,40 +15,58 @@
  */
 package com.intellij.lang.properties.editor;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.folding.CustomFoldingBuilder;
-import com.intellij.lang.folding.FoldingDescriptor;
-import com.intellij.lang.properties.parsing.PropertiesElementTypes;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
-import javax.annotation.Nonnull;
+import com.intellij.lang.properties.PropertiesLanguage;
+import com.intellij.lang.properties.psi.PropertiesFile;
+import consulo.annotation.access.RequiredReadAction;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.document.Document;
+import consulo.document.util.TextRange;
+import consulo.language.Language;
+import consulo.language.ast.ASTNode;
+import consulo.language.editor.folding.CustomFoldingBuilder;
+import consulo.language.editor.folding.FoldingDescriptor;
+import consulo.language.psi.PsiElement;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 /**
  * @author Rustam Vishnyakov
  */
-public class PropertiesFoldingBuilder extends CustomFoldingBuilder {
-  @Override
-  protected void buildLanguageFoldRegions(@Nonnull List<FoldingDescriptor> descriptors,
-                                          @Nonnull PsiElement root,
-                                          @Nonnull Document document,
-                                          boolean quick) {
-  }
+@ExtensionImpl
+public class PropertiesFoldingBuilder extends CustomFoldingBuilder
+{
+	@RequiredReadAction
+	@Override
+	protected void buildLanguageFoldRegions(@Nonnull List<FoldingDescriptor> descriptors,
+											@Nonnull PsiElement root,
+											@Nonnull Document document,
+											boolean quick)
+	{
+	}
 
-  @Override
-  protected String getLanguagePlaceholderText(@Nonnull ASTNode node, @Nonnull TextRange range) {
-    return "";
-  }
+	@Override
+	protected String getLanguagePlaceholderText(@Nonnull ASTNode node, @Nonnull TextRange range)
+	{
+		return "";
+	}
 
-  @Override
-  protected boolean isRegionCollapsedByDefault(@Nonnull ASTNode node) {
-    return false;
-  }
+	@Override
+	protected boolean isRegionCollapsedByDefault(@Nonnull ASTNode node)
+	{
+		return false;
+	}
 
-  @Override
-  protected boolean isCustomFoldingRoot(ASTNode node) {
-    return node.getElementType() == PropertiesElementTypes.FILE;
-  }
+	@Override
+	protected boolean isCustomFoldingRoot(ASTNode node)
+	{
+		return node.getPsi() instanceof PropertiesFile;
+	}
+
+	@Nonnull
+	@Override
+	public Language getLanguage()
+	{
+		return PropertiesLanguage.INSTANCE;
+	}
 }

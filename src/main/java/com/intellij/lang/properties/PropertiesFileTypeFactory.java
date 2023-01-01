@@ -15,16 +15,20 @@
  */
 package com.intellij.lang.properties;
 
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.virtualFileSystem.fileType.FileTypeConsumer;
+import consulo.virtualFileSystem.fileType.FileTypeFactory;
 
-import com.intellij.openapi.fileTypes.FileTypeConsumer;
-import com.intellij.openapi.fileTypes.FileTypeFactory;
+import javax.annotation.Nonnull;
 
 /**
  * @author Maxim.Mossienko
  */
-public class PropertiesFileTypeFactory extends FileTypeFactory {
-  public void createFileTypes(@Nonnull FileTypeConsumer consumer) {
-    consumer.consume(PropertiesFileType.INSTANCE);
-  }
+@ExtensionImpl
+public class PropertiesFileTypeFactory extends FileTypeFactory
+{
+	public void createFileTypes(@Nonnull FileTypeConsumer consumer)
+	{
+		consumer.consume(PropertiesFileType.INSTANCE);
+	}
 }

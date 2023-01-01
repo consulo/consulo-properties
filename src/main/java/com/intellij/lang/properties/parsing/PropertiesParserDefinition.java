@@ -15,81 +15,107 @@
  */
 package com.intellij.lang.properties.parsing;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.ParserDefinition;
-import com.intellij.lang.PsiParser;
+import com.intellij.lang.properties.PropertiesLanguage;
 import com.intellij.lang.properties.psi.impl.PropertiesFileImpl;
 import com.intellij.lang.properties.psi.impl.PropertiesListImpl;
 import com.intellij.lang.properties.psi.impl.PropertyImpl;
-import com.intellij.lexer.Lexer;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.psi.FileViewProvider;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.IFileElementType;
-import com.intellij.psi.tree.TokenSet;
-import consulo.lang.LanguageVersion;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.ast.ASTNode;
+import consulo.language.ast.IElementType;
+import consulo.language.ast.IFileElementType;
+import consulo.language.ast.TokenSet;
+import consulo.language.file.FileViewProvider;
+import consulo.language.impl.psi.ASTWrapperPsiElement;
+import consulo.language.lexer.Lexer;
+import consulo.language.parser.ParserDefinition;
+import consulo.language.parser.PsiParser;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.stub.IStubFileElementType;
+import consulo.language.version.LanguageVersion;
+import consulo.logging.Logger;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author max
  */
-public class PropertiesParserDefinition implements ParserDefinition {
-  private static final Logger LOG = Logger.getInstance("#com.intellij.lang.properties.PropertiesParserDefinition");
+@ExtensionImpl
+public class PropertiesParserDefinition implements ParserDefinition
+{
+	private static final IFileElementType FILE = new IStubFileElementType(PropertiesLanguage.INSTANCE);
 
-  @Nonnull
-  public Lexer createLexer(@Nonnull LanguageVersion languageVersion) {
-    return new _PropertiesLexer();
-  }
+	private static final Logger LOG = Logger.getInstance(PropertiesParserDefinition.class);
 
-  @Nonnull
-  public IFileElementType getFileNodeType() {
-    return PropertiesElementTypes.FILE;
-  }
+	@Nonnull
+	@Override
+	public Language getLanguage()
+	{
+		return PropertiesLanguage.INSTANCE;
+	}
 
-  @Nonnull
-  public TokenSet getWhitespaceTokens(@Nonnull LanguageVersion languageVersion) {
-    return PropertiesTokenTypes.WHITESPACES;
-  }
+	@Nonnull
+	public Lexer createLexer(@Nonnull LanguageVersion languageVersion)
+	{
+		return new _PropertiesLexer();
+	}
 
-  @Nonnull
-  public TokenSet getCommentTokens(LanguageVersion languageVersion) {
-    return PropertiesTokenTypes.COMMENTS;
-  }
+	@Nonnull
+	public IFileElementType getFileNodeType()
+	{
+		return FILE;
+	}
 
-  @Nonnull
-  public TokenSet getStringLiteralElements(LanguageVersion languageVersion) {
-    return TokenSet.EMPTY;
-  }
+	@Nonnull
+	public TokenSet getWhitespaceTokens(@Nonnull LanguageVersion languageVersion)
+	{
+		return PropertiesTokenTypes.WHITESPACES;
+	}
 
-  @Nonnull
-  public PsiParser createParser(@Nonnull LanguageVersion languageVersion) {
-    return new PropertiesParser();
-  }
+	@Nonnull
+	public TokenSet getCommentTokens(LanguageVersion languageVersion)
+	{
+		return PropertiesTokenTypes.COMMENTS;
+	}
 
-  public PsiFile createFile(FileViewProvider viewProvider) {
-    return new PropertiesFileImpl(viewProvider);
-  }
+	@Nonnull
+	public TokenSet getStringLiteralElements(LanguageVersion languageVersion)
+	{
+		return TokenSet.EMPTY;
+	}
 
-  public SpaceRequirements spaceExistanceTypeBetweenTokens(ASTNode left, ASTNode right) {
-    return SpaceRequirements.MAY;
-  }
+	@Nonnull
+	public PsiParser createParser(@Nonnull LanguageVersion languageVersion)
+	{
+		return new PropertiesParser();
+	}
 
-  @Nonnull
-  public PsiElement createElement(ASTNode node) {
-    final IElementType type = node.getElementType();
-    if (type == PropertiesElementTypes.PROPERTY) {
-      return new PropertyImpl(node);
-    }
-    else if (type == PropertiesElementTypes.PROPERTIES_LIST) {
-      return new PropertiesListImpl(node);
-    }
+	public PsiFile createFile(FileViewProvider viewProvider)
+	{
+		return new PropertiesFileImpl(viewProvider);
+	}
 
-    LOG.error("Alien element type [" + type + "]. Can't create Property PsiElement for that.");
+	public SpaceRequirements spaceExistanceTypeBetweenTokens(ASTNode left, ASTNode right)
+	{
+		return SpaceRequirements.MAY;
+	}
 
-    return new ASTWrapperPsiElement(node);
-  }
+	@Nonnull
+	public PsiElement createElement(ASTNode node)
+	{
+		final IElementType type = node.getElementType();
+		if(type == PropertiesStubElementTypes.PROPERTY)
+		{
+			return new PropertyImpl(node);
+		}
+		else if(type == PropertiesStubElementTypes.PROPERTIES_LIST)
+		{
+			return new PropertiesListImpl(node);
+		}
+
+		LOG.error("Alien element type [" + type + "]. Can't create Property PsiElement for that.");
+
+		return new ASTWrapperPsiElement(node);
+	}
 }

@@ -15,19 +15,24 @@
  */
 package com.intellij.lang.properties;
 
-import com.intellij.injected.editor.VirtualFileWindow;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.components.*;
-import com.intellij.openapi.module.ModuleUtil;
-import com.intellij.openapi.roots.ProjectFileIndex;
-import com.intellij.openapi.roots.ProjectRootManager;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.vfs.VfsUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.statistics.StatisticsInfo;
-import com.intellij.psi.statistics.StatisticsManager;
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ServiceAPI;
+import consulo.annotation.component.ServiceImpl;
+import consulo.component.persist.State;
+import consulo.component.persist.Storage;
+import consulo.ide.ServiceManager;
+import consulo.ide.impl.psi.statistics.StatisticsInfo;
+import consulo.ide.impl.psi.statistics.StatisticsManager;
+import consulo.language.file.inject.VirtualFileWindow;
+import consulo.language.psi.PsiFile;
+import consulo.language.util.ModuleUtilCore;
+import consulo.module.content.ProjectFileIndex;
+import consulo.module.content.ProjectRootManager;
+import consulo.util.io.FileUtil;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
 import jakarta.inject.Singleton;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
@@ -42,8 +47,10 @@ import java.util.Map;
  * @author cdr
  */
 @Singleton
-@State(name = "LastSelectedPropertiesFileStore", storages = {@Storage(file = StoragePathMacros.APP_CONFIG + "/other.xml")})
-public class LastSelectedPropertiesFileStore implements PersistentStateComponent<Element>
+@State(name = "LastSelectedPropertiesFileStore", storages = {@Storage(file = consulo.component.persist.StoragePathMacros.APP_CONFIG + "/other.xml")})
+@ServiceAPI(ComponentScope.APPLICATION)
+@ServiceImpl
+public class LastSelectedPropertiesFileStore implements consulo.component.persist.PersistentStateComponent<Element>
 {
 	private final Map<String, String> lastSelectedUrls = new HashMap<String, String>();
 	private String lastSelectedFileUrl;
@@ -74,7 +81,7 @@ public class LastSelectedPropertiesFileStore implements PersistentStateComponent
 		{
 			VirtualFile lastFile = VirtualFileManager.getInstance().findFileByUrl(lastSelectedFileUrl);
 			final ProjectFileIndex fileIndex = ProjectRootManager.getInstance(context.getProject()).getFileIndex();
-			if(lastFile != null && ModuleUtil.findModuleForPsiElement(context) == fileIndex.getModuleForFile(lastFile))
+			if(lastFile != null && ModuleUtilCore.findModuleForPsiElement(context) == fileIndex.getModuleForFile(lastFile))
 			{
 				return lastSelectedFileUrl;
 			}
@@ -104,7 +111,7 @@ public class LastSelectedPropertiesFileStore implements PersistentStateComponent
 			VirtualFile containingDir = virtualFile.getParent();
 			lastSelectedUrls.put(containingDir.getUrl(), url);
 			lastSelectedFileUrl = url;
-			StatisticsManager.getInstance().incUseCount(new StatisticsInfo(PROPERTIES_FILE_STATISTICS_KEY, FileUtil.toSystemDependentName(VfsUtil.urlToPath(url))));
+			StatisticsManager.getInstance().incUseCount(new StatisticsInfo(PROPERTIES_FILE_STATISTICS_KEY, FileUtil.toSystemDependentName(VirtualFileUtil.urlToPath(url))));
 		}
 	}
 

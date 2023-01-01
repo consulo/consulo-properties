@@ -19,117 +19,139 @@
  */
 package com.intellij.lang.properties.refactoring;
 
-import java.io.File;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import com.intellij.codeInsight.FileModificationService;
 import com.intellij.lang.properties.PropertiesBundle;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.editor.ResourceBundleAsVirtualFile;
 import com.intellij.lang.properties.editor.ResourceBundleEditor;
 import com.intellij.lang.properties.editor.ResourceBundleUtil;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.fileEditor.FileEditorStateLevel;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.InputValidator;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.refactoring.rename.RenameHandler;
-import com.intellij.refactoring.rename.RenameProcessor;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.codeEditor.Editor;
+import consulo.dataContext.DataContext;
+import consulo.fileEditor.FileEditorStateLevel;
+import consulo.language.editor.CommonDataKeys;
+import consulo.language.editor.FileModificationService;
+import consulo.language.editor.PlatformDataKeys;
+import consulo.language.editor.refactoring.rename.RenameHandler;
+import consulo.language.editor.refactoring.rename.RenameProcessor;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.logging.Logger;
+import consulo.project.Project;
+import consulo.ui.ex.InputValidator;
+import consulo.ui.ex.awt.Messages;
+import consulo.virtualFileSystem.VirtualFile;
 
-public class ResourceBundleRenameHandler implements RenameHandler {
-  private static final Logger LOG = Logger.getInstance("#" + ResourceBundleRenameHandler.class.getName());
+import javax.annotation.Nonnull;
+import java.io.File;
+import java.util.List;
 
-  public boolean isAvailableOnDataContext(DataContext dataContext) {
-    final Project project = dataContext.getData(CommonDataKeys.PROJECT);
-    if (project == null) {
-      return false;
-    }
-    final ResourceBundle bundle = ResourceBundleUtil.getResourceBundleFromDataContext(dataContext);
-    if (bundle == null) {
-      return false;
-    }
+@ExtensionImpl
+public class ResourceBundleRenameHandler implements RenameHandler
+{
+	private static final Logger LOG = Logger.getInstance(ResourceBundleRenameHandler.class);
 
-    final VirtualFile virtualFile = dataContext.getData(PlatformDataKeys.VIRTUAL_FILE);
+	public boolean isAvailableOnDataContext(DataContext dataContext)
+	{
+		final Project project = dataContext.getData(CommonDataKeys.PROJECT);
+		if(project == null)
+		{
+			return false;
+		}
+		final ResourceBundle bundle = ResourceBundleUtil.getResourceBundleFromDataContext(dataContext);
+		if(bundle == null)
+		{
+			return false;
+		}
 
-    ResourceBundleEditor editor = ResourceBundleUtil.getEditor(dataContext);
-    return (editor == null || editor.getState(FileEditorStateLevel.NAVIGATION).getPropertyName() == null /* user selected non-bundle key element */)
-           && bundle.getPropertiesFiles(project).size() > 1 && (virtualFile instanceof ResourceBundleAsVirtualFile || virtualFile == null);
-  }
+		final VirtualFile virtualFile = dataContext.getData(PlatformDataKeys.VIRTUAL_FILE);
 
-  public boolean isRenaming(DataContext dataContext) {
-    return isAvailableOnDataContext(dataContext);
-  }
+		ResourceBundleEditor editor = ResourceBundleUtil.getEditor(dataContext);
+		return (editor == null || editor.getState(FileEditorStateLevel.NAVIGATION).getPropertyName() == null /* user selected non-bundle key element */)
+				&& bundle.getPropertiesFiles(project).size() > 1 && (virtualFile instanceof ResourceBundleAsVirtualFile || virtualFile == null);
+	}
 
-  public void invoke(@Nonnull Project project, Editor editor, PsiFile file, DataContext dataContext) {
-    ResourceBundle resourceBundle = ResourceBundleUtil.getResourceBundleFromDataContext(dataContext);
+	public boolean isRenaming(DataContext dataContext)
+	{
+		return isAvailableOnDataContext(dataContext);
+	}
 
-    assert resourceBundle != null;
-    Messages.showInputDialog(project,
-                             PropertiesBundle.message("rename.bundle.enter.new.resource.bundle.base.name.prompt.text"),
-                             PropertiesBundle.message("rename.resource.bundle.dialog.title"),
-                             Messages.getQuestionIcon(),
-                             resourceBundle.getBaseName(),
-                             new MyInputValidator(project, resourceBundle));
-  }
+	public void invoke(@Nonnull Project project, Editor editor, PsiFile file, DataContext dataContext)
+	{
+		ResourceBundle resourceBundle = ResourceBundleUtil.getResourceBundleFromDataContext(dataContext);
 
-  public void invoke(@Nonnull Project project, @Nonnull PsiElement[] elements, DataContext dataContext) {
-    invoke(project, null, null, dataContext);
-  }
+		assert resourceBundle != null;
+		Messages.showInputDialog(project,
+				PropertiesBundle.message("rename.bundle.enter.new.resource.bundle.base.name.prompt.text"),
+				PropertiesBundle.message("rename.resource.bundle.dialog.title"),
+				Messages.getQuestionIcon(),
+				resourceBundle.getBaseName(),
+				new MyInputValidator(project, resourceBundle));
+	}
 
-  private static class MyInputValidator implements InputValidator {
-    private final Project myProject;
-    private final ResourceBundle myResourceBundle;
+	public void invoke(@Nonnull Project project, @Nonnull PsiElement[] elements, DataContext dataContext)
+	{
+		invoke(project, null, null, dataContext);
+	}
 
-    public MyInputValidator(final Project project, final ResourceBundle resourceBundle) {
-      myProject = project;
-      myResourceBundle = resourceBundle;
-    }
+	private static class MyInputValidator implements InputValidator
+	{
+		private final Project myProject;
+		private final ResourceBundle myResourceBundle;
 
-    public boolean checkInput(String inputString) {
-      return inputString.indexOf(File.separatorChar) < 0 && inputString.indexOf('/') < 0;
-    }
+		public MyInputValidator(final Project project, final ResourceBundle resourceBundle)
+		{
+			myProject = project;
+			myResourceBundle = resourceBundle;
+		}
 
-    public boolean canClose(final String inputString) {
-      return doRename(inputString);
-    }
-    private boolean doRename(final String inputString) {
-      final List<PropertiesFile> propertiesFiles = myResourceBundle.getPropertiesFiles(myProject);
-      for (PropertiesFile propertiesFile : propertiesFiles) {
-        if (!FileModificationService.getInstance().prepareFileForWrite(propertiesFile.getContainingFile())) return false;
-      }
+		public boolean checkInput(String inputString)
+		{
+			return inputString.indexOf(File.separatorChar) < 0 && inputString.indexOf('/') < 0;
+		}
 
-      RenameProcessor renameProcessor = null;
-      String baseName = myResourceBundle.getBaseName();
-      for (PropertiesFile propertiesFile : propertiesFiles) {
-        final VirtualFile virtualFile = propertiesFile.getVirtualFile();
-        if (virtualFile == null) {
-          continue;
-        }
-        final String newName = inputString + virtualFile.getNameWithoutExtension().substring(baseName.length()) + "."
-                               + virtualFile.getExtension();
-        if (renameProcessor == null) {
-          renameProcessor = new RenameProcessor(myProject, propertiesFile.getContainingFile(), newName, false, false);
-          continue;
-        }
-        renameProcessor.addElement(propertiesFile.getContainingFile(), newName);
-      }
-      if (renameProcessor == null) {
-        LOG.assertTrue(false);
-        return true;
-      }
-      renameProcessor.setCommandName(PropertiesBundle.message("rename.resource.bundle.dialog.title"));
-      renameProcessor.doRun();
-      return true;
-    }
-  }
+		public boolean canClose(final String inputString)
+		{
+			return doRename(inputString);
+		}
+
+		private boolean doRename(final String inputString)
+		{
+			final List<PropertiesFile> propertiesFiles = myResourceBundle.getPropertiesFiles(myProject);
+			for(PropertiesFile propertiesFile : propertiesFiles)
+			{
+				if(!FileModificationService.getInstance().prepareFileForWrite(propertiesFile.getContainingFile()))
+				{
+					return false;
+				}
+			}
+
+			RenameProcessor renameProcessor = null;
+			String baseName = myResourceBundle.getBaseName();
+			for(PropertiesFile propertiesFile : propertiesFiles)
+			{
+				final VirtualFile virtualFile = propertiesFile.getVirtualFile();
+				if(virtualFile == null)
+				{
+					continue;
+				}
+				final String newName = inputString + virtualFile.getNameWithoutExtension().substring(baseName.length()) + "."
+						+ virtualFile.getExtension();
+				if(renameProcessor == null)
+				{
+					renameProcessor = new RenameProcessor(myProject, propertiesFile.getContainingFile(), newName, false, false);
+					continue;
+				}
+				renameProcessor.addElement(propertiesFile.getContainingFile(), newName);
+			}
+			if(renameProcessor == null)
+			{
+				LOG.assertTrue(false);
+				return true;
+			}
+			renameProcessor.setCommandName(PropertiesBundle.message("rename.resource.bundle.dialog.title"));
+			renameProcessor.doRun();
+			return true;
+		}
+	}
 }

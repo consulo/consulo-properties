@@ -15,26 +15,26 @@
  */
 package com.intellij.lang.properties.psi.impl;
 
-import com.intellij.extapi.psi.PsiFileBase;
-import com.intellij.lang.ASTFactory;
-import com.intellij.lang.ASTNode;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.*;
-import com.intellij.lang.properties.parsing.PropertiesElementTypes;
+import com.intellij.lang.properties.parsing.PropertiesStubElementTypes;
 import com.intellij.lang.properties.psi.PropertiesElementFactory;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.lang.properties.psi.Property;
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.psi.FileViewProvider;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.TokenType;
-import com.intellij.psi.impl.source.tree.ChangeUtil;
-import com.intellij.psi.impl.source.tree.TreeElement;
-import com.intellij.psi.tree.TokenSet;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.containers.MostlySingularMultiMap;
+import consulo.language.ast.ASTNode;
+import consulo.language.ast.TokenSet;
+import consulo.language.ast.TokenType;
+import consulo.language.file.FileViewProvider;
+import consulo.language.impl.ast.ASTFactory;
+import consulo.language.impl.ast.ChangeUtil;
+import consulo.language.impl.ast.TreeElement;
+import consulo.language.impl.psi.PsiFileBase;
+import consulo.language.psi.PsiElement;
+import consulo.language.util.IncorrectOperationException;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.collection.MostlySingularMultiMap;
+import consulo.virtualFileSystem.fileType.FileType;
 import org.jetbrains.annotations.NonNls;
 
 import javax.annotation.Nonnull;
@@ -42,7 +42,8 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
-  private static final TokenSet PROPERTIES_LIST_SET = TokenSet.create(PropertiesElementTypes.PROPERTIES_LIST);
+  private static final TokenSet PROPERTIES_LIST_SET = TokenSet.create(PropertiesStubElementTypes.PROPERTIES_LIST);
+  private static final TokenSet PROPERTIES_SET = TokenSet.create(PropertiesStubElementTypes.PROPERTY);
   private volatile MostlySingularMultiMap<String,IProperty> myPropertiesMap; //guarded by lock
   private volatile List<IProperty> myProperties;  //guarded by lock
   private final Object lock = new Object();
@@ -76,7 +77,7 @@ public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
   private void ensurePropertiesLoaded() {
     if (myPropertiesMap != null) return;
 
-    final ASTNode[] props = getPropertiesList().getChildren(PropertiesElementTypes.PROPERTIES);
+    final ASTNode[] props = getPropertiesList().getChildren(PROPERTIES_SET);
     MostlySingularMultiMap<String, IProperty> propertiesMap = new MostlySingularMultiMap<String, IProperty>();
     List<IProperty> properties = new ArrayList<IProperty>(props.length);
     for (final ASTNode prop : props) {
@@ -123,7 +124,8 @@ public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
   }
 
   @Override
-  public PsiElement add(@Nonnull PsiElement element) throws IncorrectOperationException {
+  public PsiElement add(@Nonnull PsiElement element) throws IncorrectOperationException
+  {
     if (element instanceof Property) {
       throw new IncorrectOperationException("Use addProperty() instead");
     }

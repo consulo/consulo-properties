@@ -16,24 +16,31 @@
 
 package consulo.properties.xml;
 
-import javax.annotation.Nonnull;
 import com.intellij.lang.properties.xml.XmlPropertiesFile;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.xml.XmlFile;
-import consulo.ide.IconDescriptor;
-import consulo.ide.IconDescriptorUpdater;
+import consulo.annotation.access.RequiredReadAction;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.icon.IconDescriptor;
+import consulo.language.icon.IconDescriptorUpdater;
+import consulo.language.psi.PsiElement;
 import consulo.properties.icon.PropertiesIconGroup;
+import consulo.xml.psi.xml.XmlFile;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author VISTALL
  * @since 14:59/20.07.13
  */
+@ExtensionImpl(order = "after xml")
 public class XmlPropertiesIconDescriptorUpdater implements IconDescriptorUpdater
 {
-  @Override
-  public void updateIcon(@Nonnull IconDescriptor iconDescriptor, @Nonnull PsiElement element, int flags) {
-    if(element instanceof XmlFile && XmlPropertiesFile.getPropertiesFile((XmlFile)element) != null) {
-       iconDescriptor.setMainIcon(PropertiesIconGroup.xmlProperties());
-    }
-  }
+	@RequiredReadAction
+	@Override
+	public void updateIcon(@Nonnull IconDescriptor iconDescriptor, @Nonnull PsiElement element, int flags)
+	{
+		if(element instanceof XmlFile && XmlPropertiesFile.getPropertiesFile((XmlFile) element) != null)
+		{
+			iconDescriptor.setMainIcon(PropertiesIconGroup.xmlproperties());
+		}
+	}
 }

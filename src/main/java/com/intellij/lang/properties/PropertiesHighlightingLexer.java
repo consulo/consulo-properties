@@ -17,14 +17,15 @@ package com.intellij.lang.properties;
 
 import com.intellij.lang.properties.parsing.PropertiesTokenTypes;
 import com.intellij.lang.properties.parsing._PropertiesLexer;
-import com.intellij.lexer.LayeredLexer;
-import com.intellij.lexer.StringLiteralLexer;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.ast.IElementType;
+import consulo.language.lexer.LayeredLexer;
+import consulo.language.lexer.StringLiteralLexer;
 
 /**
  * @author cdr
  */
-public class PropertiesHighlightingLexer extends LayeredLexer{
+public class PropertiesHighlightingLexer extends LayeredLexer
+{
   public PropertiesHighlightingLexer() {
     super(new _PropertiesLexer());
     registerSelfStoppingLayer(new StringLiteralLexer(StringLiteralLexer.NO_QUOTE_CHAR, PropertiesTokenTypes.VALUE_CHARACTERS, true, "#!=:"),

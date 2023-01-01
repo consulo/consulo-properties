@@ -16,20 +16,33 @@
 package com.intellij.lang.properties;
 
 import com.intellij.lang.properties.psi.impl.PropertyValueImpl;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.AbstractElementManipulator;
-import com.intellij.util.IncorrectOperationException;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.document.util.TextRange;
+import consulo.language.psi.AbstractElementManipulator;
+import consulo.language.util.IncorrectOperationException;
+
+import javax.annotation.Nonnull;
 
 /**
  * User: anna
  * Date: Aug 27, 2010
  */
-public class PropertyValueManipulator extends AbstractElementManipulator<PropertyValueImpl>{
-  @Override
-  public PropertyValueImpl handleContentChange(PropertyValueImpl element, TextRange range, String newContent)
-    throws IncorrectOperationException {
-    final String oldText = element.getText();
-    String newText = oldText.substring(0, range.getStartOffset()) + newContent + oldText.substring(range.getEndOffset());
-    return (PropertyValueImpl)element.replaceWithText(newText);
-  }
+@ExtensionImpl
+public class PropertyValueManipulator extends AbstractElementManipulator<PropertyValueImpl>
+{
+	@Override
+	public PropertyValueImpl handleContentChange(PropertyValueImpl element, TextRange range, String newContent)
+			throws IncorrectOperationException
+	{
+		final String oldText = element.getText();
+		String newText = oldText.substring(0, range.getStartOffset()) + newContent + oldText.substring(range.getEndOffset());
+		return (PropertyValueImpl) element.replaceWithText(newText);
+	}
+
+	@Nonnull
+	@Override
+	public Class<PropertyValueImpl> getElementClass()
+	{
+		return PropertyValueImpl.class;
+	}
 }

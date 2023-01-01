@@ -15,38 +15,34 @@
  */
 package com.intellij.lang.properties.psi.impl;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import com.intellij.icons.AllIcons;
-import com.intellij.lang.ASTNode;
 import com.intellij.lang.properties.PropertyManipulator;
 import com.intellij.lang.properties.parsing.PropertiesTokenTypes;
 import com.intellij.lang.properties.psi.PropertiesElementFactory;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.lang.properties.psi.Property;
 import com.intellij.lang.properties.psi.PropertyStub;
-import com.intellij.navigation.ItemPresentation;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.LiteralTextEscaper;
-import com.intellij.psi.PsiComment;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiLanguageInjectionHost;
-import com.intellij.psi.PsiWhiteSpace;
-import com.intellij.psi.TokenType;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.search.SearchScope;
-import com.intellij.psi.stubs.IStubElementType;
-import com.intellij.util.IncorrectOperationException;
+import consulo.application.AllIcons;
+import consulo.content.scope.SearchScope;
+import consulo.document.util.TextRange;
+import consulo.language.ast.ASTNode;
+import consulo.language.ast.TokenType;
+import consulo.language.psi.*;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.stub.IStubElementType;
+import consulo.language.util.IncorrectOperationException;
+import consulo.logging.Logger;
+import consulo.navigation.ItemPresentation;
 import consulo.ui.image.Image;
+import consulo.util.lang.StringUtil;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author max
  */
 public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implements Property, PsiLanguageInjectionHost {
-  private static final Logger LOG = Logger.getInstance("#com.intellij.lang.properties.psi.impl.PropertyImpl");
+  private static final Logger LOG = Logger.getInstance(PropertyImpl.class);
 
   public PropertyImpl(@Nonnull ASTNode node) {
     super(node);
@@ -60,7 +56,8 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
     return "Property:" + getKey();
   }
 
-  public PsiElement setName(@Nonnull String name) throws IncorrectOperationException {
+  public PsiElement setName(@Nonnull String name) throws IncorrectOperationException
+  {
     PropertyImpl property = (PropertyImpl)PropertiesElementFactory.createProperty(getProject(), name, "xxx");
     ASTNode keyNode = getKeyNode();
     ASTNode newKeyNode = property.getKeyNode();
@@ -363,7 +360,8 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
     return AllIcons.Nodes.Property;
   }
 
-  public void delete() throws IncorrectOperationException {
+  public void delete() throws IncorrectOperationException
+  {
     final ASTNode parentNode = getParent().getNode();
     assert parentNode != null;
 

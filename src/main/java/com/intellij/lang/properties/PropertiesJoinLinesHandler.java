@@ -15,11 +15,13 @@
  */
 package com.intellij.lang.properties;
 
-import com.intellij.codeInsight.editorActions.JoinLinesHandlerDelegate;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.action.JoinLinesHandlerDelegate;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import com.intellij.openapi.editor.Document;
-import com.intellij.psi.PsiFile;
+import consulo.document.Document;
+import consulo.language.psi.PsiFile;
 
+@ExtensionImpl
 public class PropertiesJoinLinesHandler implements JoinLinesHandlerDelegate {
   public int tryJoinLines(final Document doc, final PsiFile psiFile, int start, final int end) {
     if (!(psiFile instanceof PropertiesFile)) return -1;
