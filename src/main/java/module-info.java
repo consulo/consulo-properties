@@ -42,4 +42,6 @@ module com.intellij.properties
 	exports consulo.properties.icon;
 	exports consulo.properties.localize;
 	exports consulo.properties.xml;
+
+	opens com.intellij.lang.properties.xml to consulo.application.impl;
 }
