@@ -14,6 +14,6 @@ public class XmlStandardResourceProvider implements StandardResourceProvider
 	@Override
 	public void registerResources(ResourceRegistrar resourceRegistrar)
 	{
-		resourceRegistrar.addStdResource("http://java.sun.com/dtd/properties.dtd", "schemas/properties.dtd");
+		resourceRegistrar.addStdResource("http://java.sun.com/dtd/properties.dtd", "schemas/properties.dtd", XmlStandardResourceProvider.class);
 	}
 }
