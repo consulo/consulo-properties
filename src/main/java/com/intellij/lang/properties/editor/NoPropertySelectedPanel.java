@@ -15,15 +15,27 @@
  */
 package com.intellij.lang.properties.editor;
 
+import com.intellij.lang.properties.PropertiesBundle;
+import consulo.ui.ex.awt.BorderLayoutPanel;
+import consulo.ui.ex.awt.JBLabel;
+
 import javax.swing.*;
 
 /**
  * @author cdr
  */
-public class NoPropertySelectedPanel {
-  private JPanel myPanel;
+public class NoPropertySelectedPanel
+{
+	private final JPanel myPanel;
 
-  public JPanel getComponent() {
-    return myPanel;
-  }
+	public NoPropertySelectedPanel()
+	{
+		myPanel = new BorderLayoutPanel();
+		myPanel.add(new JBLabel(PropertiesBundle.message("no.property.selected.panel.label")));
+	}
+
+	public JPanel getComponent()
+	{
+		return myPanel;
+	}
 }

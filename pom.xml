@@ -51,7 +51,7 @@
 						<dependency>com.intellij.spellchecker</dependency>
 						<dependency>com.intellij.xml</dependency>
 					</dependencies>
-					<repositoryChannel>valhalla</repositoryChannel>
+					<repositoryChannel>nightly</repositoryChannel>
 					<packaging>
 						<skip>${dev.mode}</skip>
 						<version>${build.number}</version>

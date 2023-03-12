@@ -20,16 +20,17 @@ import com.intellij.lang.properties.PropertiesBundle;
 import com.intellij.lang.properties.PropertiesLanguage;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.lang.properties.psi.Property;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.application.progress.ProgressIndicator;
 import consulo.application.progress.ProgressManager;
 import consulo.application.util.StringSearcher;
 import consulo.application.util.concurrent.JobLauncher;
 import consulo.application.util.function.CommonProcessors;
-import consulo.application.util.function.Processor;
 import consulo.component.ProcessCanceledException;
 import consulo.document.Document;
 import consulo.document.FileDocumentManager;
+import consulo.ide.impl.psi.impl.search.LowLevelSearchUtil;
 import consulo.language.Language;
 import consulo.language.editor.inspection.*;
 import consulo.language.editor.inspection.reference.RefManager;
@@ -49,9 +50,6 @@ import consulo.virtualFileSystem.VirtualFile;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
@@ -61,21 +59,16 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool
 {
 	private static final Logger LOG = Logger.getInstance(DuplicatePropertyInspection.class);
 
-	public boolean CURRENT_FILE = true;
-	public boolean MODULE_WITH_DEPENDENCIES = false;
-
-	public boolean CHECK_DUPLICATE_VALUES = true;
-	public boolean CHECK_DUPLICATE_KEYS = true;
-	public boolean CHECK_DUPLICATE_KEYS_WITH_DIFFERENT_VALUES = true;
-
+	@RequiredReadAction
 	@Override
 	public void checkFile(@Nonnull PsiFile file,
 						  @Nonnull InspectionManager manager,
 						  @Nonnull ProblemsHolder problemsHolder,
 						  @Nonnull GlobalInspectionContext globalContext,
-						  @Nonnull ProblemDescriptionsProcessor problemDescriptionsProcessor)
+						  @Nonnull ProblemDescriptionsProcessor problemDescriptionsProcessor,
+						  @Nonnull Object state)
 	{
-		checkFile(file, manager, globalContext, globalContext.getRefManager(), problemDescriptionsProcessor);
+		checkFile(file, manager, globalContext, globalContext.getRefManager(), problemDescriptionsProcessor, (DuplicatePropertyInspectionState) state);
 	}
 
 	@Nullable
@@ -104,6 +97,7 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool
 	//}
 
 	@SuppressWarnings({"HardCodedStringLiteral"})
+	@RequiredReadAction
 	private static void surroundWithHref(StringBuffer anchor, PsiElement element, final boolean isValue)
 	{
 		if(element != null)
@@ -148,6 +142,7 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool
 	}
 
 	@SuppressWarnings({"HardCodedStringLiteral"})
+	@RequiredReadAction
 	private static void compoundLineLink(StringBuffer lineAnchor, PsiElement psiElement)
 	{
 		final PsiFile file = psiElement.getContainingFile();
@@ -182,7 +177,8 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool
 						   final InspectionManager manager,
 						   GlobalInspectionContext context,
 						   final RefManager refManager,
-						   final ProblemDescriptionsProcessor processor)
+						   final ProblemDescriptionsProcessor processor,
+						   final DuplicatePropertyInspectionState dupState)
 	{
 		if(!(file instanceof PropertiesFile))
 		{
@@ -200,9 +196,22 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool
 		{
 			return;
 		}
-		final GlobalSearchScope scope = CURRENT_FILE ? GlobalSearchScope.fileScope(file) : MODULE_WITH_DEPENDENCIES ?
-				GlobalSearchScope.moduleWithDependenciesScope(module) : GlobalSearchScope.projectScope(file.getProject
-				());
+		GlobalSearchScope scope;
+		switch(dupState.SCOPE)
+		{
+			case FILE:
+				scope = GlobalSearchScope.fileScope(file);
+				break;
+			case MODULE:
+				scope = GlobalSearchScope.moduleWithDependenciesScope(module);
+				break;
+			case PROJECT:
+				scope = GlobalSearchScope.projectScope(file.getProject());
+				break;
+			default:
+				throw new IllegalArgumentException(dupState.SCOPE.name());
+		}
+
 		final Map<String, Set<PsiFile>> processedValueToFiles = Collections.synchronizedMap(new HashMap<String,
 				Set<PsiFile>>());
 		final Map<String, Set<PsiFile>> processedKeyToFiles = Collections.synchronizedMap(new HashMap<String,
@@ -216,44 +225,38 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool
 			@Override
 			public void run()
 			{
-				if(!JobLauncher.getInstance().invokeConcurrentlyUnderProgress(properties, progress, false, new Processor<IProperty>()
+				if(!JobLauncher.getInstance().invokeConcurrentlyUnderProgress(properties, progress, false, property ->
 				{
-					@Override
-					public boolean process(final IProperty property)
+					if(original != null)
 					{
-						if(original != null)
+						if(original.isCanceled())
 						{
-							if(original.isCanceled())
-							{
-								return false;
-							}
-							original.setText2(PropertiesBundle.message("searching.for.property.key.progress.text", property.getUnescapedKey()));
+							return false;
 						}
-						processTextUsages(processedValueToFiles, property.getValue(), processedKeyToFiles, searchHelper, scope);
-						processTextUsages(processedKeyToFiles, property.getUnescapedKey(), processedValueToFiles,
-								searchHelper, scope);
-						return true;
+						original.setText2(PropertiesBundle.message("searching.for.property.key.progress.text", property.getUnescapedKey()));
 					}
+					processTextUsages(processedValueToFiles, property.getValue(), processedKeyToFiles, searchHelper, scope);
+					processTextUsages(processedKeyToFiles, property.getUnescapedKey(), processedValueToFiles,
+							searchHelper, scope);
+					return true;
 				}))
 				{
 					throw new ProcessCanceledException();
 				}
 
-				List<ProblemDescriptor> problemDescriptors = new ArrayList<ProblemDescriptor>();
-				Map<String, Set<String>> keyToDifferentValues = new HashMap<String, Set<String>>();
-				if(CHECK_DUPLICATE_KEYS || CHECK_DUPLICATE_KEYS_WITH_DIFFERENT_VALUES)
+				List<ProblemDescriptor> problemDescriptors = new ArrayList<>();
+				Map<String, Set<String>> keyToDifferentValues = new HashMap<>();
+				if(dupState.CHECK_DUPLICATE_KEYS || dupState.CHECK_DUPLICATE_KEYS_WITH_DIFFERENT_VALUES)
 				{
-					prepareDuplicateKeysByFile(processedKeyToFiles, manager, keyToDifferentValues, problemDescriptors,
-							file, original);
+					prepareDuplicateKeysByFile(processedKeyToFiles, manager, keyToDifferentValues, problemDescriptors, file, original, dupState);
 				}
-				if(CHECK_DUPLICATE_VALUES)
+				if(dupState.CHECK_DUPLICATE_VALUES)
 				{
 					prepareDuplicateValuesByFile(processedValueToFiles, manager, problemDescriptors, file, original);
 				}
-				if(CHECK_DUPLICATE_KEYS_WITH_DIFFERENT_VALUES)
+				if(dupState.CHECK_DUPLICATE_KEYS_WITH_DIFFERENT_VALUES)
 				{
-					processDuplicateKeysWithDifferentValues(keyToDifferentValues, processedKeyToFiles,
-							problemDescriptors, manager, file, original);
+					processDuplicateKeysWithDifferentValues(keyToDifferentValues, processedKeyToFiles, problemDescriptors, manager, file, original);
 				}
 				if(!problemDescriptors.isEmpty())
 				{
@@ -279,7 +282,7 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool
 			}
 			else
 			{
-				final Set<PsiFile> resultFiles = new HashSet<PsiFile>();
+				final Set<PsiFile> resultFiles = new HashSet<>();
 				findFilesWithText(text, searchHelper, scope, resultFiles);
 				if(resultFiles.isEmpty())
 				{
@@ -291,6 +294,7 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool
 	}
 
 
+	@RequiredReadAction
 	private static void prepareDuplicateValuesByFile(final Map<String, Set<PsiFile>> valueToFiles,
 													 final InspectionManager manager,
 													 final List<ProblemDescriptor> problemDescriptors,
@@ -316,7 +320,7 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool
 			for(final PsiFile file : psiFilesWithDuplicates)
 			{
 				CharSequence text = file.getViewProvider().getContents();
-				consulo.ide.impl.psi.impl.search.LowLevelSearchUtil.processTextOccurrences(text, 0, text.length(), searcher, progress, offset -> {
+				LowLevelSearchUtil.processTextOccurrences(text, 0, text.length(), searcher, progress, offset -> {
 					PsiElement element = file.findElementAt(offset);
 					if(element != null && element.getParent() instanceof Property)
 					{
@@ -343,12 +347,14 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool
 		}
 	}
 
+	@RequiredReadAction
 	private void prepareDuplicateKeysByFile(final Map<String, Set<PsiFile>> keyToFiles,
 											final InspectionManager manager,
 											final Map<String, Set<String>> keyToValues,
 											final List<ProblemDescriptor> problemDescriptors,
 											final PsiFile psiFile,
-											final ProgressIndicator progress)
+											final ProgressIndicator progress,
+											DuplicatePropertyInspectionState state)
 	{
 		for(String key : keyToFiles.keySet())
 		{
@@ -383,13 +389,13 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool
 					Set<String> values = keyToValues.get(key);
 					if(values == null)
 					{
-						values = new HashSet<String>();
+						values = new HashSet<>();
 						keyToValues.put(key, values);
 					}
 					values.add(property.getValue());
 				}
 			}
-			if(duplicatesCount > 1 && CHECK_DUPLICATE_KEYS)
+			if(duplicatesCount > 1 && state.CHECK_DUPLICATE_KEYS)
 			{
 				problemDescriptors.add(manager.createProblemDescriptor(psiFile, message.toString(), false, null,
 						ProblemHighlightType.GENERIC_ERROR_OR_WARNING));
@@ -398,7 +404,7 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool
 
 	}
 
-
+	@RequiredReadAction
 	private static void processDuplicateKeysWithDifferentValues(final Map<String, Set<String>> keyToDifferentValues,
 																final Map<String, Set<PsiFile>> keyToFiles,
 																final List<ProblemDescriptor> problemDescriptors,
@@ -465,8 +471,8 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool
 		Collections.sort(words, (o1, o2) -> o2.length() - o1.length());
 		for(String word : words)
 		{
-			final Set<PsiFile> files = new HashSet<PsiFile>();
-			searchHelper.processAllFilesWithWord(word, scope, new CommonProcessors.CollectProcessor<PsiFile>(files),
+			final Set<PsiFile> files = new HashSet<>();
+			searchHelper.processAllFilesWithWord(word, scope, new CommonProcessors.CollectProcessor<>(files),
 					true);
 			if(resultFiles.isEmpty())
 			{
@@ -517,94 +523,10 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool
 		return false;
 	}
 
+	@Nonnull
 	@Override
-	public JComponent createOptionsPanel()
+	public InspectionToolState<?> createStateProvider()
 	{
-		return new OptionsPanel().myWholePanel;
-	}
-
-	public class OptionsPanel
-	{
-		private JRadioButton myFileScope;
-		private JRadioButton myModuleScope;
-		private JRadioButton myProjectScope;
-		private JCheckBox myDuplicateValues;
-		private JCheckBox myDuplicateKeys;
-		private JCheckBox myDuplicateBoth;
-		private JPanel myWholePanel;
-
-		OptionsPanel()
-		{
-			ButtonGroup buttonGroup = new ButtonGroup();
-			buttonGroup.add(myFileScope);
-			buttonGroup.add(myModuleScope);
-			buttonGroup.add(myProjectScope);
-
-			myFileScope.setSelected(CURRENT_FILE);
-			myModuleScope.setSelected(MODULE_WITH_DEPENDENCIES);
-			myProjectScope.setSelected(!(CURRENT_FILE || MODULE_WITH_DEPENDENCIES));
-
-			myFileScope.addActionListener(new ActionListener()
-			{
-				@Override
-				public void actionPerformed(ActionEvent e)
-				{
-					CURRENT_FILE = myFileScope.isSelected();
-				}
-			});
-			myModuleScope.addActionListener(new ActionListener()
-			{
-				@Override
-				public void actionPerformed(ActionEvent e)
-				{
-					MODULE_WITH_DEPENDENCIES = myModuleScope.isSelected();
-					if(MODULE_WITH_DEPENDENCIES)
-					{
-						CURRENT_FILE = false;
-					}
-				}
-			});
-			myProjectScope.addActionListener(new ActionListener()
-			{
-				@Override
-				public void actionPerformed(ActionEvent e)
-				{
-					if(myProjectScope.isSelected())
-					{
-						CURRENT_FILE = false;
-						MODULE_WITH_DEPENDENCIES = false;
-					}
-				}
-			});
-
-			myDuplicateKeys.setSelected(CHECK_DUPLICATE_KEYS);
-			myDuplicateValues.setSelected(CHECK_DUPLICATE_VALUES);
-			myDuplicateBoth.setSelected(CHECK_DUPLICATE_KEYS_WITH_DIFFERENT_VALUES);
-
-			myDuplicateKeys.addActionListener(new ActionListener()
-			{
-				@Override
-				public void actionPerformed(ActionEvent e)
-				{
-					CHECK_DUPLICATE_KEYS = myDuplicateKeys.isSelected();
-				}
-			});
-			myDuplicateValues.addActionListener(new ActionListener()
-			{
-				@Override
-				public void actionPerformed(ActionEvent e)
-				{
-					CHECK_DUPLICATE_VALUES = myDuplicateValues.isSelected();
-				}
-			});
-			myDuplicateBoth.addActionListener(new ActionListener()
-			{
-				@Override
-				public void actionPerformed(ActionEvent e)
-				{
-					CHECK_DUPLICATE_KEYS_WITH_DIFFERENT_VALUES = myDuplicateBoth.isSelected();
-				}
-			});
-		}
+		return new DuplicatePropertyInspectionState();
 	}
 }

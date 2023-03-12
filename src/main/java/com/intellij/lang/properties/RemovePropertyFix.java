@@ -18,7 +18,7 @@ package com.intellij.lang.properties;
 import com.intellij.lang.properties.psi.Property;
 import consulo.codeEditor.Editor;
 import consulo.language.editor.FileModificationService;
-import consulo.language.editor.intention.IntentionAction;
+import consulo.language.editor.intention.SyntheticIntentionAction;
 import consulo.language.psi.PsiFile;
 import consulo.language.util.IncorrectOperationException;
 import consulo.project.Project;
@@ -28,7 +28,7 @@ import javax.annotation.Nonnull;
 /**
  * @author cdr
  */
-class RemovePropertyFix implements IntentionAction {
+class RemovePropertyFix implements SyntheticIntentionAction {
   private final Property myProperty;
 
   public RemovePropertyFix(@Nonnull final Property origProperty) {
@@ -38,11 +38,6 @@ class RemovePropertyFix implements IntentionAction {
   @Nonnull
   public String getText() {
     return PropertiesBundle.message("remove.property.intention.text");
-  }
-
-  @Nonnull
-  public String getFamilyName() {
-    return getText();
   }
 
   public boolean isAvailable(@Nonnull Project project, Editor editor, PsiFile file) {
