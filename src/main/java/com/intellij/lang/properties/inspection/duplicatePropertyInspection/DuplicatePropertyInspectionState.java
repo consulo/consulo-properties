@@ -28,7 +28,7 @@ public class DuplicatePropertyInspectionState implements InspectionToolState<Dup
 	public UnnamedConfigurable createConfigurable()
 	{
 		ConfigurableBuilder<ConfigurableBuilderState> builder = ConfigurableBuilder.newBuilder();
-		builder.component(Label.create(LocalizeValue.localizeTODO("Scope:")));
+		builder.component(() -> Label.create(LocalizeValue.localizeTODO("Scope:")));
 		builder.valueComponent(() ->
 		{
 			ComboBox<DuplicatePropertyScope> comboBox = ComboBox.create(DuplicatePropertyScope.values());
