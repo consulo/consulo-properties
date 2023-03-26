@@ -12,7 +12,6 @@ module com.intellij.properties
 	requires consulo.language.impl;
 
 	requires com.intellij.xml;
-	requires static com.intellij.spellchecker;
 
 	requires consulo.util.xml.fast.reader;
 

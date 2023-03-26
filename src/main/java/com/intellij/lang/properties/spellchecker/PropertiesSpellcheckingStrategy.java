@@ -18,17 +18,17 @@ package com.intellij.lang.properties.spellchecker;
 import com.intellij.lang.properties.PropertiesLanguage;
 import com.intellij.lang.properties.psi.impl.PropertyImpl;
 import com.intellij.lang.properties.psi.impl.PropertyValueImpl;
-import com.intellij.spellchecker.inspections.PlainTextSplitter;
-import com.intellij.spellchecker.inspections.PropertiesSplitter;
-import com.intellij.spellchecker.tokenizer.SpellcheckingStrategy;
-import com.intellij.spellchecker.tokenizer.TokenConsumer;
-import com.intellij.spellchecker.tokenizer.Tokenizer;
-import com.intellij.spellchecker.tokenizer.TokenizerBase;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.document.util.TextRange;
 import consulo.language.Language;
 import consulo.language.psi.PsiElement;
+import consulo.language.spellcheker.SpellcheckingStrategy;
+import consulo.language.spellcheker.tokenizer.TokenConsumer;
+import consulo.language.spellcheker.tokenizer.Tokenizer;
+import consulo.language.spellcheker.tokenizer.TokenizerBase;
+import consulo.language.spellcheker.tokenizer.splitter.PlainTextTokenSplitter;
+import consulo.language.spellcheker.tokenizer.splitter.PropertiesTokenSplitter;
 
 import javax.annotation.Nonnull;
 
@@ -36,7 +36,7 @@ import javax.annotation.Nonnull;
 @ExtensionImpl
 public class PropertiesSpellcheckingStrategy extends SpellcheckingStrategy
 {
-	private Tokenizer<PropertyValueImpl> myPropertyValueTokenizer = TokenizerBase.create(PlainTextSplitter.getInstance());
+	private Tokenizer<PropertyValueImpl> myPropertyValueTokenizer = TokenizerBase.create(PlainTextTokenSplitter.getInstance());
 	private Tokenizer<PropertyImpl> myPropertyTokenizer = new MyPropertyTokenizer();
 
 	@RequiredReadAction
@@ -60,7 +60,7 @@ public class PropertiesSpellcheckingStrategy extends SpellcheckingStrategy
 		public void tokenize(@Nonnull PropertyImpl element, TokenConsumer consumer)
 		{
 			String key = element.getKey();
-			consumer.consumeToken(element, key, true, 0, TextRange.allOf(key), PropertiesSplitter.getInstance());
+			consumer.consumeToken(element, key, true, 0, TextRange.allOf(key), PropertiesTokenSplitter.getInstance());
 		}
 	}
 

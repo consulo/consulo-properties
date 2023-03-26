@@ -25,7 +25,6 @@
 	<version>SNAPSHOT</version>
 
 	<depends>com.intellij.xml</depends>
-	<depends optional="true">com.intellij.spellchecker</depends>
 
 	<tags>
 		<tag>markup.language</tag>
