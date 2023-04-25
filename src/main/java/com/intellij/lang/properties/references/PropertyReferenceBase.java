@@ -75,7 +75,7 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
       }
 
       TextAttributes attrs = EditorColorsManager.getInstance().getGlobalScheme().getAttributes(PropertiesHighlighter.PROPERTY_VALUE);
-      presentation.setTailText(value, attrs.getForegroundColor());
+      presentation.setTailText("=" + value, attrs.getForegroundColor());
     }
   };
   protected final String myKey;
