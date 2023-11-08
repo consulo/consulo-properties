@@ -20,7 +20,6 @@ import com.intellij.lang.properties.xml.XmlPropertiesIndex;
 import consulo.annotation.component.ComponentScope;
 import consulo.annotation.component.ServiceAPI;
 import consulo.annotation.component.ServiceImpl;
-import consulo.ide.ServiceManager;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiManager;
 import consulo.language.psi.scope.GlobalSearchScope;
@@ -53,7 +52,7 @@ public class PropertiesReferenceManager
 
 	public static PropertiesReferenceManager getInstance(Project project)
 	{
-		return ServiceManager.getService(project, PropertiesReferenceManager.class);
+		return project.getInstance(PropertiesReferenceManager.class);
 	}
 
 	@Inject

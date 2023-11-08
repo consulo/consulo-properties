@@ -18,6 +18,7 @@ package com.intellij.lang.properties.editor;
 import com.intellij.lang.properties.PropertiesBundle;
 import com.intellij.lang.properties.structureView.GroupByWordPrefixes;
 import consulo.fileEditor.FileEditor;
+import consulo.ide.impl.idea.ide.structureView.newStructureView.StructureViewComponent;
 import consulo.project.Project;
 import consulo.ui.ex.action.AnAction;
 import consulo.ui.ex.action.AnActionEvent;
@@ -32,7 +33,7 @@ import java.util.Map;
 /**
  * @author cdr
  */
-public class PropertiesGroupingStructureViewComponent extends consulo.ide.impl.idea.ide.structureView.newStructureView.StructureViewComponent
+public class PropertiesGroupingStructureViewComponent extends StructureViewComponent
 {
 	protected PropertiesGroupingStructureViewComponent(
 			Project project, FileEditor editor, PropertiesGroupingStructureViewModel structureViewModel)

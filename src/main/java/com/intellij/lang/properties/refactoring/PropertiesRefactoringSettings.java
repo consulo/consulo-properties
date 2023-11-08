@@ -18,9 +18,10 @@ package com.intellij.lang.properties.refactoring;
 import consulo.annotation.component.ComponentScope;
 import consulo.annotation.component.ServiceAPI;
 import consulo.annotation.component.ServiceImpl;
+import consulo.application.Application;
+import consulo.component.persist.PersistentStateComponent;
 import consulo.component.persist.State;
 import consulo.component.persist.Storage;
-import consulo.ide.ServiceManager;
 import consulo.util.xml.serializer.XmlSerializerUtil;
 import jakarta.inject.Singleton;
 
@@ -35,13 +36,13 @@ import jakarta.inject.Singleton;
 @ServiceAPI(ComponentScope.APPLICATION)
 @ServiceImpl
 @Singleton
-public class PropertiesRefactoringSettings implements consulo.component.persist.PersistentStateComponent<PropertiesRefactoringSettings>
+public class PropertiesRefactoringSettings implements PersistentStateComponent<PropertiesRefactoringSettings>
 {
 	public boolean RENAME_SEARCH_IN_COMMENTS = false;
 
 	public static PropertiesRefactoringSettings getInstance()
 	{
-		return ServiceManager.getService(PropertiesRefactoringSettings.class);
+		return Application.get().getInstance(PropertiesRefactoringSettings.class);
 	}
 
 	public PropertiesRefactoringSettings getState()

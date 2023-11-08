@@ -30,6 +30,7 @@ import consulo.codeEditor.*;
 import consulo.colorScheme.EditorColorsManager;
 import consulo.colorScheme.EditorColorsScheme;
 import consulo.dataContext.DataProvider;
+import consulo.disposer.Disposer;
 import consulo.document.Document;
 import consulo.document.FileDocumentManager;
 import consulo.document.event.DocumentAdapter;
@@ -247,7 +248,7 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 			return;
 		}
 
-		Stack<DefaultMutableTreeNode> toCheck = consulo.ide.impl.idea.util.containers.ContainerUtilRt.newStack();
+		Stack<DefaultMutableTreeNode> toCheck = new Stack<>();
 		toCheck.push((DefaultMutableTreeNode) root);
 		DefaultMutableTreeNode nodeToSelect = null;
 		while(!toCheck.isEmpty())
@@ -935,7 +936,7 @@ public class ResourceBundleEditor extends UserDataHolderBase implements FileEdit
 		VirtualFileManager.getInstance().removeVirtualFileListener(myVfsListener);
 
 		myDisposed = true;
-		consulo.ide.impl.idea.openapi.util.Disposer.dispose(myStructureViewComponent);
+		Disposer.dispose(myStructureViewComponent);
 		releaseAllEditors();
 	}
 

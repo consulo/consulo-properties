@@ -28,9 +28,11 @@ import com.intellij.lang.properties.psi.PropertiesFile;
 import consulo.annotation.component.ComponentScope;
 import consulo.annotation.component.ServiceAPI;
 import consulo.annotation.component.ServiceImpl;
+import consulo.application.Application;
+import consulo.component.persist.PersistentStateComponent;
 import consulo.component.persist.State;
 import consulo.component.persist.Storage;
-import consulo.ide.ServiceManager;
+import consulo.component.persist.StoragePathMacros;
 import consulo.language.file.FileViewProvider;
 import consulo.language.psi.PsiManager;
 import consulo.project.Project;
@@ -50,14 +52,12 @@ import java.util.concurrent.atomic.AtomicLong;
 @Singleton
 @State(name = "PropertiesSeparatorManager",
 		storages = {
-				@Storage(
-						file = consulo.component.persist.StoragePathMacros.APP_CONFIG + "/other.xml"
-				)
+				@Storage(file = StoragePathMacros.APP_CONFIG + "/other.xml")
 		}
 )
 @ServiceAPI(ComponentScope.APPLICATION)
 @ServiceImpl
-public class PropertiesSeparatorManager implements consulo.component.persist.PersistentStateComponent<Element>
+public class PropertiesSeparatorManager implements PersistentStateComponent<Element>
 {
 	@NonNls
 	private static final String FILE_ELEMENT = "file";
@@ -68,7 +68,7 @@ public class PropertiesSeparatorManager implements consulo.component.persist.Per
 
 	public static PropertiesSeparatorManager getInstance()
 	{
-		return ServiceManager.getService(PropertiesSeparatorManager.class);
+		return Application.get().getInstance(PropertiesSeparatorManager.class);
 	}
 
 	private final Map<VirtualFile, String> mySeparators = new HashMap<VirtualFile, String>();
