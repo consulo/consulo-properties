@@ -25,9 +25,8 @@ import com.intellij.lang.properties.ResourceBundleImpl;
 import com.intellij.lang.properties.projectView.ResourceBundleNode;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import consulo.annotation.component.ExtensionImpl;
+import consulo.bookmark.ui.view.BookmarkNodeProvider;
 import consulo.dataContext.DataContext;
-import consulo.ide.impl.idea.ide.favoritesTreeView.FavoriteNodeProvider;
-import consulo.language.editor.CommonDataKeys;
 import consulo.project.Project;
 import consulo.project.ui.view.tree.AbstractTreeNode;
 import consulo.project.ui.view.tree.ViewSettings;
@@ -40,7 +39,7 @@ import java.util.Collection;
 import java.util.List;
 
 @ExtensionImpl
-public class ResourcesFavoriteNodeProvider extends FavoriteNodeProvider
+public class ResourcesFavoriteNodeProvider implements BookmarkNodeProvider
 {
 	private final Project myProject;
 
@@ -52,7 +51,7 @@ public class ResourcesFavoriteNodeProvider extends FavoriteNodeProvider
 
 	public Collection<AbstractTreeNode> getFavoriteNodes(final DataContext context, final ViewSettings viewSettings)
 	{
-		final Project project = context.getData(CommonDataKeys.PROJECT);
+		final Project project = context.getData(Project.KEY);
 		if(project == null)
 		{
 			return null;
