@@ -84,7 +84,7 @@ public class XmlPropertiesFile extends UserDataHolderBase implements PropertiesF
 		XmlTag rootTag = myFile.getRootTag();
 		if(rootTag == null)
 		{
-			return myProperties = MultiMap.emptyInstance();
+			return myProperties = MultiMap.empty();
 		}
 
 		XmlTag[] entries = rootTag.findSubTags("entry");
