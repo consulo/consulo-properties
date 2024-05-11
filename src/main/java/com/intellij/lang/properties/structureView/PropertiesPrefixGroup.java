@@ -17,10 +17,10 @@ package com.intellij.lang.properties.structureView;
 
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.editor.ResourceBundlePropertyStructureViewElement;
-import consulo.application.AllIcons;
 import consulo.fileEditor.structureView.tree.Group;
 import consulo.fileEditor.structureView.tree.TreeElement;
 import consulo.navigation.ItemPresentation;
+import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.image.Image;
 import consulo.util.lang.Comparing;
 import consulo.util.lang.StringUtil;
@@ -60,7 +60,7 @@ public class PropertiesPrefixGroup implements Group
       }
 
       public Image getIcon() {
-        return AllIcons.Nodes.Advice;
+        return PlatformIconGroup.nodesTag();
       }
     };
   }
