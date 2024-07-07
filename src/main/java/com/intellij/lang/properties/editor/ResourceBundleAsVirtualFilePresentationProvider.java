@@ -4,9 +4,9 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.application.presentation.TypePresentationProvider;
 import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.image.Image;
+import jakarta.annotation.Nonnull;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * @author VISTALL

@@ -1,6 +1,6 @@
 package com.intellij.lang.properties.psi.impl;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import consulo.document.util.ProperTextRange;
 import consulo.document.util.TextRange;

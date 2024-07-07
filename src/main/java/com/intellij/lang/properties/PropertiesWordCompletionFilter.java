@@ -25,8 +25,7 @@ import consulo.language.Language;
 import consulo.language.ast.IElementType;
 import consulo.language.editor.completion.WordCompletionElementFilter;
 import consulo.language.version.LanguageVersion;
-
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class PropertiesWordCompletionFilter implements WordCompletionElementFilter

@@ -17,7 +17,7 @@ package com.intellij.lang.properties.editor;
 
 import com.intellij.lang.properties.PropertiesHighlighter;
 import consulo.language.lexer.Lexer;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author max

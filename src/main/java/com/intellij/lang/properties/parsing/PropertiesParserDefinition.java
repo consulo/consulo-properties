@@ -36,7 +36,7 @@ import consulo.language.psi.stub.IStubFileElementType;
 import consulo.language.version.LanguageVersion;
 import consulo.logging.Logger;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author max

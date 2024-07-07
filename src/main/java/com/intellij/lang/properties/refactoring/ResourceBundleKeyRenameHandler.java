@@ -33,7 +33,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.editor.refactoring.rename.RenameHandler;
 import consulo.project.Project;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.Set;
 

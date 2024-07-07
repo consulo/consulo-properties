@@ -28,7 +28,7 @@ import com.intellij.lang.properties.psi.impl.PropertyStubImpl;
 import consulo.index.io.StringRef;
 import consulo.language.psi.stub.*;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class PropertyStubElementType extends IStubElementType<PropertyStub, Property> {

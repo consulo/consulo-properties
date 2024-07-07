@@ -25,8 +25,8 @@ import consulo.colorScheme.TextAttributesKey;
 import consulo.language.editor.highlight.SyntaxHighlighterBase;
 import consulo.util.lang.Pair;
 import consulo.language.ast.IElementType;
+import jakarta.annotation.Nonnull;
 
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 

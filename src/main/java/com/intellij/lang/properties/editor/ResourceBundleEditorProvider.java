@@ -33,7 +33,7 @@ import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
 import org.jdom.Element;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class ResourceBundleEditorProvider implements FileEditorProvider, DumbAware

@@ -31,9 +31,9 @@ import consulo.language.psi.PsiManager;
 import consulo.language.editor.LangDataKeys;
 import consulo.util.collection.primitive.ints.IntSet;
 import consulo.util.collection.primitive.ints.IntSets;
+import jakarta.annotation.Nonnull;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.io.Writer;
 import java.util.Properties;
 

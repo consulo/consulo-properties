@@ -29,15 +29,14 @@ import consulo.language.editor.action.EnterHandlerDelegateAdapter;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.util.lang.ref.Ref;
-
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class EnterInPropertiesFileHandler extends EnterHandlerDelegateAdapter
 {
 	public Result preprocessEnter(@Nonnull final PsiFile file, @Nonnull final Editor editor, @Nonnull final consulo.util.lang.ref.Ref<Integer> caretOffsetRef, @Nonnull final Ref<Integer>
 			caretAdvance,
-								  @Nonnull final DataContext dataContext, final EditorActionHandler originalHandler)
+                                @Nonnull final DataContext dataContext, final EditorActionHandler originalHandler)
 	{
 		int caretOffset = caretOffsetRef.get().intValue();
 		PsiElement psiAtOffset = file.findElementAt(caretOffset);

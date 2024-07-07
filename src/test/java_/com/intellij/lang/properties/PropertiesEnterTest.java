@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.properties;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import consulo.dataContext.DataManager;
 import consulo.ui.ex.action.IdeActions;

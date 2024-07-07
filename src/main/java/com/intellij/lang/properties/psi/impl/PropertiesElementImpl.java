@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.properties.psi.impl;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import consulo.language.Language;
 import consulo.language.impl.psi.ASTWrapperPsiElement;

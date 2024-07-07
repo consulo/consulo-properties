@@ -25,9 +25,9 @@ import consulo.logging.Logger;
 import consulo.ui.ex.awt.tree.TreeNode;
 import consulo.util.lang.Comparing;
 import consulo.util.lang.StringUtil;
+import jakarta.annotation.Nonnull;
 import org.jetbrains.annotations.NonNls;
 
-import javax.annotation.Nonnull;
 import java.util.*;
 
 /**

@@ -15,7 +15,7 @@
  */
 package com.intellij.lang.properties.parsing;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import consulo.language.parser.PsiBuilder;
 import consulo.language.ast.IElementType;

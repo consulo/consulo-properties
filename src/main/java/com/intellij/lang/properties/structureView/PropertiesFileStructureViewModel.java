@@ -28,7 +28,7 @@ import consulo.fileEditor.structureView.tree.Grouper;
 import consulo.ide.IdeBundle;
 import consulo.language.editor.structureView.TextEditorBasedStructureViewModel;
 import org.jetbrains.annotations.NonNls;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Comparator;
 

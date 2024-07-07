@@ -16,19 +16,14 @@
 
 package com.intellij.lang.properties.copyright.psi;
 
-import consulo.language.copyright.UpdateCopyrightsProvider;
 import consulo.language.copyright.UpdatePsiFileCopyright;
-import consulo.language.copyright.config.CopyrightFileConfig;
 import consulo.language.copyright.config.CopyrightProfile;
-import consulo.language.copyright.ui.TemplateCommentPanel;
 import consulo.language.psi.PsiComment;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiWhiteSpace;
-import consulo.project.Project;
-import consulo.virtualFileSystem.fileType.FileType;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class UpdatePropertiesFileCopyright extends UpdatePsiFileCopyright
 {

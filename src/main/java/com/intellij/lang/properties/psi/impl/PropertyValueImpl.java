@@ -15,12 +15,11 @@
  */
 package com.intellij.lang.properties.psi.impl;
 
-import javax.annotation.Nonnull;
-
 import consulo.language.ast.IElementType;
 import consulo.language.impl.psi.LeafPsiElement;
 import consulo.language.psi.PsiReference;
 import consulo.language.psi.ReferenceProvidersRegistry;
+import jakarta.annotation.Nonnull;
 import org.jetbrains.annotations.NonNls;
 
 /**

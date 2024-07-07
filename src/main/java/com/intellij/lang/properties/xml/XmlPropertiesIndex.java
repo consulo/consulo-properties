@@ -17,10 +17,11 @@ import consulo.util.lang.Comparing;
 import consulo.util.xml.fastReader.NanoXmlUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.xml.ide.highlighter.XmlFileType;
+import jakarta.annotation.Nullable;
 import net.n3.nanoxml.StdXMLReader;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+
 import java.io.*;
 import java.util.Collections;
 import java.util.HashMap;

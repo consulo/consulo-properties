@@ -26,8 +26,7 @@ import consulo.language.util.ProcessingContext;
 import consulo.xml.lang.xml.XMLLanguage;
 import consulo.xml.patterns.XmlPatterns;
 import consulo.xml.psi.xml.XmlTag;
-
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author Dmitry Avdeev

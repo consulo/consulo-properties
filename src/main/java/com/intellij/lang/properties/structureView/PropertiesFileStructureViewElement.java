@@ -23,8 +23,8 @@ import consulo.language.editor.structureView.PsiTreeElementBase;
 import consulo.language.icon.IconDescriptorUpdaters;
 import consulo.navigation.ItemPresentation;
 import consulo.ui.image.Image;
+import jakarta.annotation.Nonnull;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

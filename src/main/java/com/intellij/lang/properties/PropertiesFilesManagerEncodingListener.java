@@ -15,8 +15,8 @@ import consulo.virtualFileSystem.encoding.EncodingManagerListener;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
 import jakarta.inject.Inject;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.Collection;
 
 @TopicImpl(ComponentScope.PROJECT)

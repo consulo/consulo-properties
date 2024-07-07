@@ -10,9 +10,8 @@ import consulo.language.psi.PsiTarget;
 import consulo.language.util.IncorrectOperationException;
 import consulo.ui.image.Image;
 import consulo.xml.psi.xml.XmlTag;
+import jakarta.annotation.Nonnull;
 import org.jetbrains.annotations.NonNls;
-
-import javax.annotation.Nonnull;
 
 /**
  * @author Dmitry Avdeev
