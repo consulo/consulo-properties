@@ -28,8 +28,10 @@ import consulo.language.editor.completion.lookup.LookupElementRenderer;
 import consulo.language.pom.PomService;
 import consulo.language.psi.*;
 import consulo.language.util.IncorrectOperationException;
+import consulo.localize.LocalizeValue;
 import consulo.logging.Logger;
 import consulo.module.content.ProjectRootManager;
+import consulo.properties.localize.PropertiesLocalize;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.collection.HashingStrategy;
 import consulo.util.collection.Lists;
@@ -182,8 +184,9 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
   }
 
   @Nonnull
-  public String getUnresolvedMessagePattern() {
-    return PropertiesBundle.message("unresolved.property.key");
+  @Override
+  public LocalizeValue buildUnresolvedMessaged(@Nonnull String referenceText) {
+    return PropertiesLocalize.unresolvedPropertyKey();
   }
 
   @Nonnull
