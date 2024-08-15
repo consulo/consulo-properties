@@ -12,19 +12,16 @@ import jakarta.annotation.Nullable;
  * @since 09-Aug-22
  */
 @ExtensionImpl
-public class PropertiesAnnotatorFactory implements AnnotatorFactory
-{
-	@Nullable
-	@Override
-	public Annotator createAnnotator()
-	{
-		return new PropertiesAnnotator();
-	}
+public class PropertiesAnnotatorFactory implements AnnotatorFactory {
+    @Nullable
+    @Override
+    public Annotator createAnnotator() {
+        return new PropertiesAnnotator();
+    }
 
-	@Nonnull
-	@Override
-	public Language getLanguage()
-	{
-		return PropertiesLanguage.INSTANCE;
-	}
+    @Nonnull
+    @Override
+    public Language getLanguage() {
+        return PropertiesLanguage.INSTANCE;
+    }
 }

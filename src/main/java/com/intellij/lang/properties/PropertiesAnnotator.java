@@ -20,6 +20,7 @@ import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.lang.properties.psi.Property;
 import com.intellij.lang.properties.psi.impl.PropertyImpl;
 import consulo.annotation.access.RequiredReadAction;
+import consulo.annotation.access.RequiredWriteAction;
 import consulo.codeEditor.Editor;
 import consulo.colorScheme.EditorColorsManager;
 import consulo.colorScheme.TextAttributes;
@@ -32,11 +33,12 @@ import consulo.language.editor.annotation.Annotation;
 import consulo.language.editor.annotation.AnnotationHolder;
 import consulo.language.editor.annotation.Annotator;
 import consulo.language.editor.annotation.HighlightSeverity;
-import consulo.language.editor.intention.IntentionAction;
+import consulo.language.editor.intention.SyntheticIntentionAction;
 import consulo.language.lexer.Lexer;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.project.Project;
+import consulo.properties.localize.PropertiesLocalize;
 import consulo.util.lang.Pair;
 import jakarta.annotation.Nonnull;
 
@@ -57,7 +59,7 @@ public class PropertiesAnnotator implements Annotator {
         Collection<IProperty> others = propertiesFile.findPropertiesByKey(property.getUnescapedKey());
         ASTNode keyNode = ((PropertyImpl) property).getKeyNode();
         if (others.size() != 1) {
-            holder.newAnnotation(HighlightSeverity.ERROR, PropertiesBundle.message("duplicate.property.key.error.message"))
+            holder.newAnnotation(HighlightSeverity.ERROR, PropertiesLocalize.duplicatePropertyKeyErrorMessage())
                 .range(keyNode)
                 .withFix(new RemovePropertyFix(property))
                 .create();
@@ -99,17 +101,15 @@ public class PropertiesAnnotator implements Annotator {
                     TextAttributes attributes = EditorColorsManager.getInstance().getGlobalScheme().getAttributes(key);
                     annotation.setEnforcedTextAttributes(attributes);
                     if (key == PropertiesHighlighter.PROPERTIES_INVALID_STRING_ESCAPE) {
-                        annotation.registerFix(new IntentionAction() {
+                        annotation.registerFix(new SyntheticIntentionAction() {
+                            @Override
                             @Nonnull
                             public String getText() {
                                 return PropertiesBundle.message("unescape");
                             }
 
-                            @Nonnull
-                            public String getFamilyName() {
-                                return getText();
-                            }
-
+                            @Override
+                            @RequiredReadAction
                             public boolean isAvailable(@Nonnull Project project, Editor editor, PsiFile file) {
                                 if (!property.isValid() || !property.getManager().isInProject(property)) {
                                     return false;
@@ -120,6 +120,8 @@ public class PropertiesAnnotator implements Annotator {
                                 return text.length() > startOffset && text.charAt(startOffset) == '\\';
                             }
 
+                            @Override
+                            @RequiredWriteAction
                             public void invoke(@Nonnull Project project, Editor editor, PsiFile file) {
                                 if (!FileModificationService.getInstance().prepareFileForWrite(file)) {
                                     return;
@@ -130,6 +132,7 @@ public class PropertiesAnnotator implements Annotator {
                                 }
                             }
 
+                            @Override
                             public boolean startInWriteAction() {
                                 return true;
                             }
