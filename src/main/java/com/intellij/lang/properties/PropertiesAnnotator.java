@@ -38,128 +38,106 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.project.Project;
 import consulo.util.lang.Pair;
-
 import jakarta.annotation.Nonnull;
+
 import java.util.Collection;
 
 /**
  * @author cdr
  */
-public class PropertiesAnnotator implements Annotator
-{
-	@Override
-	@RequiredReadAction
-	public void annotate(@Nonnull PsiElement element, @Nonnull AnnotationHolder holder)
-	{
-		if(!(element instanceof IProperty))
-		{
-			return;
-		}
-		final Property property = (Property) element;
-		PropertiesFile propertiesFile = property.getPropertiesFile();
-		Collection<IProperty> others = propertiesFile.findPropertiesByKey(property.getUnescapedKey());
-		ASTNode keyNode = ((PropertyImpl) property).getKeyNode();
-		if(others.size() != 1)
-		{
-			holder.newAnnotation(HighlightSeverity.ERROR, PropertiesBundle.message("duplicate.property.key.error.message"))
-					.range(keyNode)
-					.withFix(new RemovePropertyFix(property))
-					.create();
-		}
+public class PropertiesAnnotator implements Annotator {
+    @Override
+    @RequiredReadAction
+    public void annotate(@Nonnull PsiElement element, @Nonnull AnnotationHolder holder) {
+        if (!(element instanceof IProperty)) {
+            return;
+        }
+        final Property property = (Property) element;
+        PropertiesFile propertiesFile = property.getPropertiesFile();
+        Collection<IProperty> others = propertiesFile.findPropertiesByKey(property.getUnescapedKey());
+        ASTNode keyNode = ((PropertyImpl) property).getKeyNode();
+        if (others.size() != 1) {
+            holder.newAnnotation(HighlightSeverity.ERROR, PropertiesBundle.message("duplicate.property.key.error.message"))
+                .range(keyNode)
+                .withFix(new RemovePropertyFix(property))
+                .create();
+        }
 
-		highlightTokens(property, keyNode, holder, new PropertiesHighlighter());
-		ASTNode valueNode = ((PropertyImpl) property).getValueNode();
-		if(valueNode != null)
-		{
-			highlightTokens(property, valueNode, holder, new PropertiesValueHighlighter());
-		}
-	}
+        highlightTokens(property, keyNode, holder, new PropertiesHighlighter());
+        ASTNode valueNode = ((PropertyImpl) property).getValueNode();
+        if (valueNode != null) {
+            highlightTokens(property, valueNode, holder, new PropertiesValueHighlighter());
+        }
+    }
 
-	private static void highlightTokens(final Property property, final ASTNode node, final AnnotationHolder holder, PropertiesHighlighter highlighter)
-	{
-		Lexer lexer = highlighter.getHighlightingLexer();
-		final String s = node.getText();
-		lexer.start(s);
+    private static void highlightTokens(final Property property, final ASTNode node, final AnnotationHolder holder, PropertiesHighlighter highlighter) {
+        Lexer lexer = highlighter.getHighlightingLexer();
+        final String s = node.getText();
+        lexer.start(s);
 
-		while(lexer.getTokenType() != null)
-		{
-			IElementType elementType = lexer.getTokenType();
-			TextAttributesKey[] keys = highlighter.getTokenHighlights(elementType);
-			for(TextAttributesKey key : keys)
-			{
-				Pair<String, HighlightSeverity> pair = PropertiesHighlighter.DISPLAY_NAMES.get(key);
-				String displayName = pair.getFirst();
-				HighlightSeverity severity = pair.getSecond();
-				if(severity != null)
-				{
-					int start = lexer.getTokenStart() + node.getTextRange().getStartOffset();
-					int end = lexer.getTokenEnd() + node.getTextRange().getStartOffset();
-					TextRange textRange = new TextRange(start, end);
-					final Annotation annotation;
-					if(severity == HighlightSeverity.WARNING)
-					{
-						annotation = holder.createWarningAnnotation(textRange, displayName);
-					}
-					else if(severity == HighlightSeverity.ERROR)
-					{
-						annotation = holder.createErrorAnnotation(textRange, displayName);
-					}
-					else
-					{
-						annotation = holder.createInfoAnnotation(textRange, displayName);
-					}
-					TextAttributes attributes = EditorColorsManager.getInstance().getGlobalScheme().getAttributes(key);
-					annotation.setEnforcedTextAttributes(attributes);
-					if(key == PropertiesHighlighter.PROPERTIES_INVALID_STRING_ESCAPE)
-					{
-						annotation.registerFix(new IntentionAction()
-						{
-							@Nonnull
-							public String getText()
-							{
-								return PropertiesBundle.message("unescape");
-							}
+        while (lexer.getTokenType() != null) {
+            IElementType elementType = lexer.getTokenType();
+            TextAttributesKey[] keys = highlighter.getTokenHighlights(elementType);
+            for (TextAttributesKey key : keys) {
+                Pair<String, HighlightSeverity> pair = PropertiesHighlighter.DISPLAY_NAMES.get(key);
+                String displayName = pair.getFirst();
+                HighlightSeverity severity = pair.getSecond();
+                if (severity != null) {
+                    int start = lexer.getTokenStart() + node.getTextRange().getStartOffset();
+                    int end = lexer.getTokenEnd() + node.getTextRange().getStartOffset();
+                    TextRange textRange = new TextRange(start, end);
+                    final Annotation annotation;
+                    if (severity == HighlightSeverity.WARNING) {
+                        annotation = holder.createWarningAnnotation(textRange, displayName);
+                    }
+                    else if (severity == HighlightSeverity.ERROR) {
+                        annotation = holder.createErrorAnnotation(textRange, displayName);
+                    }
+                    else {
+                        annotation = holder.createInfoAnnotation(textRange, displayName);
+                    }
+                    TextAttributes attributes = EditorColorsManager.getInstance().getGlobalScheme().getAttributes(key);
+                    annotation.setEnforcedTextAttributes(attributes);
+                    if (key == PropertiesHighlighter.PROPERTIES_INVALID_STRING_ESCAPE) {
+                        annotation.registerFix(new IntentionAction() {
+                            @Nonnull
+                            public String getText() {
+                                return PropertiesBundle.message("unescape");
+                            }
 
-							@Nonnull
-							public String getFamilyName()
-							{
-								return getText();
-							}
+                            @Nonnull
+                            public String getFamilyName() {
+                                return getText();
+                            }
 
-							public boolean isAvailable(@Nonnull Project project, Editor editor, PsiFile file)
-							{
-								if(!property.isValid() || !property.getManager().isInProject(property))
-								{
-									return false;
-								}
+                            public boolean isAvailable(@Nonnull Project project, Editor editor, PsiFile file) {
+                                if (!property.isValid() || !property.getManager().isInProject(property)) {
+                                    return false;
+                                }
 
-								String text = property.getPropertiesFile().getContainingFile().getText();
-								int startOffset = annotation.getStartOffset();
-								return text.length() > startOffset && text.charAt(startOffset) == '\\';
-							}
+                                String text = property.getPropertiesFile().getContainingFile().getText();
+                                int startOffset = annotation.getStartOffset();
+                                return text.length() > startOffset && text.charAt(startOffset) == '\\';
+                            }
 
-							public void invoke(@Nonnull Project project, Editor editor, PsiFile file)
-							{
-								if(!FileModificationService.getInstance().prepareFileForWrite(file))
-								{
-									return;
-								}
-								int offset = annotation.getStartOffset();
-								if(property.getPropertiesFile().getContainingFile().getText().charAt(offset) == '\\')
-								{
-									editor.getDocument().deleteString(offset, offset + 1);
-								}
-							}
+                            public void invoke(@Nonnull Project project, Editor editor, PsiFile file) {
+                                if (!FileModificationService.getInstance().prepareFileForWrite(file)) {
+                                    return;
+                                }
+                                int offset = annotation.getStartOffset();
+                                if (property.getPropertiesFile().getContainingFile().getText().charAt(offset) == '\\') {
+                                    editor.getDocument().deleteString(offset, offset + 1);
+                                }
+                            }
 
-							public boolean startInWriteAction()
-							{
-								return true;
-							}
-						});
-					}
-				}
-			}
-			lexer.advance();
-		}
-	}
+                            public boolean startInWriteAction() {
+                                return true;
+                            }
+                        });
+                    }
+                }
+            }
+            lexer.advance();
+        }
+    }
 }
