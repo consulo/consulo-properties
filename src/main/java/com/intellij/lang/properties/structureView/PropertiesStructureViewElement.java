@@ -15,10 +15,14 @@
  */
 package com.intellij.lang.properties.structureView;
 
+import consulo.annotation.access.RequiredReadAction;
 import consulo.fileEditor.structureView.StructureViewTreeElement;
 import com.intellij.lang.properties.psi.Property;
+import consulo.language.icon.IconDescriptorUpdaters;
 import consulo.navigation.ItemPresentation;
 import consulo.ui.image.Image;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author max
@@ -31,28 +35,37 @@ public class PropertiesStructureViewElement implements StructureViewTreeElement 
     myProperty = element;
   }
 
+  @Override
   public Property getValue() {
     return myProperty;
   }
 
+  @Override
   public void navigate(boolean requestFocus) {
     myProperty.navigate(requestFocus);
   }
 
+  @Override
   public boolean canNavigate() {
     return myProperty.canNavigate();
   }
 
+  @Override
   public boolean canNavigateToSource() {
     return myProperty.canNavigateToSource();
   }
 
+  @Nonnull
+  @Override
   public StructureViewTreeElement[] getChildren() {
     return EMPTY_ARRAY;
   }
 
+  @Nonnull
+  @Override
   public ItemPresentation getPresentation() {
     return new ItemPresentation() {
+      @Override
       public String getPresentableText() {
         if (myPresentableName == null) {
           return myProperty.getUnescapedKey();
@@ -62,12 +75,15 @@ public class PropertiesStructureViewElement implements StructureViewTreeElement 
         }
       }
 
+      @Override
       public String getLocationString() {
         return null;
       }
 
+      @Override
+      @RequiredReadAction
       public Image getIcon() {
-        return myProperty.getIcon(0);
+        return IconDescriptorUpdaters.getIcon(myProperty, 0);
       }
     };
   }

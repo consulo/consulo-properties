@@ -2,13 +2,11 @@ package com.intellij.lang.properties.xml;
 
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import consulo.application.AllIcons;
 import consulo.language.pom.PomRenameableTarget;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiInvalidElementAccessException;
 import consulo.language.psi.PsiTarget;
 import consulo.language.util.IncorrectOperationException;
-import consulo.ui.image.Image;
 import consulo.xml.psi.xml.XmlTag;
 import jakarta.annotation.Nonnull;
 import org.jetbrains.annotations.NonNls;
@@ -96,11 +94,6 @@ public class XmlProperty implements IProperty, PomRenameableTarget, PsiTarget {
   @Override
   public boolean canNavigateToSource() {
     return true;
-  }
-
-  @Override
-  public Image getIcon(int flags) {
-    return AllIcons.Nodes.Property;
   }
 
   @Override

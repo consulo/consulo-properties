@@ -1,21 +1,19 @@
 package com.intellij.lang.properties;
 
 import com.intellij.lang.properties.psi.PropertiesFile;
-import consulo.component.util.Iconable;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiInvalidElementAccessException;
 import consulo.language.util.IncorrectOperationException;
 import consulo.navigation.Navigatable;
 import jakarta.annotation.Nonnull;
-import org.jetbrains.annotations.NonNls;
-
 import jakarta.annotation.Nullable;
+import org.jetbrains.annotations.NonNls;
 
 /**
  * @author Dmitry Avdeev
  *         Date: 7/25/11
  */
-public interface IProperty extends Navigatable, Iconable {
+public interface IProperty extends Navigatable {
 
   String getName();
 

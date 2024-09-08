@@ -379,11 +379,6 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
         return unescape(getKey());
     }
 
-    @Override
-    public Image getIcon(int flags) {
-        return AllIcons.Nodes.Property;
-    }
-
     @RequiredReadAction
     @Override
     public @Nullable PsiElement getNameIdentifier() {
