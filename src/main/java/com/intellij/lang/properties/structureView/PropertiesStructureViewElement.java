@@ -15,14 +15,13 @@
  */
 package com.intellij.lang.properties.structureView;
 
+import com.intellij.lang.properties.psi.Property;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.fileEditor.structureView.StructureViewTreeElement;
-import com.intellij.lang.properties.psi.Property;
 import consulo.language.icon.IconDescriptorUpdaters;
 import consulo.navigation.ItemPresentation;
 import consulo.ui.image.Image;
-
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author max
