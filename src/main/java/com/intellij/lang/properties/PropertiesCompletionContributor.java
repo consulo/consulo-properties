@@ -42,7 +42,6 @@ import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.StringUtil;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -57,9 +56,9 @@ public class PropertiesCompletionContributor extends CompletionContributor {
         extend(null, PlatformPatterns.psiElement(), new CompletionProvider() {
             @RequiredReadAction
             @Override
-            public void addCompletions(@NotNull CompletionParameters parameters,
-                                       @NotNull ProcessingContext context,
-                                       @NotNull CompletionResultSet result) {
+            public void addCompletions(@Nonnull CompletionParameters parameters,
+                                       @Nonnull ProcessingContext context,
+                                       @Nonnull CompletionResultSet result) {
                 doAdd(parameters, result);
             }
         });
@@ -94,7 +93,7 @@ public class PropertiesCompletionContributor extends CompletionContributor {
     }
 
     @RequiredReadAction
-    public static boolean hasMoreImportantReference(PsiReference @NotNull [] references, @NotNull PropertyReference propertyReference) {
+    public static boolean hasMoreImportantReference(@Nonnull PsiReference[] references, @Nonnull PropertyReference propertyReference) {
         return propertyReference.isSoft() && ContainerUtil.or(references, reference -> !reference.isSoft());
     }
 
@@ -130,7 +129,7 @@ public class PropertiesCompletionContributor extends CompletionContributor {
         }
     };
 
-    @NotNull
+    @Nonnull
     public static LookupElement[] getVariants(final PropertyReferenceBase propertyReference) {
         final Set<Object> variants = PropertiesPsiCompletionUtil.getPropertiesKeys(propertyReference);
         return getVariants(variants);
@@ -150,7 +149,7 @@ public class PropertiesCompletionContributor extends CompletionContributor {
     }
 
     @Override
-    public void beforeCompletion(@NotNull CompletionInitializationContext context) {
+    public void beforeCompletion(@Nonnull CompletionInitializationContext context) {
         if (context.getFile() instanceof PropertiesFile) {
             context.setDummyIdentifier(CompletionUtilCore.DUMMY_IDENTIFIER_TRIMMED);
         }

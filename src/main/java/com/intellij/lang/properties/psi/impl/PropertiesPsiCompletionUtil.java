@@ -9,7 +9,7 @@ import consulo.module.content.ProjectRootManager;
 import consulo.virtualFileSystem.VirtualFile;
 import it.unimi.dsi.fastutil.Hash;
 import it.unimi.dsi.fastutil.objects.ObjectOpenCustomHashSet;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nullable;
 
 import java.util.List;
 import java.util.Objects;
