@@ -23,7 +23,7 @@ import consulo.language.editor.CodeInsightBundle;
 import consulo.language.editor.FileModificationService;
 import consulo.language.editor.inspection.LocalQuickFix;
 import consulo.language.editor.inspection.ProblemDescriptor;
-import consulo.language.editor.intention.IntentionAction;
+import consulo.language.editor.intention.SyntheticIntentionAction;
 import consulo.language.editor.util.LanguageUndoUtil;
 import consulo.language.impl.psi.PsiAnchor;
 import consulo.language.psi.PsiElement;
@@ -33,13 +33,13 @@ import consulo.logging.Logger;
 import consulo.project.Project;
 import consulo.undoRedo.CommandProcessor;
 import consulo.util.lang.Pair;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+
 import java.util.Collection;
 import java.util.List;
 
-public class CreatePropertyFix implements IntentionAction, LocalQuickFix
+public class CreatePropertyFix implements SyntheticIntentionAction, LocalQuickFix
 {
   private static final Logger LOG = Logger.getInstance("#com.intellij.codeInsight.i18n.I18nizeQuickFix");
   private final PsiAnchor myElement;

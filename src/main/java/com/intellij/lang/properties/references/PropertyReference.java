@@ -43,8 +43,9 @@ public class PropertyReference extends PropertyReferenceBase implements LocalQui
     myBundleName = bundleName;
   }
 
+  @Override
   @Nullable
-  protected List<PropertiesFile> getPropertiesFiles() {
+  public List<PropertiesFile> getPropertiesFiles() {
     if (myBundleName == null) {
       return null;
     }
@@ -55,6 +56,7 @@ public class PropertyReference extends PropertyReferenceBase implements LocalQui
     return I18nUtil.propertiesFilesByBundleName(bundleName, element);
   }
 
+  @Override
   public LocalQuickFix[] getQuickFixes() {
     List<PropertiesFile> propertiesFiles = retrievePropertyFilesByBundleName(myBundleName, getElement());
     CreatePropertyFix fix = new CreatePropertyFix(myElement, myKey, propertiesFiles);

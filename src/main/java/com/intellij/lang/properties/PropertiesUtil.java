@@ -215,7 +215,7 @@ public class PropertiesUtil {
   public static ResourceBundle getResourceBundle(final PsiFile containingFile) {
     VirtualFile virtualFile = containingFile.getVirtualFile();
     if (!containingFile.isValid() || virtualFile == null) {
-      return ResourceBundleImpl.NULL;
+      return EmptyResourceBundle.getInstance();
     }
     String baseName = getBaseName(virtualFile);
     PsiDirectory directory = ApplicationManager.getApplication().runReadAction(new Computable<PsiDirectory>() {
@@ -223,7 +223,7 @@ public class PropertiesUtil {
       public PsiDirectory compute() {
         return containingFile.getContainingDirectory();
     }});
-    if (directory == null) return ResourceBundleImpl.NULL;
+    if (directory == null) return EmptyResourceBundle.getInstance();
     return new ResourceBundleImpl(directory.getVirtualFile(), baseName);
   }
 }
