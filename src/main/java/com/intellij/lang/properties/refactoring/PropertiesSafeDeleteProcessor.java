@@ -37,17 +37,15 @@ import java.util.List;
  */
 @ExtensionImpl
 public class PropertiesSafeDeleteProcessor implements SafeDeleteProcessorDelegate {
-    public boolean handlesElement(final PsiElement element) {
+    @Override
+    public boolean handlesElement(PsiElement element) {
         return element instanceof PropertiesFile;
     }
 
-    public NonCodeUsageSearchInfo findUsages(
-        final PsiElement element,
-        final PsiElement[] allElementsToDelete,
-        final List<UsageInfo> result
-    ) {
+    @Override
+    public NonCodeUsageSearchInfo findUsages(PsiElement element, PsiElement[] allElementsToDelete, List<UsageInfo> result) {
         PropertiesFile file = (PropertiesFile)element;
-        List<PsiElement> elements = new ArrayList<PsiElement>();
+        List<PsiElement> elements = new ArrayList<>();
         elements.add(file.getContainingFile());
         for (IProperty property : file.getProperties()) {
             elements.add(property.getPsiElement());
@@ -58,27 +56,32 @@ public class PropertiesSafeDeleteProcessor implements SafeDeleteProcessorDelegat
         return new NonCodeUsageSearchInfo(SafeDeleteProcessor.getDefaultInsideDeletedCondition(allElementsToDelete), elements);
     }
 
-    public Collection<PsiElement> getElementsToSearch(final PsiElement element, final Collection<PsiElement> allElementsToDelete) {
+    @Override
+    public Collection<PsiElement> getElementsToSearch(PsiElement element, Collection<PsiElement> allElementsToDelete) {
         return Collections.singletonList(element);
     }
 
+    @Override
     public Collection<PsiElement> getAdditionalElementsToDelete(
-        final PsiElement element,
-        final Collection<PsiElement> allElementsToDelete,
-        final boolean askUser
+        PsiElement element,
+        Collection<PsiElement> allElementsToDelete,
+        boolean askUser
     ) {
         return null;
     }
 
-    public Collection<String> findConflicts(final PsiElement element, final PsiElement[] allElementsToDelete) {
+    @Override
+    public Collection<String> findConflicts(PsiElement element, PsiElement[] allElementsToDelete) {
         return null;
     }
 
-    public UsageInfo[] preprocessUsages(final Project project, final UsageInfo[] usages) {
+    @Override
+    public UsageInfo[] preprocessUsages(Project project, UsageInfo[] usages) {
         return usages;
     }
 
-    public void prepareForDeletion(final PsiElement element) throws IncorrectOperationException {
+    @Override
+    public void prepareForDeletion(PsiElement element) throws IncorrectOperationException {
     }
 
     @Override
