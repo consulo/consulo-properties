@@ -19,13 +19,14 @@ import com.intellij.lang.properties.psi.PropertiesFile;
 import consulo.annotation.component.ComponentScope;
 import consulo.annotation.component.ServiceAPI;
 import consulo.annotation.component.ServiceImpl;
+import consulo.component.persist.PersistentStateComponent;
 import consulo.component.persist.State;
 import consulo.component.persist.Storage;
 import consulo.ide.ServiceManager;
-import consulo.ide.impl.psi.statistics.StatisticsInfo;
-import consulo.ide.impl.psi.statistics.StatisticsManager;
 import consulo.language.file.inject.VirtualFileWindow;
 import consulo.language.psi.PsiFile;
+import consulo.language.statistician.StatisticsInfo;
+import consulo.language.statistician.StatisticsManager;
 import consulo.language.util.ModuleUtilCore;
 import consulo.module.content.ProjectFileIndex;
 import consulo.module.content.ProjectRootManager;
@@ -33,12 +34,12 @@ import consulo.util.io.FileUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.VirtualFileManager;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.inject.Singleton;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,7 @@ import java.util.Map;
 @State(name = "LastSelectedPropertiesFileStore", storages = {@Storage(file = consulo.component.persist.StoragePathMacros.APP_CONFIG + "/other.xml")})
 @ServiceAPI(ComponentScope.APPLICATION)
 @ServiceImpl
-public class LastSelectedPropertiesFileStore implements consulo.component.persist.PersistentStateComponent<Element>
+public class LastSelectedPropertiesFileStore implements PersistentStateComponent<Element>
 {
 	private final Map<String, String> lastSelectedUrls = new HashMap<String, String>();
 	private String lastSelectedFileUrl;
