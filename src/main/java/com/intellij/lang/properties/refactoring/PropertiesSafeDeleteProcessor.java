@@ -36,74 +36,71 @@ import java.util.List;
  * @author yole
  */
 @ExtensionImpl
-public class PropertiesSafeDeleteProcessor implements SafeDeleteProcessorDelegate
-{
-	public boolean handlesElement(final PsiElement element)
-	{
-		return element instanceof PropertiesFile;
-	}
+public class PropertiesSafeDeleteProcessor implements SafeDeleteProcessorDelegate {
+    @Override
+    public boolean handlesElement(PsiElement element) {
+        return element instanceof PropertiesFile;
+    }
 
-	public NonCodeUsageSearchInfo findUsages(final PsiElement element, final PsiElement[] allElementsToDelete, final List<UsageInfo> result)
-	{
-		PropertiesFile file = (PropertiesFile) element;
-		List<PsiElement> elements = new ArrayList<PsiElement>();
-		elements.add(file.getContainingFile());
-		for(IProperty property : file.getProperties())
-		{
-			elements.add(property.getPsiElement());
-		}
-		for(PsiElement psiElement : elements)
-		{
-			SafeDeleteProcessor.findGenericElementUsages(psiElement, result, allElementsToDelete);
-		}
-		return new NonCodeUsageSearchInfo(SafeDeleteProcessor.getDefaultInsideDeletedCondition(allElementsToDelete), elements);
-	}
+    @Override
+    public NonCodeUsageSearchInfo findUsages(PsiElement element, PsiElement[] allElementsToDelete, List<UsageInfo> result) {
+        PropertiesFile file = (PropertiesFile)element;
+        List<PsiElement> elements = new ArrayList<>();
+        elements.add(file.getContainingFile());
+        for (IProperty property : file.getProperties()) {
+            elements.add(property.getPsiElement());
+        }
+        for (PsiElement psiElement : elements) {
+            SafeDeleteProcessor.findGenericElementUsages(psiElement, result, allElementsToDelete);
+        }
+        return new NonCodeUsageSearchInfo(SafeDeleteProcessor.getDefaultInsideDeletedCondition(allElementsToDelete), elements);
+    }
 
-	public Collection<PsiElement> getElementsToSearch(final PsiElement element, final Collection<PsiElement> allElementsToDelete)
-	{
-		return Collections.singletonList(element);
-	}
+    @Override
+    public Collection<PsiElement> getElementsToSearch(PsiElement element, Collection<PsiElement> allElementsToDelete) {
+        return Collections.singletonList(element);
+    }
 
-	public Collection<PsiElement> getAdditionalElementsToDelete(final PsiElement element, final Collection<PsiElement> allElementsToDelete, final boolean askUser)
-	{
-		return null;
-	}
+    @Override
+    public Collection<PsiElement> getAdditionalElementsToDelete(
+        PsiElement element,
+        Collection<PsiElement> allElementsToDelete,
+        boolean askUser
+    ) {
+        return null;
+    }
 
-	public Collection<String> findConflicts(final PsiElement element, final PsiElement[] allElementsToDelete)
-	{
-		return null;
-	}
+    @Override
+    public Collection<String> findConflicts(PsiElement element, PsiElement[] allElementsToDelete) {
+        return null;
+    }
 
-	public UsageInfo[] preprocessUsages(final Project project, final UsageInfo[] usages)
-	{
-		return usages;
-	}
+    @Override
+    public UsageInfo[] preprocessUsages(Project project, UsageInfo[] usages) {
+        return usages;
+    }
 
-	public void prepareForDeletion(final PsiElement element) throws IncorrectOperationException
-	{
-	}
+    @Override
+    public void prepareForDeletion(PsiElement element) throws IncorrectOperationException {
+    }
 
-	@Override
-	public boolean isToSearchInComments(PsiElement element)
-	{
-		return RefactoringSettings.getInstance().SAFE_DELETE_SEARCH_IN_COMMENTS;
-	}
+    @Override
+    public boolean isToSearchInComments(PsiElement element) {
+        return RefactoringSettings.getInstance().SAFE_DELETE_SEARCH_IN_COMMENTS;
+    }
 
-	@Override
-	public boolean isToSearchForTextOccurrences(PsiElement element)
-	{
-		return RefactoringSettings.getInstance().SAFE_DELETE_SEARCH_IN_NON_JAVA;
-	}
+    @Override
+    public boolean isToSearchForTextOccurrences(PsiElement element) {
+        return RefactoringSettings.getInstance().SAFE_DELETE_SEARCH_IN_NON_JAVA;
+    }
 
-	@Override
-	public void setToSearchInComments(PsiElement element, boolean enabled)
-	{
-		RefactoringSettings.getInstance().SAFE_DELETE_SEARCH_IN_COMMENTS = enabled;
-	}
+    @Override
+    public void setToSearchInComments(PsiElement element, boolean enabled) {
+        RefactoringSettings.getInstance().SAFE_DELETE_SEARCH_IN_COMMENTS = enabled;
+    }
 
-	@Override
-	public void setToSearchForTextOccurrences(PsiElement element, boolean enabled)
-	{
-		RefactoringSettings.getInstance().SAFE_DELETE_SEARCH_IN_NON_JAVA = enabled;
-	}
+    @Override
+    public void setToSearchForTextOccurrences(PsiElement element, boolean enabled) {
+        RefactoringSettings.getInstance().SAFE_DELETE_SEARCH_IN_NON_JAVA = enabled;
+    }
 }
