@@ -37,7 +37,7 @@ import consulo.language.psi.search.PsiSearchHelper;
 import consulo.language.psi.search.ReferencesSearch;
 import consulo.language.util.ModuleUtilCore;
 import consulo.module.Module;
-
+import consulo.properties.localize.PropertiesLocalize;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -45,105 +45,89 @@ import jakarta.annotation.Nullable;
  * @author cdr
  */
 @ExtensionImpl
-public class UnusedPropertyInspection extends PropertySuppressableInspectionBase
-{
-	@Override
-	@Nonnull
-	public String getDisplayName()
-	{
-		return PropertiesBundle.message("unused.property.inspection.display.name");
-	}
+public class UnusedPropertyInspection extends PropertySuppressableInspectionBase {
+    @Override
+    @Nonnull
+    public String getDisplayName() {
+        return PropertiesBundle.message("unused.property.inspection.display.name");
+    }
 
-	@Override
-	@Nonnull
-	public String getShortName()
-	{
-		return "UnusedProperty";
-	}
+    @Override
+    @Nonnull
+    public String getShortName() {
+        return "UnusedProperty";
+    }
 
-	@Nonnull
-	@Override
-	public HighlightDisplayLevel getDefaultLevel()
-	{
-		return HighlightDisplayLevel.WARNING;
-	}
+    @Nonnull
+    @Override
+    public HighlightDisplayLevel getDefaultLevel() {
+        return HighlightDisplayLevel.WARNING;
+    }
 
-	@Nullable
-	@Override
-	public Language getLanguage()
-	{
-		return PropertiesLanguage.INSTANCE;
-	}
+    @Nullable
+    @Override
+    public Language getLanguage() {
+        return PropertiesLanguage.INSTANCE;
+    }
 
-	@Nonnull
-	@Override
-	public PsiElementVisitor buildVisitor(@Nonnull final ProblemsHolder holder,
-										  final boolean isOnTheFly,
-										  @Nonnull final LocalInspectionToolSession session,
-										  Object state)
-	{
-		final PsiFile file = session.getFile();
-		Module module = ModuleUtilCore.findModuleForPsiElement(file);
-		if(module == null)
-		{
-			return super.buildVisitor(holder, isOnTheFly, session, state);
-		}
+    @Nonnull
+    @Override
+    public PsiElementVisitor buildVisitor(@Nonnull final ProblemsHolder holder,
+                                          final boolean isOnTheFly,
+                                          @Nonnull final LocalInspectionToolSession session,
+                                          Object state) {
+        final PsiFile file = session.getFile();
+        Module module = ModuleUtilCore.findModuleForPsiElement(file);
+        if (module == null) {
+            return super.buildVisitor(holder, isOnTheFly, session, state);
+        }
 
-		final GlobalSearchScope searchScope = GlobalSearchScope.moduleWithDependentsScope(module);
-		final PsiSearchHelper searchHelper = PsiSearchHelper.getInstance(file.getProject());
-		return new PsiElementVisitor()
-		{
-			@Override
-			public void visitElement(PsiElement element)
-			{
-				if(!(element instanceof Property))
-				{
-					return;
-				}
-				Property property = (Property) element;
+        final GlobalSearchScope searchScope = GlobalSearchScope.moduleWithDependentsScope(module);
+        final PsiSearchHelper searchHelper = PsiSearchHelper.getInstance(file.getProject());
+        return new PsiElementVisitor() {
+            @Override
+            public void visitElement(PsiElement element) {
+                if (!(element instanceof Property)) {
+                    return;
+                }
+                Property property = (Property) element;
 
-				final ProgressIndicator original = ProgressManager.getInstance().getProgressIndicator();
-				if(original != null)
-				{
-					if(original.isCanceled())
-					{
-						return;
-					}
-					original.setText(PropertiesBundle.message("searching.for.property.key.progress.text", property.getUnescapedKey()));
-				}
+                final ProgressIndicator original = ProgressManager.getInstance().getProgressIndicator();
+                if (original != null) {
+                    if (original.isCanceled()) {
+                        return;
+                    }
+                    original.setTextValue(PropertiesLocalize.searchingForPropertyKeyProgressText(property.getUnescapedKey()));
+                }
 
-				if(ImplicitPropertyUsageProvider.isImplicitlyUsed(property))
-				{
-					return;
-				}
+                if (ImplicitPropertyUsageProvider.isImplicitlyUsed(property)) {
+                    return;
+                }
 
-				String name = property.getName();
-				if(name == null)
-				{
-					return;
-				}
+                String name = property.getName();
+                if (name == null) {
+                    return;
+                }
 
-				PsiSearchHelper.SearchCostResult cheapEnough = searchHelper.isCheapEnoughToSearch(name, searchScope, file, original);
-				if(cheapEnough == PsiSearchHelper.SearchCostResult.TOO_MANY_OCCURRENCES)
-				{
-					return;
-				}
+                PsiSearchHelper.SearchCostResult cheapEnough = searchHelper.isCheapEnoughToSearch(name, searchScope, file, original);
+                if (cheapEnough == PsiSearchHelper.SearchCostResult.TOO_MANY_OCCURRENCES) {
+                    return;
+                }
 
-				if(cheapEnough != PsiSearchHelper.SearchCostResult.ZERO_OCCURRENCES &&
-						ReferencesSearch.search(property, searchScope, false).findFirst() != null)
-				{
-					return;
-				}
+                if (cheapEnough != PsiSearchHelper.SearchCostResult.ZERO_OCCURRENCES &&
+                    ReferencesSearch.search(property, searchScope, false).findFirst() != null) {
+                    return;
+                }
 
-				final ASTNode propertyNode = property.getNode();
-				assert propertyNode != null;
+                final ASTNode propertyNode = property.getNode();
+                assert propertyNode != null;
 
-				ASTNode[] nodes = propertyNode.getChildren(null);
-				PsiElement key = nodes.length == 0 ? property : nodes[0].getPsi();
-				String description = PropertiesBundle.message("unused.property.problem.descriptor.name");
+                ASTNode[] nodes = propertyNode.getChildren(null);
+                PsiElement key = nodes.length == 0 ? property : nodes[0].getPsi();
+                String description = PropertiesLocalize.unusedPropertyProblemDescriptorName().get();
 
-				holder.registerProblem(key, description, ProblemHighlightType.LIKE_UNUSED_SYMBOL, RemovePropertyLocalFix.INSTANCE);
-			}
-		};
-	}
+                holder.registerProblem(key, description, ProblemHighlightType.LIKE_UNUSED_SYMBOL, RemovePropertyLocalFix.INSTANCE);
+            }
+        };
+    }
 }

@@ -16,16 +16,23 @@
 package com.intellij.lang.properties;
 
 import consulo.language.Language;
+import consulo.localize.LocalizeValue;
+import consulo.properties.localize.PropertiesLocalize;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author max
  */
-public class PropertiesLanguage extends Language
-{
-	public static final PropertiesLanguage INSTANCE = new PropertiesLanguage();
+public class PropertiesLanguage extends Language {
+    public static final PropertiesLanguage INSTANCE = new PropertiesLanguage();
 
-	public PropertiesLanguage()
-	{
-		super("Properties", "text/properties");
-	}
+    public PropertiesLanguage() {
+        super("Properties", "text/properties");
+    }
+
+    @Nonnull
+    @Override
+    public LocalizeValue getDisplayName() {
+        return PropertiesLocalize.propertiesDisplayName();
+    }
 }

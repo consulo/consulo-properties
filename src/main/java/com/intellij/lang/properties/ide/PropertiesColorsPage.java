@@ -19,13 +19,11 @@ import com.intellij.lang.properties.PropertiesHighlighter;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.colorScheme.TextAttributesKey;
 import consulo.colorScheme.setting.AttributesDescriptor;
-import consulo.configurable.OptionsBundle;
-import consulo.language.editor.highlight.SyntaxHighlighter;
-import consulo.colorScheme.setting.ColorDescriptor;
 import consulo.language.editor.colorScheme.setting.ColorSettingsPage;
+import consulo.language.editor.highlight.SyntaxHighlighter;
+import consulo.localize.LocalizeValue;
+import consulo.properties.localize.PropertiesLocalize;
 import jakarta.annotation.Nonnull;
-
-import java.util.Map;
 
 @ExtensionImpl
 public class PropertiesColorsPage implements ColorSettingsPage {
@@ -42,18 +40,13 @@ public class PropertiesColorsPage implements ColorSettingsPage {
   }
 
   @Nonnull
-  public String getDisplayName() {
-    return OptionsBundle.message("properties.options.display.name");
+  public LocalizeValue getDisplayName() {
+    return PropertiesLocalize.propertiesDisplayName();
   }
 
   @Nonnull
   public AttributesDescriptor[] getAttributeDescriptors() {
     return ATTRS;
-  }
-
-  @Nonnull
-  public ColorDescriptor[] getColorDescriptors() {
-    return ColorDescriptor.EMPTY_ARRAY;
   }
 
   @Nonnull
@@ -68,9 +61,5 @@ public class PropertiesColorsPage implements ColorSettingsPage {
            "! other values:\n" +
            "a\\=\\fb : x\\ty\\n\\x\\uzzzz\n"
       ;
-  }
-
-  public Map<String, TextAttributesKey> getAdditionalHighlightingTagToDescriptorMap() {
-    return null;
   }
 }

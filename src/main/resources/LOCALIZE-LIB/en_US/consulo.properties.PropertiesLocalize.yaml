@@ -1,104 +1,106 @@
-duplicate.property.key.error.message:
-  text: Duplicate property key
-rename.prefix.based.property.key.error.message:
-  text: Could not rename property key ''{1}'' based on prefix ''{0}'' by name ''{2}'', change prefix first
-properties.files.file.type.description:
-  text: Properties files
-remove.property.intention.text:
-  text: Remove property
-rename.bundle.enter.new.resource.bundle.base.name.prompt.text:
-  text: Enter new resource bundle base name
-rename.bundle.enter.new.resource.bundle.key.name.prompt.text:
-  text: Enter new resource bundle key name
-rename.resource.bundle.dialog.title:
-  text: Rename Resource Bundle
-rename.resource.bundle.key.dialog.title:
-  text: Rename Resource Bundle Key
-properties.files.inspection.group.display.name:
-  text: Properties Files
-unused.property.inspection.display.name:
-  text: Unused Property
-searching.for.property.key.progress.text:
-  text: Searching for {0}
-unused.property.problem.descriptor.name:
-  text: Unused property
-remove.property.quick.fix.name:
-  text: Remove Property
-no.property.selected.panel.label:
-  text: <html><body><center><b>Please select property name on the left to edit its values</body></html>
-properties.structure.view.group.by.label:
-  text: 'Group by:'
-select.property.separator.dialog.text:
-  text: Select separator
-select.property.separator.dialog.title:
-  text: Property Keys Separator
-select.separator.action.with.empty.separator.name:
-  text: other...
-resourcebundle.fake.file.type.description:
-  text: ResourceBundle fake file type
-property.key.expected.parsing.error.message:
-  text: property key expected
-project.view.resource.bundle.tree.node.text:
-  text: Resource Bundle ''{0}''
-structure.view.group.by.prefixes.action.name:
-  text: Group by Prefixes
-structure.view.group.by.prefixes.action.description:
-  text: Groups properties by common key prefixes
-unused.message.format.parameter.display.name:
-  text: Missing message format parameter
-unused.message.format.parameter.problem.descriptor:
-  text: 'Using parameter {0} without using parameter {1} in <code>#ref<code> #loc'
-unresolved.property.key:
-  text: Cannot resolve property key
-unused.property.suppress.for.property:
-  text: Suppress for this property
-unused.property.suppress.for.file:
-  text: Suppress for whole file
-action.I18nize.text:
-  text: Internationali_ze...
 action.I18nize.description:
-  text: Replace Java string literal or JSP text with internationalized expression
-create.property.quickfix.text:
-  text: Create Property
-unescape:
-  text: Unescape
-trail.spaces.property.inspection.display.name:
-  text: Trailing Spaces in Property
-button.add.property.description:
-  text: Add property
+    text: Replace Java string literal or JSP text with internationalized expression
+action.I18nize.text:
+    text: Internationali_ze...
 add.dialog.property.name:
-  text: 'Property name:'
+    text: 'Property name:'
 add.dialog.property.title:
-  text: Enter Property Name
-remove.dialog.confirm.title:
-  text: Confirm
-remove.dialog.confirm.description:
-  text: 'Are you sure want to delete selected properties: [{0}] ?'
-duplicate.property.display.name:
-  text: Duplicate Property
-duplicate.property.diff.key.problem.descriptor:
-  text: 'Duplicate Property Key ''''{0}'''' With Different Values #end :<br>'
-duplicate.property.diff.key.progress.indicator.text:
-  text: 'Processing duplicate property key: {0}'
-duplicate.property.key.problem.descriptor:
-  text: 'Duplicate Property Key ''''{0}'''' #end With Values:<br>'
-duplicate.property.key.progress.indicator.text:
-  text: Processing duplicate property key:{0}
-duplicate.property.value.problem.descriptor:
-  text: 'Duplicate Property Value ''''{0}'''' #end With Keys:<br>'
-duplicate.property.value.progress.indicator.text:
-  text: 'Processing duplicate property value: {0}'
+    text: Enter Property Name
+button.add.property.description:
+    text: Add property
+create.property.quickfix.text:
+    text: Create Property
 duplicate.property.diff.key.option:
-  text: '&Duplicate keys with different values'
-duplicate.property.value.option:
-  text: Duplicate &values
-duplicate.property.key.option:
-  text: Duplicate &keys
+    text: '&Duplicate keys with different values'
+duplicate.property.diff.key.problem.descriptor:
+    text: 'Duplicate Property Key ''''{0}'''' With Different Values #end :<br>'
+duplicate.property.diff.key.progress.indicator.text:
+    text: 'Processing duplicate property key: {0}'
+duplicate.property.display.name:
+    text: Duplicate Property
 duplicate.property.file.scope.option:
-  text: '&File scope'
+    text: '&File scope'
+duplicate.property.key.error.message:
+    text: Duplicate property key
+duplicate.property.key.option:
+    text: Duplicate &keys
+duplicate.property.key.problem.descriptor:
+    text: 'Duplicate Property Key ''''{0}'''' #end With Values:<br>'
+duplicate.property.key.progress.indicator.text:
+    text: Processing duplicate property key:{0}
 duplicate.property.module.scope.option:
-  text: '&Module Scope'
+    text: '&Module Scope'
 duplicate.property.project.scope.option:
-  text: '&Project Scope'
+    text: '&Project Scope'
+duplicate.property.value.option:
+    text: Duplicate &values
+duplicate.property.value.problem.descriptor:
+    text: 'Duplicate Property Value ''''{0}'''' #end With Keys:<br>'
+duplicate.property.value.progress.indicator.text:
+    text: 'Processing duplicate property value: {0}'
 inspection.javadoc.throws.or.exception.option:
-  text: '@throws or @exception'
+    text: '@throws or @exception'
+no.property.selected.panel.label:
+    text: <html><body><center><b>Please select property name on the left to edit its values</body></html>
+project.view.resource.bundle.tree.node.text:
+    text: Resource Bundle ''{0}''
+properties.display.name:
+    text: Properties
+properties.files.file.type.description:
+    text: Properties files
+properties.files.inspection.group.display.name:
+    text: Properties Files
+properties.structure.view.group.by.label:
+    text: 'Group by:'
+property.key.expected.parsing.error.message:
+    text: property key expected
+remove.dialog.confirm.description:
+    text: 'Are you sure want to delete selected properties: [{0}] ?'
+remove.dialog.confirm.title:
+    text: Confirm
+remove.property.intention.text:
+    text: Remove property
+remove.property.quick.fix.name:
+    text: Remove Property
+rename.bundle.enter.new.resource.bundle.base.name.prompt.text:
+    text: Enter new resource bundle base name
+rename.bundle.enter.new.resource.bundle.key.name.prompt.text:
+    text: Enter new resource bundle key name
+rename.prefix.based.property.key.error.message:
+    text: Could not rename property key ''{1}'' based on prefix ''{0}'' by name ''{2}'', change prefix first
+rename.resource.bundle.dialog.title:
+    text: Rename Resource Bundle
+rename.resource.bundle.key.dialog.title:
+    text: Rename Resource Bundle Key
+resourcebundle.fake.file.type.description:
+    text: ResourceBundle fake file type
+searching.for.property.key.progress.text:
+    text: Searching for {0}
+select.property.separator.dialog.text:
+    text: Select separator
+select.property.separator.dialog.title:
+    text: Property Keys Separator
+select.separator.action.with.empty.separator.name:
+    text: other...
+structure.view.group.by.prefixes.action.description:
+    text: Groups properties by common key prefixes
+structure.view.group.by.prefixes.action.name:
+    text: Group by Prefixes
+trail.spaces.property.inspection.display.name:
+    text: Trailing Spaces in Property
+unescape:
+    text: Unescape
+unresolved.property.key:
+    text: Cannot resolve property key
+unused.message.format.parameter.display.name:
+    text: Missing message format parameter
+unused.message.format.parameter.problem.descriptor:
+    text: 'Using parameter {0} without using parameter {1} in <code>#ref<code> #loc'
+unused.property.inspection.display.name:
+    text: Unused Property
+unused.property.problem.descriptor.name:
+    text: Unused property
+unused.property.suppress.for.file:
+    text: Suppress for whole file
+unused.property.suppress.for.property:
+    text: Suppress for this property

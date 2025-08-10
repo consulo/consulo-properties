@@ -20,11 +20,11 @@
 package com.intellij.lang.properties.parsing;
 
 import consulo.language.parser.PsiBuilder;
-import com.intellij.lang.properties.PropertiesBundle;
 import consulo.logging.Logger;
+import consulo.properties.localize.PropertiesLocalize;
 
 public class Parsing {
-  private static final Logger LOG = Logger.getInstance("#com.intellij.lang.properties.parsing.Parsing");
+  private static final Logger LOG = Logger.getInstance(Parsing.class);
 
   public static void parseProperty(PsiBuilder builder) {
     if (builder.getTokenType() == PropertiesTokenTypes.KEY_CHARACTERS) {
@@ -39,7 +39,7 @@ public class Parsing {
     }
     else {
       builder.advanceLexer();
-      builder.error(PropertiesBundle.message("property.key.expected.parsing.error.message"));
+      builder.error(PropertiesLocalize.propertyKeyExpectedParsingErrorMessage());
     }
   }
 

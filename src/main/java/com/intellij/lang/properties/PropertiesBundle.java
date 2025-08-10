@@ -15,7 +15,10 @@
  */
 package com.intellij.lang.properties;
 
+import consulo.annotation.DeprecationInfo;
+import consulo.annotation.internal.MigratedExtensionsTo;
 import consulo.application.CommonBundle;
+import consulo.properties.localize.PropertiesLocalize;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.PropertyKey;
 
@@ -23,6 +26,9 @@ import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.util.ResourceBundle;
 
+@Deprecated
+@DeprecationInfo("Use Localize")
+@MigratedExtensionsTo(PropertiesLocalize.class)
 public class PropertiesBundle {
   private static Reference<ResourceBundle> ourBundle;
 
