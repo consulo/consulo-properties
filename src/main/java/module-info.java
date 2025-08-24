@@ -15,6 +15,7 @@ module com.intellij.properties
 
     requires com.intellij.xml;
 
+
     requires consulo.util.xml.fast.reader;
 
     // TODO remove it in future
