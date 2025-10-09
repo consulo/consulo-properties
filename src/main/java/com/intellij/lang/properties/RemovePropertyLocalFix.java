@@ -16,42 +16,44 @@
 package com.intellij.lang.properties;
 
 import com.intellij.lang.properties.psi.Property;
+import consulo.annotation.access.RequiredWriteAction;
 import consulo.language.editor.inspection.LocalQuickFix;
 import consulo.language.editor.inspection.ProblemDescriptor;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.language.util.IncorrectOperationException;
+import consulo.localize.LocalizeValue;
 import consulo.logging.Logger;
 import consulo.project.Project;
-
+import consulo.properties.localize.PropertiesLocalize;
 import jakarta.annotation.Nonnull;
 
 /**
  * @author cdr
-*/
+ */
 public class RemovePropertyLocalFix implements LocalQuickFix {
-  private static final Logger LOG = Logger.getInstance(RemovePropertyLocalFix.class);
-  public static final RemovePropertyLocalFix INSTANCE = new RemovePropertyLocalFix();
+    private static final Logger LOG = Logger.getInstance(RemovePropertyLocalFix.class);
+    public static final RemovePropertyLocalFix INSTANCE = new RemovePropertyLocalFix();
 
-  @Nonnull
-  public String getName() {
-    return PropertiesBundle.message("remove.property.quick.fix.name");
-  }
-
-  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
-    PsiElement element = descriptor.getPsiElement();
-    Property property = PsiTreeUtil.getParentOfType(element, Property.class, false);
-    if (property == null) return;
-    try {
-      new RemovePropertyFix(property).invoke(project, null, property.getPropertiesFile().getContainingFile());
+    @Nonnull
+    @Override
+    public LocalizeValue getName() {
+        return PropertiesLocalize.removePropertyQuickFixName();
     }
-    catch (IncorrectOperationException e) {
-      LOG.error(e);
-    }
-  }
 
-  @Nonnull
-  public String getFamilyName() {
-    return getName();
-  }
+    @Override
+    @RequiredWriteAction
+    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+        PsiElement element = descriptor.getPsiElement();
+        Property property = PsiTreeUtil.getParentOfType(element, Property.class, false);
+        if (property == null) {
+            return;
+        }
+        try {
+            new RemovePropertyFix(property).invoke(project, null, property.getPropertiesFile().getContainingFile());
+        }
+        catch (IncorrectOperationException e) {
+            LOG.error(e);
+        }
+    }
 }

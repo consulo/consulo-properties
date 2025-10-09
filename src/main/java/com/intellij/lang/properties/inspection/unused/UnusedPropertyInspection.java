@@ -15,11 +15,11 @@
  */
 package com.intellij.lang.properties.inspection.unused;
 
-import com.intellij.lang.properties.PropertiesBundle;
 import com.intellij.lang.properties.PropertiesLanguage;
 import com.intellij.lang.properties.PropertySuppressableInspectionBase;
 import com.intellij.lang.properties.RemovePropertyLocalFix;
 import com.intellij.lang.properties.psi.Property;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.application.progress.ProgressIndicator;
 import consulo.application.progress.ProgressManager;
@@ -35,7 +35,7 @@ import consulo.language.psi.PsiFile;
 import consulo.language.psi.scope.GlobalSearchScope;
 import consulo.language.psi.search.PsiSearchHelper;
 import consulo.language.psi.search.ReferencesSearch;
-import consulo.language.util.ModuleUtilCore;
+import consulo.localize.LocalizeValue;
 import consulo.module.Module;
 import consulo.properties.localize.PropertiesLocalize;
 import jakarta.annotation.Nonnull;
@@ -46,14 +46,14 @@ import jakarta.annotation.Nullable;
  */
 @ExtensionImpl
 public class UnusedPropertyInspection extends PropertySuppressableInspectionBase {
-    @Override
     @Nonnull
-    public String getDisplayName() {
-        return PropertiesBundle.message("unused.property.inspection.display.name");
+    @Override
+    public LocalizeValue getDisplayName() {
+        return PropertiesLocalize.unusedPropertyInspectionDisplayName();
     }
 
-    @Override
     @Nonnull
+    @Override
     public String getShortName() {
         return "UnusedProperty";
     }
@@ -72,12 +72,15 @@ public class UnusedPropertyInspection extends PropertySuppressableInspectionBase
 
     @Nonnull
     @Override
-    public PsiElementVisitor buildVisitor(@Nonnull final ProblemsHolder holder,
-                                          final boolean isOnTheFly,
-                                          @Nonnull final LocalInspectionToolSession session,
-                                          Object state) {
+    @RequiredReadAction
+    public PsiElementVisitor buildVisitor(
+        @Nonnull final ProblemsHolder holder,
+        final boolean isOnTheFly,
+        @Nonnull final LocalInspectionToolSession session,
+        @Nonnull Object state
+    ) {
         final PsiFile file = session.getFile();
-        Module module = ModuleUtilCore.findModuleForPsiElement(file);
+        Module module = file.getModule();
         if (module == null) {
             return super.buildVisitor(holder, isOnTheFly, session, state);
         }
@@ -86,6 +89,7 @@ public class UnusedPropertyInspection extends PropertySuppressableInspectionBase
         final PsiSearchHelper searchHelper = PsiSearchHelper.getInstance(file.getProject());
         return new PsiElementVisitor() {
             @Override
+            @RequiredReadAction
             public void visitElement(PsiElement element) {
                 if (!(element instanceof Property)) {
                     return;

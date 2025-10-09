@@ -16,44 +16,53 @@
 package com.intellij.lang.properties;
 
 import com.intellij.lang.properties.psi.Property;
+import consulo.annotation.access.RequiredReadAction;
+import consulo.annotation.access.RequiredWriteAction;
 import consulo.codeEditor.Editor;
 import consulo.language.editor.FileModificationService;
 import consulo.language.editor.intention.SyntheticIntentionAction;
 import consulo.language.psi.PsiFile;
 import consulo.language.util.IncorrectOperationException;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
+import consulo.properties.localize.PropertiesLocalize;
 import jakarta.annotation.Nonnull;
 
 /**
  * @author cdr
  */
 class RemovePropertyFix implements SyntheticIntentionAction {
-  private final Property myProperty;
+    private final Property myProperty;
 
-  public RemovePropertyFix(@Nonnull final Property origProperty) {
-    myProperty = origProperty;
-  }
+    public RemovePropertyFix(@Nonnull final Property origProperty) {
+        myProperty = origProperty;
+    }
 
-  @Nonnull
-  public String getText() {
-    return PropertiesBundle.message("remove.property.intention.text");
-  }
+    @Nonnull
+    @Override
+    public LocalizeValue getText() {
+        return PropertiesLocalize.removePropertyIntentionText();
+    }
 
-  public boolean isAvailable(@Nonnull Project project, Editor editor, PsiFile file) {
-    return file.isValid()
-           && myProperty != null
-           && myProperty.isValid()
-           && myProperty.getManager().isInProject(myProperty)
-      ;
-  }
+    @Override
+    @RequiredReadAction
+    public boolean isAvailable(@Nonnull Project project, Editor editor, PsiFile file) {
+        return file.isValid()
+            && myProperty.isValid()
+            && myProperty.getManager().isInProject(myProperty);
+    }
 
-  public void invoke(@Nonnull Project project, Editor editor, PsiFile file) throws IncorrectOperationException
-  {
-    if (!FileModificationService.getInstance().prepareFileForWrite(file)) return;
-    myProperty.delete();
-  }
+    @Override
+    @RequiredWriteAction
+    public void invoke(@Nonnull Project project, Editor editor, PsiFile file) throws IncorrectOperationException {
+        if (!FileModificationService.getInstance().prepareFileForWrite(file)) {
+            return;
+        }
+        myProperty.delete();
+    }
 
-  public boolean startInWriteAction() {
-    return true;
-  }
+    @Override
+    public boolean startInWriteAction() {
+        return true;
+    }
 }
