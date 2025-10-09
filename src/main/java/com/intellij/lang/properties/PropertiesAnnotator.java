@@ -37,6 +37,7 @@ import consulo.language.editor.intention.SyntheticIntentionAction;
 import consulo.language.lexer.Lexer;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.properties.localize.PropertiesLocalize;
 import consulo.util.lang.Pair;
@@ -102,10 +103,10 @@ public class PropertiesAnnotator implements Annotator {
                     annotation.setEnforcedTextAttributes(attributes);
                     if (key == PropertiesHighlighter.PROPERTIES_INVALID_STRING_ESCAPE) {
                         annotation.registerFix(new SyntheticIntentionAction() {
-                            @Override
                             @Nonnull
-                            public String getText() {
-                                return PropertiesBundle.message("unescape");
+                            @Override
+                            public LocalizeValue getText() {
+                                return PropertiesLocalize.unescape();
                             }
 
                             @Override
