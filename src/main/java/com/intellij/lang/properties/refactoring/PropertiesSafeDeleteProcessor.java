@@ -17,6 +17,7 @@ package com.intellij.lang.properties.refactoring;
 
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.psi.PropertiesFile;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.refactoring.RefactoringSettings;
 import consulo.language.editor.refactoring.safeDelete.NonCodeUsageSearchInfo;
@@ -24,6 +25,7 @@ import consulo.language.editor.refactoring.safeDelete.SafeDeleteProcessor;
 import consulo.language.editor.refactoring.safeDelete.SafeDeleteProcessorDelegate;
 import consulo.language.psi.PsiElement;
 import consulo.language.util.IncorrectOperationException;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.usage.UsageInfo;
 
@@ -43,8 +45,9 @@ public class PropertiesSafeDeleteProcessor implements SafeDeleteProcessorDelegat
     }
 
     @Override
+    @RequiredReadAction
     public NonCodeUsageSearchInfo findUsages(PsiElement element, PsiElement[] allElementsToDelete, List<UsageInfo> result) {
-        PropertiesFile file = (PropertiesFile)element;
+        PropertiesFile file = (PropertiesFile) element;
         List<PsiElement> elements = new ArrayList<>();
         elements.add(file.getContainingFile());
         for (IProperty property : file.getProperties()) {
@@ -71,7 +74,7 @@ public class PropertiesSafeDeleteProcessor implements SafeDeleteProcessorDelegat
     }
 
     @Override
-    public Collection<String> findConflicts(PsiElement element, PsiElement[] allElementsToDelete) {
+    public Collection<LocalizeValue> findConflicts(PsiElement element, PsiElement[] allElementsToDelete) {
         return null;
     }
 
