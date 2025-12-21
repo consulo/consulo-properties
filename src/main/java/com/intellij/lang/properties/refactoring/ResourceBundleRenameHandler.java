@@ -13,13 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * @author Alexey
- */
 package com.intellij.lang.properties.refactoring;
 
-import com.intellij.lang.properties.PropertiesBundle;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.editor.ResourceBundleAsVirtualFile;
 import com.intellij.lang.properties.editor.ResourceBundleEditor;
@@ -29,7 +24,6 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.codeEditor.Editor;
 import consulo.dataContext.DataContext;
 import consulo.fileEditor.FileEditorStateLevel;
-import consulo.language.editor.CommonDataKeys;
 import consulo.language.editor.FileModificationService;
 import consulo.language.editor.PlatformDataKeys;
 import consulo.language.editor.refactoring.rename.RenameHandler;
@@ -39,15 +33,20 @@ import consulo.language.psi.PsiFile;
 import consulo.localize.LocalizeValue;
 import consulo.logging.Logger;
 import consulo.project.Project;
+import consulo.properties.localize.PropertiesLocalize;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.InputValidator;
 import consulo.ui.ex.awt.Messages;
+import consulo.ui.ex.awt.UIUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import jakarta.annotation.Nonnull;
 
 import java.io.File;
 import java.util.List;
 
+/**
+ * @author Alexey
+ */
 @ExtensionImpl
 public class ResourceBundleRenameHandler implements RenameHandler {
     private static final Logger LOG = Logger.getInstance(ResourceBundleRenameHandler.class);
@@ -60,7 +59,7 @@ public class ResourceBundleRenameHandler implements RenameHandler {
 
     @Override
     public boolean isAvailableOnDataContext(DataContext dataContext) {
-        final Project project = dataContext.getData(CommonDataKeys.PROJECT);
+        final Project project = dataContext.getData(Project.KEY);
         if (project == null) {
             return false;
         }
@@ -72,7 +71,8 @@ public class ResourceBundleRenameHandler implements RenameHandler {
         final VirtualFile virtualFile = dataContext.getData(PlatformDataKeys.VIRTUAL_FILE);
 
         ResourceBundleEditor editor = ResourceBundleUtil.getEditor(dataContext);
-        return (editor == null || editor.getState(FileEditorStateLevel.NAVIGATION).getPropertyName() == null /* user selected non-bundle key element */)
+        return (editor == null || editor.getState(FileEditorStateLevel.NAVIGATION)
+            .getPropertyName() == null /* user selected non-bundle key element */)
             && bundle.getPropertiesFiles(project).size() > 1 && (virtualFile instanceof ResourceBundleAsVirtualFile || virtualFile == null);
     }
 
@@ -81,22 +81,24 @@ public class ResourceBundleRenameHandler implements RenameHandler {
         return isAvailableOnDataContext(dataContext);
     }
 
-    @RequiredUIAccess
     @Override
+    @RequiredUIAccess
     public void invoke(@Nonnull Project project, Editor editor, PsiFile file, DataContext dataContext) {
         ResourceBundle resourceBundle = ResourceBundleUtil.getResourceBundleFromDataContext(dataContext);
 
         assert resourceBundle != null;
-        Messages.showInputDialog(project,
-            PropertiesBundle.message("rename.bundle.enter.new.resource.bundle.base.name.prompt.text"),
-            PropertiesBundle.message("rename.resource.bundle.dialog.title"),
-            Messages.getQuestionIcon(),
+        Messages.showInputDialog(
+            project,
+            PropertiesLocalize.renameBundleEnterNewResourceBundleBaseNamePromptText().get(),
+            PropertiesLocalize.renameResourceBundleDialogTitle().get(),
+            UIUtil.getQuestionIcon(),
             resourceBundle.getBaseName(),
-            new MyInputValidator(project, resourceBundle));
+            new MyInputValidator(project, resourceBundle)
+        );
     }
 
-    @RequiredUIAccess
     @Override
+    @RequiredUIAccess
     public void invoke(@Nonnull Project project, @Nonnull PsiElement[] elements, DataContext dataContext) {
         invoke(project, null, null, dataContext);
     }
@@ -110,18 +112,19 @@ public class ResourceBundleRenameHandler implements RenameHandler {
             myResourceBundle = resourceBundle;
         }
 
-        @RequiredUIAccess
         @Override
+        @RequiredUIAccess
         public boolean checkInput(String inputString) {
             return inputString.indexOf(File.separatorChar) < 0 && inputString.indexOf('/') < 0;
         }
 
-        @RequiredUIAccess
         @Override
+        @RequiredUIAccess
         public boolean canClose(final String inputString) {
             return doRename(inputString);
         }
 
+        @RequiredUIAccess
         private boolean doRename(final String inputString) {
             final List<PropertiesFile> propertiesFiles = myResourceBundle.getPropertiesFiles(myProject);
             for (PropertiesFile propertiesFile : propertiesFiles) {
@@ -149,7 +152,7 @@ public class ResourceBundleRenameHandler implements RenameHandler {
                 LOG.assertTrue(false);
                 return true;
             }
-            renameProcessor.setCommandName(PropertiesBundle.message("rename.resource.bundle.dialog.title"));
+            renameProcessor.setCommandName(PropertiesLocalize.renameResourceBundleDialogTitle());
             renameProcessor.doRun();
             return true;
         }
