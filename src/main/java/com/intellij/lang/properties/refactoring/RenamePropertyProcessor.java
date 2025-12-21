@@ -23,65 +23,59 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.refactoring.rename.RenamePsiElementProcessor;
 import consulo.language.editor.refactoring.rename.UnresolvableCollisionUsageInfo;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import consulo.usage.UsageInfo;
 import consulo.util.lang.Comparing;
 
 import jakarta.annotation.Nonnull;
+
 import java.util.List;
 import java.util.Map;
 
 @ExtensionImpl
-public class RenamePropertyProcessor extends RenamePsiElementProcessor
-{
-	public boolean canProcessElement(@Nonnull final PsiElement element)
-	{
-		return element instanceof IProperty;
-	}
+public class RenamePropertyProcessor extends RenamePsiElementProcessor {
+    @Override
+    public boolean canProcessElement(@Nonnull final PsiElement element) {
+        return element instanceof IProperty;
+    }
 
-	public void prepareRenaming(final PsiElement element, final String newName,
-								final Map<PsiElement, String> allRenames)
-	{
-		IProperty property = (IProperty) element;
-		ResourceBundle resourceBundle = property.getPropertiesFile().getResourceBundle();
-		List<IProperty> properties = PropertiesUtil.findAllProperties(element.getProject(), resourceBundle, property.getUnescapedKey());
-		allRenames.clear();
-		for(IProperty otherProperty : properties)
-		{
-			allRenames.put(otherProperty.getPsiElement(), newName);
-		}
-	}
+    @Override
+    public void prepareRenaming(final PsiElement element, final String newName, final Map<PsiElement, String> allRenames) {
+        IProperty property = (IProperty) element;
+        ResourceBundle resourceBundle = property.getPropertiesFile().getResourceBundle();
+        List<IProperty> properties = PropertiesUtil.findAllProperties(element.getProject(), resourceBundle, property.getUnescapedKey());
+        allRenames.clear();
+        for (IProperty otherProperty : properties) {
+            allRenames.put(otherProperty.getPsiElement(), newName);
+        }
+    }
 
-	@Override
-	public void findCollisions(PsiElement element,
-							   final String newName,
-							   Map<? extends PsiElement, String> allRenames,
-							   List<UsageInfo> result)
-	{
-		for(IProperty property : ((PropertiesFile) element.getContainingFile()).getProperties())
-		{
-			if(Comparing.strEqual(newName, property.getKey()))
-			{
-				result.add(new UnresolvableCollisionUsageInfo(property.getPsiElement(), element)
-				{
-					@Override
-					public String getDescription()
-					{
-						return "New property name \'" + newName + "\' hides existing property";
-					}
-				});
-			}
-		}
-	}
+    @Override
+    public void findCollisions(
+        @Nonnull PsiElement element,
+        final String newName,
+        Map<? extends PsiElement, String> allRenames,
+        List<UsageInfo> result
+    ) {
+        for (IProperty property : ((PropertiesFile) element.getContainingFile()).getProperties()) {
+            if (Comparing.strEqual(newName, property.getKey())) {
+                result.add(new UnresolvableCollisionUsageInfo(property.getPsiElement(), element) {
+                    @Override
+                    public LocalizeValue getDescription() {
+                        return LocalizeValue.localizeTODO("New property name \'" + newName + "\' hides existing property");
+                    }
+                });
+            }
+        }
+    }
 
-	@Override
-	public boolean isToSearchInComments(PsiElement element)
-	{
-		return PropertiesRefactoringSettings.getInstance().RENAME_SEARCH_IN_COMMENTS;
-	}
+    @Override
+    public boolean isToSearchInComments(PsiElement element) {
+        return PropertiesRefactoringSettings.getInstance().RENAME_SEARCH_IN_COMMENTS;
+    }
 
-	@Override
-	public void setToSearchInComments(PsiElement element, boolean enabled)
-	{
-		PropertiesRefactoringSettings.getInstance().RENAME_SEARCH_IN_COMMENTS = enabled;
-	}
+    @Override
+    public void setToSearchInComments(PsiElement element, boolean enabled) {
+        PropertiesRefactoringSettings.getInstance().RENAME_SEARCH_IN_COMMENTS = enabled;
+    }
 }
