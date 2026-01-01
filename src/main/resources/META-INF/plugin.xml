@@ -15,18 +15,18 @@
   -->
 
 <consulo-plugin url="https://github.com/consulo/consulo-properties">
-	<id>com.intellij.properties</id>
-	<name>Properties Support</name>
-	<depends>com.intellij.xml</depends>
-	<description>
-		This plugin enables smart editing of properties files.
-	</description>
-	<vendor>JetBrains</vendor>
-	<version>SNAPSHOT</version>
+    <id>com.intellij.properties</id>
+    <name>Properties</name>
+    <depends>com.intellij.xml</depends>
+    <description>
+        This plugin enables smart editing of properties files.
+    </description>
+    <vendor>JetBrains</vendor>
+    <version>SNAPSHOT</version>
 
-	<depends>com.intellij.xml</depends>
+    <depends>com.intellij.xml</depends>
 
-	<tags>
-		<tag>markup.language</tag>
-	</tags>
+    <tags>
+        <tag>markup.language</tag>
+    </tags>
 </consulo-plugin>
