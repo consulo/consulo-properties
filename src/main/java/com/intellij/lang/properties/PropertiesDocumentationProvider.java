@@ -13,12 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/*
- * @author max
- */
 package com.intellij.lang.properties;
 
+import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.colorScheme.EditorColorsManager;
 import consulo.colorScheme.TextAttributes;
@@ -30,75 +27,77 @@ import consulo.language.psi.PsiFile;
 import consulo.ui.color.ColorValue;
 import consulo.ui.util.ColorValueUtil;
 import consulo.util.lang.StringUtil;
-import org.jetbrains.annotations.NonNls;
-
+import consulo.util.lang.xml.XmlStringUtil;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
+/**
+ * @author max
+ */
 @ExtensionImpl
-public class PropertiesDocumentationProvider extends AbstractDocumentationProvider implements LanguageDocumentationProvider
-{
+public class PropertiesDocumentationProvider extends AbstractDocumentationProvider implements LanguageDocumentationProvider {
 	@Nullable
-	public String getQuickNavigateInfo(PsiElement element, PsiElement originalElement)
-	{
-		if(element instanceof IProperty)
-		{
-			return "\"" + renderPropertyValue((IProperty) element) + "\"" + getLocationString(element);
-		}
-		return null;
-	}
-
-	private static String getLocationString(PsiElement element)
-	{
-		PsiFile file = element.getContainingFile();
-		return file != null ? " [" + file.getName() + "]" : "";
-	}
-
-	@Nonnull
-	private static String renderPropertyValue(IProperty prop)
-	{
-		String raw = prop.getValue();
-		if(raw == null)
-		{
-			return "<i>empty</i>";
-		}
-		return StringUtil.escapeXml(raw);
-	}
-
-	public String generateDoc(final PsiElement element, @Nullable final PsiElement originalElement)
-	{
-		if(element instanceof IProperty)
-		{
-			IProperty property = (IProperty) element;
-			String text = property.getDocCommentText();
-
-			@NonNls String info = "";
-			if(text != null)
-			{
-				TextAttributes attributes = EditorColorsManager.getInstance().getGlobalScheme().getAttributes(PropertiesHighlighter.PROPERTY_COMMENT).clone();
-				ColorValue background = attributes.getBackgroundColor();
-				if(background != null)
-				{
-					info += "<div bgcolor=#" + ColorValueUtil.toHex(background) + ">";
-				}
-				String doc = StringUtil.join(StringUtil.split(text, "\n"), "<br>");
-				info += "<font color=#" + ColorValueUtil.toHex(attributes.getForegroundColor()) + ">" + doc + "</font>\n<br>";
-				if(background != null)
-				{
-					info += "</div>";
-				}
-			}
-			info += "\n<b>" + property.getName() + "</b>=\"" + renderPropertyValue(((IProperty) element)) + "\"";
-			info += getLocationString(element);
-			return info;
-		}
-		return null;
-	}
-
-	@Nonnull
 	@Override
-	public Language getLanguage()
-	{
-		return PropertiesLanguage.INSTANCE;
-	}
+	@RequiredReadAction
+    public String getQuickNavigateInfo(PsiElement element, PsiElement originalElement) {
+        if (element instanceof IProperty property) {
+			StringBuilder builder = new StringBuilder().append('"');
+			renderPropertyValue(property, builder);
+			return builder.append("\"").append(getLocationString(element)).toString();
+        }
+        return null;
+    }
+
+    @RequiredReadAction
+	private static String getLocationString(PsiElement element) {
+        PsiFile file = element.getContainingFile();
+        return file != null ? " [" + file.getName() + "]" : "";
+    }
+
+    private static void renderPropertyValue(@Nonnull IProperty prop, @Nonnull StringBuilder builder) {
+        String raw = prop.getValue();
+        if (raw == null) {
+            builder.append("<i>empty</i>");
+        }
+        else {
+			XmlStringUtil.escapeText(raw, builder);
+		}
+    }
+
+	@Override
+	@RequiredReadAction
+	public String generateDoc(PsiElement element, @Nullable PsiElement originalElement) {
+        if (element instanceof IProperty property) {
+            String text = property.getDocCommentText();
+
+            StringBuilder info = new StringBuilder();
+            if (text != null) {
+                TextAttributes attributes =
+                    EditorColorsManager.getInstance().getGlobalScheme().getAttributes(PropertiesHighlighter.PROPERTY_COMMENT).clone();
+                ColorValue background = attributes.getBackgroundColor();
+                if (background != null) {
+                    info.append("<div bgcolor=#").append(ColorValueUtil.toHex(background)).append(">");
+                }
+                String doc = StringUtil.join(StringUtil.split(text, "\n"), "<br>");
+                info.append("<font color=#").append(ColorValueUtil.toHex(attributes.getForegroundColor())).append(">")
+					.append(doc)
+					.append("</font>\n<br>");
+                if (background != null) {
+                    info.append("</div>");
+                }
+            }
+            info.append("\n<b>").append(property.getName()).append("</b>=\"");
+            renderPropertyValue(property, info);
+			info.append("\"");
+            info.append(getLocationString(element));
+            return info.toString();
+        }
+        return null;
+    }
+
+    @Nonnull
+    @Override
+    public Language getLanguage() {
+        return PropertiesLanguage.INSTANCE;
+    }
 }
