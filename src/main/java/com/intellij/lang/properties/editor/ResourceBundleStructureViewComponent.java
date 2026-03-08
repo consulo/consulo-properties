@@ -16,43 +16,36 @@
 package com.intellij.lang.properties.editor;
 
 import com.intellij.lang.properties.ResourceBundle;
+import consulo.dataContext.DataSink;
 import consulo.language.editor.PlatformDataKeys;
 import consulo.project.Project;
 import consulo.util.dataholder.Key;
-
 import jakarta.annotation.Nonnull;
 
 /**
  * @author cdr
  */
-class ResourceBundleStructureViewComponent extends PropertiesGroupingStructureViewComponent
-{
-	@Nonnull
-	private final ResourceBundle myResourceBundle;
+class ResourceBundleStructureViewComponent extends PropertiesGroupingStructureViewComponent {
+    @Nonnull
+    private final ResourceBundle myResourceBundle;
 
-	public ResourceBundleStructureViewComponent(@Nonnull Project project,
-			@Nonnull ResourceBundle resourceBundle,
-			@Nonnull ResourceBundleEditor editor)
-	{
-		super(project, editor, new ResourceBundleStructureViewModel(project, resourceBundle));
-		myResourceBundle = resourceBundle;
-		showToolbar();
-	}
+    public ResourceBundleStructureViewComponent(@Nonnull Project project,
+                                                @Nonnull ResourceBundle resourceBundle,
+                                                @Nonnull ResourceBundleEditor editor) {
+        super(project, editor, new ResourceBundleStructureViewModel(project, resourceBundle));
+        myResourceBundle = resourceBundle;
+        showToolbar();
+    }
 
-	@Override
-	public Object getData(@Nonnull Key dataId)
-	{
-		if(PlatformDataKeys.VIRTUAL_FILE == dataId)
-		{
-			return new ResourceBundleAsVirtualFile(myResourceBundle);
-		}
-		return super.getData(dataId);
-	}
+    @Override
+    public void uiDataSnapshot(@Nonnull DataSink sink) {
+        super.uiDataSnapshot(sink);
+        sink.set(PlatformDataKeys.VIRTUAL_FILE, new ResourceBundleAsVirtualFile(myResourceBundle));
+    }
 
-	@Override
-	protected boolean showScrollToFromSourceActions()
-	{
-		return false;
-	}
+    @Override
+    protected boolean showScrollToFromSourceActions() {
+        return false;
+    }
 }
 
