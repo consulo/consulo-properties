@@ -18,35 +18,33 @@ package com.intellij.lang.properties.structureView;
 import com.intellij.lang.properties.editor.PropertiesGroupingStructureViewComponent;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.lang.properties.psi.impl.PropertiesFileImpl;
+import consulo.dataContext.DataSink;
 import consulo.fileEditor.FileEditor;
-import consulo.language.editor.PlatformDataKeys;
 import consulo.language.editor.LangDataKeys;
+import consulo.language.editor.PlatformDataKeys;
 import consulo.project.Project;
 import consulo.util.dataholder.Key;
-
 import jakarta.annotation.Nonnull;
 
 /**
  * @author cdr
  */
 public class PropertiesFileStructureViewComponent extends PropertiesGroupingStructureViewComponent {
-  private final PropertiesFile myPropertiesFile;
+    private final PropertiesFile myPropertiesFile;
 
-  public PropertiesFileStructureViewComponent(Project project, PropertiesFileImpl propertiesFile, FileEditor editor) {
-    super(project, editor, new PropertiesFileStructureViewModel(propertiesFile));
-    myPropertiesFile = propertiesFile;
+    public PropertiesFileStructureViewComponent(Project project, PropertiesFileImpl propertiesFile, FileEditor editor) {
+        super(project, editor, new PropertiesFileStructureViewModel(propertiesFile));
+        myPropertiesFile = propertiesFile;
 
-    showToolbar();
-  }
-
-  public Object getData(@Nonnull Key dataId) {
-    if (PlatformDataKeys.VIRTUAL_FILE == dataId) {
-      return myPropertiesFile.getVirtualFile();
+        showToolbar();
     }
-    if (LangDataKeys.PSI_ELEMENT == dataId) {
-      return myPropertiesFile;
+
+    @Override
+    public void uiDataSnapshot(@Nonnull DataSink sink) {
+        super.uiDataSnapshot(sink);
+        sink.set(PlatformDataKeys.VIRTUAL_FILE, myPropertiesFile.getVirtualFile());
+        sink.set(LangDataKeys.PSI_ELEMENT, myPropertiesFile.getContainingFile());
+
     }
-    return super.getData(dataId);
-  }
 }
 
