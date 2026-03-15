@@ -39,7 +39,6 @@ import consulo.ui.ex.InputValidator;
 import consulo.ui.ex.awt.Messages;
 import consulo.ui.ex.awt.UIUtil;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.annotation.Nonnull;
 
 import java.io.File;
 import java.util.List;
@@ -51,7 +50,6 @@ import java.util.List;
 public class ResourceBundleRenameHandler implements RenameHandler {
     private static final Logger LOG = Logger.getInstance(ResourceBundleRenameHandler.class);
 
-    @Nonnull
     @Override
     public LocalizeValue getActionTitleValue() {
         return LocalizeValue.localizeTODO("Resource Bundle Rename...");
@@ -83,7 +81,7 @@ public class ResourceBundleRenameHandler implements RenameHandler {
 
     @Override
     @RequiredUIAccess
-    public void invoke(@Nonnull Project project, Editor editor, PsiFile file, DataContext dataContext) {
+    public void invoke(Project project, Editor editor, PsiFile file, DataContext dataContext) {
         ResourceBundle resourceBundle = ResourceBundleUtil.getResourceBundleFromDataContext(dataContext);
 
         assert resourceBundle != null;
@@ -99,7 +97,7 @@ public class ResourceBundleRenameHandler implements RenameHandler {
 
     @Override
     @RequiredUIAccess
-    public void invoke(@Nonnull Project project, @Nonnull PsiElement[] elements, DataContext dataContext) {
+    public void invoke(Project project, PsiElement[] elements, DataContext dataContext) {
         invoke(project, null, null, dataContext);
     }
 

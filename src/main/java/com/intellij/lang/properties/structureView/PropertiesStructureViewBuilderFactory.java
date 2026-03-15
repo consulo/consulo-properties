@@ -30,17 +30,14 @@ import consulo.language.editor.structureView.PsiStructureViewFactory;
 import consulo.language.psi.PsiFile;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class PropertiesStructureViewBuilderFactory implements PsiStructureViewFactory
 {
-	@Nonnull
 	public StructureViewBuilder getStructureViewBuilder(final PsiFile psiFile)
 	{
 		return new StructureViewBuilder()
 		{
-			@Nonnull
 			public StructureView createStructureView(FileEditor fileEditor, Project project)
 			{
 				return new PropertiesFileStructureViewComponent(project, (PropertiesFileImpl) psiFile, fileEditor);
@@ -48,7 +45,6 @@ public class PropertiesStructureViewBuilderFactory implements PsiStructureViewFa
 		};
 	}
 
-	@Nonnull
 	@Override
 	public Language getLanguage()
 	{

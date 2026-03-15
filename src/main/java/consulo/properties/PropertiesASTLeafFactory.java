@@ -25,8 +25,7 @@ import consulo.language.impl.ast.LeafElement;
 import consulo.language.impl.psi.PsiCommentImpl;
 import consulo.language.version.LanguageVersion;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 
 /**
@@ -36,8 +35,7 @@ import jakarta.annotation.Nullable;
 public class PropertiesASTLeafFactory implements ASTLeafFactory
 {
   @Override
-  @Nonnull
-  public LeafElement createLeaf(@Nonnull final IElementType type, @Nonnull LanguageVersion languageVersion, @Nonnull CharSequence text) {
+  public LeafElement createLeaf(final IElementType type, LanguageVersion languageVersion, CharSequence text) {
     if (type == PropertiesTokenTypes.VALUE_CHARACTERS) {
       return new PropertyValueImpl(type, text);
     }

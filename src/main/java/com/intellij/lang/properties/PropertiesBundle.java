@@ -19,7 +19,6 @@ import consulo.annotation.DeprecationInfo;
 import consulo.annotation.internal.MigratedExtensionsTo;
 import consulo.application.CommonBundle;
 import consulo.properties.localize.PropertiesLocalize;
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.PropertyKey;
 
 import java.lang.ref.Reference;
@@ -32,7 +31,7 @@ import java.util.ResourceBundle;
 public class PropertiesBundle {
   private static Reference<ResourceBundle> ourBundle;
 
-  @NonNls protected static final String PATH_TO_BUNDLE = "messages.PropertiesBundle";
+  protected static final String PATH_TO_BUNDLE = "messages.PropertiesBundle";
 
   private PropertiesBundle() {
   }

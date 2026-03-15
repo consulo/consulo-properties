@@ -24,7 +24,6 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.language.Language;
 import consulo.language.editor.refactoring.RefactoringSupportProvider;
 import consulo.language.psi.PsiElement;
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class PropertiesRefactoringSupportProvider extends RefactoringSupportProvider
@@ -34,7 +33,6 @@ public class PropertiesRefactoringSupportProvider extends RefactoringSupportProv
 		return true;
 	}
 
-	@Nonnull
 	@Override
 	public Language getLanguage()
 	{

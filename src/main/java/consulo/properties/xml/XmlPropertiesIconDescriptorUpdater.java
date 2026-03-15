@@ -25,7 +25,6 @@ import consulo.language.psi.PsiElement;
 import consulo.properties.icon.PropertiesIconGroup;
 import consulo.xml.psi.xml.XmlFile;
 
-import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL
@@ -36,7 +35,7 @@ public class XmlPropertiesIconDescriptorUpdater implements IconDescriptorUpdater
 {
 	@RequiredReadAction
 	@Override
-	public void updateIcon(@Nonnull IconDescriptor iconDescriptor, @Nonnull PsiElement element, int flags)
+	public void updateIcon(IconDescriptor iconDescriptor, PsiElement element, int flags)
 	{
 		if(element instanceof XmlFile && XmlPropertiesFile.getPropertiesFile((XmlFile) element) != null)
 		{

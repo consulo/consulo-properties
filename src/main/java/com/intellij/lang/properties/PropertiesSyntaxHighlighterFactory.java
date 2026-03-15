@@ -4,7 +4,6 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.language.Language;
 import consulo.language.editor.highlight.SingleLazyInstanceSyntaxHighlighterFactory;
 import consulo.language.editor.highlight.SyntaxHighlighter;
-import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL
@@ -13,14 +12,12 @@ import jakarta.annotation.Nonnull;
 @ExtensionImpl
 public class PropertiesSyntaxHighlighterFactory extends SingleLazyInstanceSyntaxHighlighterFactory
 {
-	@Nonnull
 	@Override
 	protected SyntaxHighlighter createHighlighter()
 	{
 		return new PropertiesHighlighter();
 	}
 
-	@Nonnull
 	@Override
 	public Language getLanguage()
 	{

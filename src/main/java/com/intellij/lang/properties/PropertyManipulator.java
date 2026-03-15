@@ -6,7 +6,6 @@ import consulo.document.util.TextRange;
 import consulo.language.ast.ASTNode;
 import consulo.language.psi.AbstractElementManipulator;
 import consulo.language.util.IncorrectOperationException;
-import jakarta.annotation.Nonnull;
 
 /**
  * @author gregsh
@@ -36,7 +35,6 @@ public class PropertyManipulator extends AbstractElementManipulator<PropertyImpl
 		return TextRange.from(range.getStartOffset() - element.getTextRange().getStartOffset(), range.getLength());
 	}
 
-	@Nonnull
 	@Override
 	public Class<PropertyImpl> getElementClass()
 	{

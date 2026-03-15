@@ -33,7 +33,6 @@ import consulo.project.ui.view.tree.ViewSettings;
 import consulo.virtualFileSystem.VirtualFile;
 import jakarta.inject.Inject;
 
-import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -117,7 +116,6 @@ public class ResourcesFavoriteNodeProvider implements BookmarkNodeProvider
 		return false;
 	}
 
-	@Nonnull
 	public String getFavoriteTypeId()
 	{
 		return "resource_bundle";

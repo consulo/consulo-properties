@@ -30,10 +30,8 @@ import consulo.language.psi.PsiFile;
 import consulo.language.util.IncorrectOperationException;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.annotation.Nullable;
-import org.jetbrains.annotations.NonNls;
+import org.jspecify.annotations.Nullable;
 
-import jakarta.annotation.Nonnull;
 
 import java.util.List;
 import java.util.Locale;
@@ -41,13 +39,11 @@ import java.util.Map;
 
 public interface PropertiesFile {
 
-  @Nonnull
   PsiFile getContainingFile();
 
   /**
    * @return All properties found in this file.
    */
-  @Nonnull
   List<IProperty> getProperties();
 
   /**
@@ -57,18 +53,15 @@ public interface PropertiesFile {
    * If there are several properties with the same key, returns first from the top of the file property.
    */
   @Nullable
-  IProperty findPropertyByKey(@Nonnull @NonNls String key);
+  IProperty findPropertyByKey(String key);
 
   /**
    * @param key
    * @return All properties found in this file with the name specified.
    */
-  @Nonnull
-  List<IProperty> findPropertiesByKey(@Nonnull @NonNls String key);
+  List<IProperty> findPropertiesByKey(String key);
 
-  @Nonnull
   ResourceBundle getResourceBundle();
-  @Nonnull
   Locale getLocale();
 
   /**
@@ -81,8 +74,7 @@ public interface PropertiesFile {
    * @deprecated
    * @see #addProperty(String, String)
    */
-  @Nonnull
-  PsiElement addProperty(@Nonnull IProperty property) throws IncorrectOperationException;
+  PsiElement addProperty(IProperty property) throws IncorrectOperationException;
 
   /**
    * Adds property to the the file after the specified property.
@@ -93,18 +85,16 @@ public interface PropertiesFile {
    * It is this value you use to do actual PSI work, e.g. call {@link PsiElement#delete()} to remove this property from the file.
    * @throws IncorrectOperationException
    */
-  @Nonnull
-  PsiElement addPropertyAfter(@Nonnull Property property, @Nullable Property anchor) throws IncorrectOperationException;
+  PsiElement addPropertyAfter(Property property, @Nullable Property anchor) throws IncorrectOperationException;
 
   IProperty addProperty(String key, String value);
 
-  void removeProperties(@Nonnull String key);
+  void removeProperties(String key);
 
   /**
    * @return Property key to the property value map.
    * Do not modify this map. It's no use anyway.
    */
-  @Nonnull
   Map<String,String> getNamesMap();
 
   String getName();

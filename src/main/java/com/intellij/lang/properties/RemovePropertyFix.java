@@ -26,7 +26,6 @@ import consulo.language.util.IncorrectOperationException;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.properties.localize.PropertiesLocalize;
-import jakarta.annotation.Nonnull;
 
 /**
  * @author cdr
@@ -34,11 +33,10 @@ import jakarta.annotation.Nonnull;
 class RemovePropertyFix implements SyntheticIntentionAction {
     private final Property myProperty;
 
-    public RemovePropertyFix(@Nonnull final Property origProperty) {
+    public RemovePropertyFix(final Property origProperty) {
         myProperty = origProperty;
     }
 
-    @Nonnull
     @Override
     public LocalizeValue getText() {
         return PropertiesLocalize.removePropertyIntentionText();
@@ -46,7 +44,7 @@ class RemovePropertyFix implements SyntheticIntentionAction {
 
     @Override
     @RequiredReadAction
-    public boolean isAvailable(@Nonnull Project project, Editor editor, PsiFile file) {
+    public boolean isAvailable(Project project, Editor editor, PsiFile file) {
         return file.isValid()
             && myProperty.isValid()
             && myProperty.getManager().isInProject(myProperty);
@@ -54,7 +52,7 @@ class RemovePropertyFix implements SyntheticIntentionAction {
 
     @Override
     @RequiredWriteAction
-    public void invoke(@Nonnull Project project, Editor editor, PsiFile file) throws IncorrectOperationException {
+    public void invoke(Project project, Editor editor, PsiFile file) throws IncorrectOperationException {
         if (!FileModificationService.getInstance().prepareFileForWrite(file)) {
             return;
         }

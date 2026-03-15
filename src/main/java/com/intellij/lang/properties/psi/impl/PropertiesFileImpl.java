@@ -35,9 +35,7 @@ import consulo.util.collection.ArrayUtil;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.collection.MostlySingularMultiMap;
 import consulo.virtualFileSystem.fileType.FileType;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
-import org.jetbrains.annotations.NonNls;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
@@ -53,18 +51,15 @@ public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
   }
 
   @Override
-  @Nonnull
   public FileType getFileType() {
     return PropertiesFileType.INSTANCE;
   }
 
-  @NonNls
   public String toString() {
     return "Properties file:" + getName();
   }
 
   @Override
-  @Nonnull
   public List<IProperty> getProperties() {
     ensurePropertiesLoaded();
     return myProperties;
@@ -94,7 +89,7 @@ public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
   }
 
   @Override
-  public IProperty findPropertyByKey(@Nonnull String key) {
+  public IProperty findPropertyByKey(String key) {
     ensurePropertiesLoaded();
     synchronized (lock) {
       Iterator<IProperty> iterator = myPropertiesMap.get(key).iterator();
@@ -103,8 +98,7 @@ public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
   }
 
   @Override
-  @Nonnull
-  public List<IProperty> findPropertiesByKey(@Nonnull String key) {
+  public List<IProperty> findPropertiesByKey(String key) {
     ensurePropertiesLoaded();
     synchronized (lock) {
       return ContainerUtil.collect(myPropertiesMap.get(key).iterator());
@@ -112,19 +106,17 @@ public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
   }
 
   @Override
-  @Nonnull
   public ResourceBundle getResourceBundle() {
     return PropertiesUtil.getResourceBundle(getContainingFile());
   }
 
   @Override
-  @Nonnull
   public Locale getLocale() {
     return PropertiesUtil.getLocale(getVirtualFile());
   }
 
   @Override
-  public PsiElement add(@Nonnull PsiElement element) throws IncorrectOperationException
+  public PsiElement add(PsiElement element) throws IncorrectOperationException
   {
     if (element instanceof Property) {
       throw new IncorrectOperationException("Use addProperty() instead");
@@ -133,8 +125,7 @@ public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
   }
 
   @Override
-  @Nonnull
-  public PsiElement addProperty(@Nonnull IProperty property) throws IncorrectOperationException {
+  public PsiElement addProperty(IProperty property) throws IncorrectOperationException {
     if (haveToAddNewLine()) {
       insertLineBreakBefore(null);
     }
@@ -144,7 +135,7 @@ public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
   }
 
   @Override
-  public void removeProperties(@Nonnull String key) {
+  public void removeProperties(String key) {
     for(IProperty property : findPropertiesByKey(key)) {
       final ASTNode node = property.getPsiElement().getNode();
       final ASTNode next = node.getTreeNext();
@@ -159,8 +150,7 @@ public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
   }
 
   @Override
-  @Nonnull
-  public PsiElement addPropertyAfter(@Nonnull final Property property, @Nullable final Property anchor) throws IncorrectOperationException {
+  public PsiElement addPropertyAfter(final Property property, @Nullable final Property anchor) throws IncorrectOperationException {
     final TreeElement copy = ChangeUtil.copyToElement(property);
     List<IProperty> properties = getProperties();
     ASTNode anchorBefore = anchor == null ? properties.isEmpty() ? null : properties.get(0).getPsiElement().getNode()
@@ -195,7 +185,6 @@ public class PropertiesFileImpl extends PsiFileBase implements PropertiesFile {
   }
 
   @Override
-  @Nonnull
   public Map<String, String> getNamesMap() {
     Map<String, String> result = new HashMap<String, String>();
     for (IProperty property : getProperties()) {

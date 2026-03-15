@@ -20,8 +20,7 @@ import consulo.language.psi.*;
 import consulo.language.util.IncorrectOperationException;
 import consulo.util.collection.ContainerUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Function;
@@ -48,14 +47,12 @@ public class ResourceBundleReference extends PsiReferenceBase<PsiElement> implem
     return resolveResults.length == 1 ? resolveResults[0].getElement() : null;
   }
 
-  @Nonnull
   public ResolveResult[] multiResolve(final boolean incompleteCode) {
     PropertiesReferenceManager referenceManager = PropertiesReferenceManager.getInstance(myElement.getProject());
     List<PropertiesFile> propertiesFiles = referenceManager.findPropertiesFiles(myElement.getResolveScope(), myBundleName, this);
     return PsiElementResolveResult.createResults(ContainerUtil.map(propertiesFiles, PROPERTIES_FILE_PSI_ELEMENT_FUNCTION));
   }
 
-  @Nonnull
   public String getCanonicalText() {
     return myBundleName;
   }
@@ -74,7 +71,7 @@ public class ResourceBundleReference extends PsiReferenceBase<PsiElement> implem
     return super.handleElementRename(newElementName);
   }
 
-  public PsiElement bindToElement(@Nonnull final PsiElement element) throws IncorrectOperationException {
+  public PsiElement bindToElement(final PsiElement element) throws IncorrectOperationException {
     if (!(element instanceof PropertiesFile)) {
       throw new IncorrectOperationException();
     }
@@ -93,7 +90,6 @@ public class ResourceBundleReference extends PsiReferenceBase<PsiElement> implem
     return false;
   }
 
-  @Nonnull
   public Object[] getVariants() {
     PropertiesReferenceManager referenceManager = PropertiesReferenceManager.getInstance(getElement().getProject());
     return referenceManager.getPropertyFileBaseNames(myElement.getResolveScope(), this);

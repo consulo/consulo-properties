@@ -25,7 +25,6 @@ import consulo.ui.image.Image;
 import consulo.util.lang.Comparing;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -36,10 +35,10 @@ import java.util.List;
 public class PropertiesPrefixGroup implements Group
 {
   private final Collection<TreeElement> myProperties;
-  private final @Nonnull
+  private final 
   String myPrefix;
   private final String myPresentableName;
-  private final @Nonnull
+  private final 
   String mySeparator;
 
   public PropertiesPrefixGroup(final Collection<TreeElement> properties, String prefix, String presentableName, final String separator) {

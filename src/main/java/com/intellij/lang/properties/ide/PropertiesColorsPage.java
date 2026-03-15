@@ -23,7 +23,6 @@ import consulo.language.editor.colorScheme.setting.ColorSettingsPage;
 import consulo.language.editor.highlight.SyntaxHighlighter;
 import consulo.localize.LocalizeValue;
 import consulo.properties.localize.PropertiesLocalize;
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class PropertiesColorsPage implements ColorSettingsPage {
@@ -39,22 +38,18 @@ public class PropertiesColorsPage implements ColorSettingsPage {
     }
   }
 
-  @Nonnull
   public LocalizeValue getDisplayName() {
     return PropertiesLocalize.propertiesDisplayName();
   }
 
-  @Nonnull
   public AttributesDescriptor[] getAttributeDescriptors() {
     return ATTRS;
   }
 
-  @Nonnull
   public SyntaxHighlighter getHighlighter() {
     return new PropertiesHighlighter();
   }
 
-  @Nonnull
   public String getDemoText() {
     return "# Comment on keys and values\n" +
            "key1=value1\n" +

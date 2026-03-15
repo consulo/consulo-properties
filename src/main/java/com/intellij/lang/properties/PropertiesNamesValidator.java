@@ -19,7 +19,6 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.language.Language;
 import consulo.language.editor.refactoring.NamesValidator;
 import consulo.project.Project;
-import jakarta.annotation.Nonnull;
 
 /**
  * @author yole
@@ -37,7 +36,6 @@ public class PropertiesNamesValidator implements NamesValidator
 		return true;
 	}
 
-	@Nonnull
 	@Override
 	public Language getLanguage()
 	{

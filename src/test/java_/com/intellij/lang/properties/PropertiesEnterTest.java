@@ -15,11 +15,9 @@
  */
 package com.intellij.lang.properties;
 
-import jakarta.annotation.Nonnull;
 
 import consulo.dataContext.DataManager;
 import consulo.ui.ex.action.IdeActions;
-import org.jetbrains.annotations.NonNls;
 import com.intellij.openapi.application.PluginPathManager;
 import consulo.codeEditor.action.EditorActionHandler;
 import consulo.codeEditor.action.EditorActionManager;
@@ -29,9 +27,8 @@ import com.intellij.testFramework.LightPlatformCodeInsightTestCase;
  * @author cdr
  */
 public abstract class PropertiesEnterTest extends LightPlatformCodeInsightTestCase {
-  @NonNls private static final String BASE_PATH = "/propertiesFile/enter/";
+  private static final String BASE_PATH = "/propertiesFile/enter/";
 
-  @Nonnull
   @Override
   protected String getTestDataPath() {
     return PluginPathManager.getPluginHomePath("properties") + "/testData";

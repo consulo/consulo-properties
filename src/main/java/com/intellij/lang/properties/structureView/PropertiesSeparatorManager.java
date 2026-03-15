@@ -43,9 +43,8 @@ import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.VirtualFileManager;
 import jakarta.inject.Singleton;
 import org.jdom.Element;
-import org.jetbrains.annotations.NonNls;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -59,11 +58,8 @@ import java.util.concurrent.atomic.AtomicLong;
 @ServiceImpl
 public class PropertiesSeparatorManager implements PersistentStateComponent<Element>
 {
-	@NonNls
 	private static final String FILE_ELEMENT = "file";
-	@NonNls
 	private static final String URL_ELEMENT = "url";
-	@NonNls
 	private static final String SEPARATOR_ATTR = "separator";
 
 	public static PropertiesSeparatorManager getInstance()

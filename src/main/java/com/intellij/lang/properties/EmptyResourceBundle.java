@@ -4,7 +4,6 @@ package com.intellij.lang.properties;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.annotation.Nonnull;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,25 +18,21 @@ public final class EmptyResourceBundle {
     private static class Holder {
         public static final ResourceBundle NULL = new ResourceBundle() {
             @Override
-            @Nonnull
             public List<PropertiesFile> getPropertiesFiles(final Project project) {
                 return Collections.emptyList();
             }
 
             @Override
-            @Nonnull
             public PropertiesFile getDefaultPropertiesFile(final Project project) {
                 throw new IllegalStateException();
             }
 
             @Override
-            @Nonnull
             public String getBaseName() {
                 return "";
             }
 
             @Override
-            @Nonnull
             public VirtualFile getBaseDirectory() {
                 throw new IllegalStateException();
             }

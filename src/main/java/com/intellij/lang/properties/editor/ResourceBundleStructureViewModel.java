@@ -26,7 +26,6 @@ import consulo.fileEditor.structureView.tree.Grouper;
 import consulo.fileEditor.structureView.tree.Sorter;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
 
 /**
  * @author max
@@ -52,22 +51,18 @@ public class ResourceBundleStructureViewModel implements PropertiesGroupingStruc
     return myGroupByWordPrefixes.getSeparator();
   }
 
-  @Nonnull
   public StructureViewTreeElement getRoot() {
     return new ResourceBundleFileStructureViewElement(myProject, myResourceBundle);
   }
 
-  @Nonnull
   public Grouper[] getGroupers() {
     return new Grouper[]{myGroupByWordPrefixes};
   }
 
-  @Nonnull
   public Sorter[] getSorters() {
     return new Sorter[] {Sorter.ALPHA_SORTER};
   }
 
-  @Nonnull
   public Filter[] getFilters() {
     return Filter.EMPTY_ARRAY;
   }

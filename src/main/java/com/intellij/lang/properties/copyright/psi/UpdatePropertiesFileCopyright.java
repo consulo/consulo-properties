@@ -23,12 +23,11 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiWhiteSpace;
 
-import jakarta.annotation.Nonnull;
 
 public class UpdatePropertiesFileCopyright extends UpdatePsiFileCopyright
 {
 
-	public UpdatePropertiesFileCopyright(@Nonnull PsiFile psiFile, @Nonnull CopyrightProfile copyrightProfile)
+	public UpdatePropertiesFileCopyright(PsiFile psiFile, CopyrightProfile copyrightProfile)
 	{
 		super(psiFile, copyrightProfile);
 	}

@@ -28,7 +28,6 @@ import com.intellij.lang.properties.psi.impl.PropertyStubImpl;
 import consulo.index.io.StringRef;
 import consulo.language.psi.stub.*;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class PropertyStubElementType extends IStubElementType<PropertyStub, Property> {
@@ -36,30 +35,28 @@ public class PropertyStubElementType extends IStubElementType<PropertyStub, Prop
     super("PROPERTY", PropertiesLanguage.INSTANCE);
   }
 
-  public Property createPsi(@Nonnull final PropertyStub stub) {
+  public Property createPsi(final PropertyStub stub) {
     return new PropertyImpl(stub, this);
   }
 
-  public PropertyStub createStub(@Nonnull final Property psi, final StubElement parentStub) {
+  public PropertyStub createStub(final Property psi, final StubElement parentStub) {
     return new PropertyStubImpl(parentStub, psi.getKey());
   }
 
-  @Nonnull
   public String getExternalId() {
     return "properties.PROPERTY";
   }
 
-  public void serialize(@Nonnull final PropertyStub stub, @Nonnull final StubOutputStream dataStream) throws IOException {
+  public void serialize(final PropertyStub stub, final StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getKey());
   }
 
-  @Nonnull
-  public PropertyStub deserialize(@Nonnull final StubInputStream dataStream, final StubElement parentStub) throws IOException {
+  public PropertyStub deserialize(final StubInputStream dataStream, final StubElement parentStub) throws IOException {
     final StringRef ref = dataStream.readName();
     return new PropertyStubImpl(parentStub, ref.getString());
   }
 
-  public void indexStub(@Nonnull final PropertyStub stub, @Nonnull final IndexSink sink) {
+  public void indexStub(final PropertyStub stub, final IndexSink sink) {
     sink.occurrence(PropertyKeyIndex.KEY, PropertyImpl.unescape(stub.getKey()));
   }
 }

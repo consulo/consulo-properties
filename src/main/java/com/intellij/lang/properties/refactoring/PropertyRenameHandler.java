@@ -26,8 +26,7 @@ import consulo.language.editor.refactoring.rename.PsiElementRenameHandler;
 import consulo.language.psi.*;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * @author Dmitry Avdeev
@@ -76,7 +75,7 @@ public class PropertyRenameHandler extends PsiElementRenameHandler
 	}
 
 	@Override
-	public void invoke(@Nonnull final Project project, final Editor editor, final PsiFile file, final DataContext dataContext)
+	public void invoke(final Project project, final Editor editor, final PsiFile file, final DataContext dataContext)
 	{
 		PsiElement element = getPsiElement(editor);
 		editor.getScrollingModel().scrollToCaret(ScrollType.MAKE_VISIBLE);

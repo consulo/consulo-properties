@@ -15,7 +15,6 @@
  */
 package com.intellij.lang.properties.parsing;
 
-import jakarta.annotation.Nonnull;
 
 import consulo.language.parser.PsiBuilder;
 import consulo.language.ast.IElementType;
@@ -28,8 +27,7 @@ import consulo.language.version.LanguageVersion;
  */
 public class PropertiesParser implements PsiParser
 {
-  @Nonnull
-  public ASTNode parse(@Nonnull IElementType root, @Nonnull PsiBuilder builder, @Nonnull LanguageVersion languageVersion) {
+  public ASTNode parse(IElementType root, PsiBuilder builder, LanguageVersion languageVersion) {
     final PsiBuilder.Marker rootMarker = builder.mark();
     final PsiBuilder.Marker propertiesList = builder.mark();
     while (!builder.eof()) {

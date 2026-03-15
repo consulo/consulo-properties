@@ -33,7 +33,6 @@ import consulo.localize.LocalizeValue;
 import consulo.logging.Logger;
 import consulo.project.Project;
 import consulo.properties.localize.PropertiesLocalize;
-import jakarta.annotation.Nonnull;
 
 /**
  * @author cdr
@@ -41,13 +40,11 @@ import jakarta.annotation.Nonnull;
 public abstract class PropertySuppressableInspectionBase extends LocalInspectionTool implements CustomSuppressableInspectionTool {
     private static final Logger LOG = Logger.getInstance(PropertySuppressableInspectionBase.class);
 
-    @Nonnull
     @Override
     public LocalizeValue getGroupDisplayName() {
         return PropertiesLocalize.propertiesFilesInspectionGroupDisplayName();
     }
 
-    @Nonnull
     @Override
     public LocalizeValue[] getGroupPath() {
         return new LocalizeValue[]{getGroupDisplayName()};
@@ -63,7 +60,7 @@ public abstract class PropertySuppressableInspectionBase extends LocalInspection
 
     @Override
     @RequiredReadAction
-    public boolean isSuppressedFor(@Nonnull PsiElement element) {
+    public boolean isSuppressedFor(PsiElement element) {
         Property property = PsiTreeUtil.getParentOfType(element, Property.class, false);
         PropertiesFile file;
         if (property == null) {
@@ -121,7 +118,6 @@ public abstract class PropertySuppressableInspectionBase extends LocalInspection
             this.shortName = shortName;
         }
 
-        @Nonnull
         @Override
         public LocalizeValue getText() {
             return PropertiesLocalize.unusedPropertySuppressForProperty();
@@ -129,7 +125,7 @@ public abstract class PropertySuppressableInspectionBase extends LocalInspection
 
         @Override
         @RequiredReadAction
-        public boolean isAvailable(@Nonnull final Project project, final Editor editor, @Nonnull final PsiElement element) {
+        public boolean isAvailable(final Project project, final Editor editor, final PsiElement element) {
             final Property property = PsiTreeUtil.getParentOfType(element, Property.class);
             return property != null && property.isValid();
         }
@@ -137,9 +133,9 @@ public abstract class PropertySuppressableInspectionBase extends LocalInspection
         @Override
         @RequiredWriteAction
         public void invoke(
-            @Nonnull final Project project,
+            final Project project,
             final Editor editor,
-            @Nonnull final PsiElement element
+            final PsiElement element
         ) throws IncorrectOperationException {
             final PsiFile file = element.getContainingFile();
             if (!FileModificationService.getInstance().prepareFileForWrite(file)) {
@@ -166,7 +162,6 @@ public abstract class PropertySuppressableInspectionBase extends LocalInspection
             this.shortName = shortName;
         }
 
-        @Nonnull
         @Override
         public LocalizeValue getText() {
             return PropertiesLocalize.unusedPropertySuppressForFile();
@@ -174,16 +169,16 @@ public abstract class PropertySuppressableInspectionBase extends LocalInspection
 
         @Override
         @RequiredReadAction
-        public boolean isAvailable(@Nonnull final Project project, final Editor editor, @Nonnull final PsiElement element) {
+        public boolean isAvailable(final Project project, final Editor editor, final PsiElement element) {
             return element.isValid() && element.getContainingFile() instanceof PropertiesFile;
         }
 
         @Override
         @RequiredWriteAction
         public void invoke(
-            @Nonnull final Project project,
+            final Project project,
             final Editor editor,
-            @Nonnull final PsiElement element
+            final PsiElement element
         ) throws IncorrectOperationException {
             final PsiFile file = element.getContainingFile();
             if (!FileModificationService.getInstance().prepareFileForWrite(file)) {

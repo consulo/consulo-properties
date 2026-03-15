@@ -20,10 +20,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import jakarta.annotation.Nonnull;
 
 import consulo.language.psi.PsiFileFactory;
-import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.PropertiesFileType;
 import com.intellij.lang.properties.editor.ResourceBundleUtil;
@@ -42,22 +40,19 @@ public class PropertiesElementFactory {
     }
   };
 
-  @Nonnull
-  public static IProperty createProperty(@Nonnull Project project, @NonNls @Nonnull String name, @NonNls @Nonnull String value) {
+  public static IProperty createProperty(Project project, String name, String value) {
     String text = escape(name) + "=" + escapeValue(value);
     final PropertiesFile dummyFile = createPropertiesFile(project, text);
     return dummyFile.getProperties().get(0);
   }
 
-  @Nonnull
-  public static PropertiesFile createPropertiesFile(@Nonnull Project project, @NonNls @Nonnull String text) {
-    @NonNls String filename = "dummy." + PropertiesFileType.INSTANCE.getDefaultExtension();
+  public static PropertiesFile createPropertiesFile(Project project, String text) {
+    String filename = "dummy." + PropertiesFileType.INSTANCE.getDefaultExtension();
     return (PropertiesFile) PsiFileFactory.getInstance(project)
       .createFileFromText(filename, PropertiesFileType.INSTANCE, text);
   }
 
-  @Nonnull
-  public static PropertiesFile createPropertiesFile(@Nonnull Project project, Properties properties, String fileName) {
+  public static PropertiesFile createPropertiesFile(Project project, Properties properties, String fileName) {
     ByteArrayOutputStream stream = new ByteArrayOutputStream();
     try {
       properties.store(stream, "");
@@ -65,18 +60,16 @@ public class PropertiesElementFactory {
     catch (IOException e) {
       throw new RuntimeException(e);
     }
-    @NonNls String filename = fileName + "." + PropertiesFileType.INSTANCE.getDefaultExtension();
+    String filename = fileName + "." + PropertiesFileType.INSTANCE.getDefaultExtension();
     return (PropertiesFile)PsiFileFactory.getInstance(project)
       .createFileFromText(filename, PropertiesFileType.INSTANCE, stream.toString());
   }
 
-  @Nonnull
-  public static PropertiesFile getSystemProperties(@Nonnull Project project) {
+  public static PropertiesFile getSystemProperties(Project project) {
     return PROPERTIES.get(project, null);
   }
 
-  @Nonnull
-  private static String escape(@Nonnull String name) {
+  private static String escape(String name) {
     if (StringUtil.startsWithChar(name, '#')) {
       name = escapeChar(name, '#');
     }
@@ -90,8 +83,7 @@ public class PropertiesElementFactory {
     return name;
   }
 
-  @Nonnull
-  private static String escapeChar(@Nonnull String name, char c) {
+  private static String escapeChar(String name, char c) {
     int offset = 0;
     while (true) {
       int i = name.indexOf(c, offset);

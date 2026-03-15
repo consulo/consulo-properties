@@ -26,7 +26,6 @@ import consulo.util.lang.Pair;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.fileType.FileTypeWithPredefinedCharset;
 
-import jakarta.annotation.Nonnull;
 import java.nio.charset.Charset;
 
 /**
@@ -44,27 +43,23 @@ public class PropertiesFileType extends LanguageFileType implements FileTypeWith
 	}
 
 	@Override
-	@Nonnull
 	public String getId()
 	{
 		return "Properties";
 	}
 
 	@Override
-	@Nonnull
 	public LocalizeValue getDescription()
 	{
 		return PropertiesLocalize.propertiesFilesFileTypeDescription();
 	}
 
 	@Override
-	@Nonnull
 	public String getDefaultExtension()
 	{
 		return DEFAULT_EXTENSION;
 	}
 
-	@Nonnull
 	@Override
 	public Image getIcon()
 	{
@@ -72,15 +67,14 @@ public class PropertiesFileType extends LanguageFileType implements FileTypeWith
 	}
 
 	@Override
-	public String getCharset(@Nonnull VirtualFile file, final byte[] content)
+	public String getCharset(VirtualFile file, final byte[] content)
 	{
 		Charset charset = EncodingManager.getInstance().getDefaultCharsetForPropertiesFiles(file);
 		return charset == null ? CharsetToolkit.getDefaultSystemCharset().name() : charset.name();
 	}
 
-	@Nonnull
 	@Override
-	public Pair<Charset, String> getPredefinedCharset(@Nonnull VirtualFile virtualFile)
+	public Pair<Charset, String> getPredefinedCharset(VirtualFile virtualFile)
 	{
 		return Pair.create(virtualFile.getCharset(), PropertiesBundle.message("properties.files.file.type.description"));
 	}

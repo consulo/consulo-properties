@@ -26,7 +26,6 @@ import com.intellij.lang.properties.psi.impl.PropertiesListImpl;
 import com.intellij.lang.properties.psi.impl.PropertiesListStubImpl;
 import consulo.language.psi.stub.*;
 
-import jakarta.annotation.Nonnull;
 
 import java.io.IOException;
 
@@ -35,27 +34,25 @@ public class PropertyListStubElementType extends IStubElementType<PropertiesList
     super("PROPERTIES_LIST", PropertiesLanguage.INSTANCE);
   }
 
-  public PropertiesList createPsi(@Nonnull final PropertiesListStub stub) {
+  public PropertiesList createPsi(final PropertiesListStub stub) {
     return new PropertiesListImpl(stub);
   }
 
-  public PropertiesListStub createStub(@Nonnull final PropertiesList psi, final StubElement parentStub) {
+  public PropertiesListStub createStub(final PropertiesList psi, final StubElement parentStub) {
     return new PropertiesListStubImpl(parentStub);
   }
 
-  @Nonnull
   public String getExternalId() {
     return "properties.PROPERTIES_LIST";
   }
 
-  public void serialize(@Nonnull final PropertiesListStub stub, @Nonnull final StubOutputStream dataStream) throws IOException {
+  public void serialize(final PropertiesListStub stub, final StubOutputStream dataStream) throws IOException {
   }
 
-  @Nonnull
-  public PropertiesListStub deserialize(@Nonnull final StubInputStream dataStream, final StubElement parentStub) throws IOException {
+  public PropertiesListStub deserialize(final StubInputStream dataStream, final StubElement parentStub) throws IOException {
     return new PropertiesListStubImpl(parentStub);
   }
 
-  public void indexStub(@Nonnull final PropertiesListStub stub, @Nonnull final IndexSink sink) {
+  public void indexStub(final PropertiesListStub stub, final IndexSink sink) {
   }
 }

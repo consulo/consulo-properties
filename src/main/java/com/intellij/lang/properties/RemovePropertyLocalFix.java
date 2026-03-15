@@ -26,7 +26,6 @@ import consulo.localize.LocalizeValue;
 import consulo.logging.Logger;
 import consulo.project.Project;
 import consulo.properties.localize.PropertiesLocalize;
-import jakarta.annotation.Nonnull;
 
 /**
  * @author cdr
@@ -35,7 +34,6 @@ public class RemovePropertyLocalFix implements LocalQuickFix {
     private static final Logger LOG = Logger.getInstance(RemovePropertyLocalFix.class);
     public static final RemovePropertyLocalFix INSTANCE = new RemovePropertyLocalFix();
 
-    @Nonnull
     @Override
     public LocalizeValue getName() {
         return PropertiesLocalize.removePropertyQuickFixName();
@@ -43,7 +41,7 @@ public class RemovePropertyLocalFix implements LocalQuickFix {
 
     @Override
     @RequiredWriteAction
-    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+    public void applyFix(Project project, ProblemDescriptor descriptor) {
         PsiElement element = descriptor.getPsiElement();
         Property property = PsiTreeUtil.getParentOfType(element, Property.class, false);
         if (property == null) {

@@ -17,10 +17,9 @@ import consulo.util.lang.Comparing;
 import consulo.util.xml.fastReader.NanoXmlUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.xml.ide.highlighter.XmlFileType;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import net.n3.nanoxml.StdXMLReader;
 
-import jakarta.annotation.Nonnull;
 
 import java.io.*;
 import java.util.Collections;
@@ -41,14 +40,12 @@ public class XmlPropertiesIndex extends FileBasedIndexExtension<XmlPropertiesInd
 
 	private static final EnumeratorStringDescriptor ENUMERATOR_STRING_DESCRIPTOR = new EnumeratorStringDescriptor();
 
-	@Nonnull
 	@Override
 	public ID<Key, String> getName()
 	{
 		return NAME;
 	}
 
-	@Nonnull
 	@Override
 	public DataIndexer<Key, String, FileContent> getIndexer()
 	{
@@ -91,7 +88,6 @@ public class XmlPropertiesIndex extends FileBasedIndexExtension<XmlPropertiesInd
 		return XmlFileType.INSTANCE == file.getFileType();
 	}
 
-	@Nonnull
 	@Override
 	public Map<Key, String> map(FileContent inputData)
 	{

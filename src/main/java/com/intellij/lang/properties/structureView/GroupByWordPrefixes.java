@@ -25,8 +25,6 @@ import consulo.logging.Logger;
 import consulo.ui.ex.awt.tree.TreeNode;
 import consulo.util.lang.Comparing;
 import consulo.util.lang.StringUtil;
-import jakarta.annotation.Nonnull;
-import org.jetbrains.annotations.NonNls;
 
 import java.util.*;
 
@@ -36,7 +34,6 @@ import java.util.*;
 public class GroupByWordPrefixes implements consulo.fileEditor.structureView.tree.Grouper, consulo.fileEditor.structureView.tree.Sorter
 {
 	private static final Logger LOG = Logger.getInstance(GroupByWordPrefixes.class);
-	@NonNls
 	public static final String ID = "GROUP_BY_PREFIXES";
 	private String mySeparator;
 
@@ -55,7 +52,6 @@ public class GroupByWordPrefixes implements consulo.fileEditor.structureView.tre
 		return mySeparator;
 	}
 
-	@Nonnull
 	public Collection<Group> group(final Object parent, Collection<TreeElement> children)
 	{
 		List<Key> keys = new ArrayList<Key>();
@@ -196,7 +192,6 @@ public class GroupByWordPrefixes implements consulo.fileEditor.structureView.tre
 		return !Comparing.strEqual(words.get(parentPrefixLength), prevWords.get(parentPrefixLength));
 	}
 
-	@Nonnull
 	public consulo.fileEditor.structureView.tree.ActionPresentation getPresentation()
 	{
 		return new consulo.fileEditor.structureView.tree.ActionPresentationData(PropertiesBundle.message("structure.view.group.by.prefixes.action.name"),
@@ -204,7 +199,6 @@ public class GroupByWordPrefixes implements consulo.fileEditor.structureView.tre
 				AllIcons.Actions.GroupByPrefix);
 	}
 
-	@Nonnull
 	public String getName()
 	{
 		return ID;

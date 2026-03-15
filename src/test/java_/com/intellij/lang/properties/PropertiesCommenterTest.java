@@ -15,7 +15,6 @@
  */
 package com.intellij.lang.properties;
 
-import jakarta.annotation.Nonnull;
 
 import consulo.dataContext.DataManager;
 import consulo.ide.impl.idea.codeInsight.generation.actions.CommentByLineCommentAction;
@@ -31,7 +30,6 @@ public abstract class PropertiesCommenterTest extends LightPlatformCodeInsightTe
   public void testProp1() throws Exception { doTest(); }
   public void testUncomment() throws Exception { doTest(); }
 
-  @Nonnull
   @Override
   protected String getTestDataPath() {
     return PluginPathManager.getPluginHomePath("properties") + "/testData";

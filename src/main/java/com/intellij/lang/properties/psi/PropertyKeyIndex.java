@@ -22,7 +22,6 @@ package com.intellij.lang.properties.psi;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.stub.StringStubIndexExtension;
 import consulo.language.psi.stub.StubIndexKey;
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class PropertyKeyIndex extends StringStubIndexExtension<Property>
@@ -36,7 +35,6 @@ public class PropertyKeyIndex extends StringStubIndexExtension<Property>
 		return ourInstance;
 	}
 
-	@Nonnull
 	public StubIndexKey<String, Property> getKey()
 	{
 		return KEY;

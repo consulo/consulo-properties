@@ -36,8 +36,7 @@ import consulo.virtualFileSystem.VirtualFile;
 import consulo.xml.psi.xml.XmlFile;
 import consulo.xml.psi.xml.XmlTag;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
@@ -99,14 +98,12 @@ public class XmlPropertiesFile extends UserDataHolderBase implements PropertiesF
 		return myProperties = map;
 	}
 
-	@Nonnull
 	@Override
 	public PsiFile getContainingFile()
 	{
 		return myFile;
 	}
 
-	@Nonnull
 	@Override
 	public List<IProperty> getProperties()
 	{
@@ -114,50 +111,44 @@ public class XmlPropertiesFile extends UserDataHolderBase implements PropertiesF
 	}
 
 	@Override
-	public IProperty findPropertyByKey(@Nonnull String key)
+	public IProperty findPropertyByKey(String key)
 	{
 		Collection<IProperty> properties = getPropertiesImpl().get(key);
 		return properties.isEmpty() ? null : properties.iterator().next();
 	}
 
-	@Nonnull
 	@Override
-	public List<IProperty> findPropertiesByKey(@Nonnull String key)
+	public List<IProperty> findPropertiesByKey(String key)
 	{
 		return new ArrayList<IProperty>(getPropertiesImpl().get(key));
 	}
 
-	@Nonnull
 	@Override
 	public ResourceBundle getResourceBundle()
 	{
 		return PropertiesUtil.getResourceBundle(getContainingFile());
 	}
 
-	@Nonnull
 	@Override
 	public Locale getLocale()
 	{
 		return PropertiesUtil.getLocale(getVirtualFile());
 	}
 
-	@Nonnull
 	@Override
-	public PsiElement addProperty(@Nonnull IProperty property) throws IncorrectOperationException
+	public PsiElement addProperty(IProperty property) throws IncorrectOperationException
 	{
 		return null;
 	}
 
-	@Nonnull
 	@Override
-	public PsiElement addPropertyAfter(@Nonnull Property property, @Nullable Property anchor) throws IncorrectOperationException
+	public PsiElement addPropertyAfter(Property property, @Nullable Property anchor) throws IncorrectOperationException
 	{
 		return null;
 	}
 
-	@Nullable
 	@Override
-	public void removeProperties(@Nonnull String key)
+	public void removeProperties(String key)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -171,7 +162,6 @@ public class XmlPropertiesFile extends UserDataHolderBase implements PropertiesF
 		return new XmlProperty(entry, this);
 	}
 
-	@Nonnull
 	@Override
 	public Map<String, String> getNamesMap()
 	{

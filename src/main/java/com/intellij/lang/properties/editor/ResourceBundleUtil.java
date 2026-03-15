@@ -31,9 +31,8 @@ import consulo.language.psi.PsiManager;
 import consulo.language.editor.LangDataKeys;
 import consulo.util.collection.primitive.ints.IntSet;
 import consulo.util.collection.primitive.ints.IntSets;
-import jakarta.annotation.Nonnull;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.io.Writer;
 import java.util.Properties;
 
@@ -63,7 +62,7 @@ public class ResourceBundleUtil {
    *                      <code>null</code> otherwise
    */
   @Nullable
-  public static ResourceBundle getResourceBundleFromDataContext(@Nonnull DataContext dataContext) {
+  public static ResourceBundle getResourceBundleFromDataContext(DataContext dataContext) {
     PsiElement element = dataContext.getData(LangDataKeys.PSI_ELEMENT);
     if (element instanceof IProperty) return null; //rename property
     final ResourceBundle[] bundles = dataContext.getData(ResourceBundle.ARRAY_DATA_KEY);
@@ -92,7 +91,7 @@ public class ResourceBundleUtil {
    * @return resource bundle editor identified by the given context; <code>null</code> otherwise
    */
   @Nullable
-  public static ResourceBundleEditor getEditor(@Nonnull DataContext dataContext) {
+  public static ResourceBundleEditor getEditor(DataContext dataContext) {
     Project project = dataContext.getData(CommonDataKeys.PROJECT);
     if (project == null) {
       return null;
@@ -119,8 +118,7 @@ public class ResourceBundleUtil {
    * @return      'user-friendly' text to show at the resource bundle editor
    */
   @SuppressWarnings("AssignmentToForLoopParameter")
-  @Nonnull
-  public static String fromPropertyValueToValueEditor(@Nonnull String text) {
+  public static String fromPropertyValueToValueEditor(String text) {
     StringBuilder buffer = new StringBuilder();
     boolean escaped = false;
     for (int i = 0; i < text.length(); i++) {
@@ -162,7 +160,7 @@ public class ResourceBundleUtil {
    *              <code>null</code> otherwise
    */
   @Nullable
-  private static char[] parseUnicodeLiteral(@Nonnull String text, int i) {
+  private static char[] parseUnicodeLiteral(String text, int i) {
     if (text.length() < i + 5) {
       return null;
     }
@@ -190,8 +188,7 @@ public class ResourceBundleUtil {
    * @param text  'user-friendly' text shown to the user at the resource bundle editor
    * @return      'raw' value to store at the *.properties file
    */
-  @Nonnull
-  public static String fromValueEditorToPropertyValue(@Nonnull String text) {
+  public static String fromValueEditorToPropertyValue(String text) {
     StringBuilder buffer = new StringBuilder();
     for (int i = 0; i < text.length(); i++) {
       char c = text.charAt(i);

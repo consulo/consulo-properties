@@ -35,8 +35,7 @@ import consulo.properties.localize.PropertiesLocalize;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.undoRedo.CommandProcessor;
 import consulo.util.lang.Couple;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -61,7 +60,6 @@ public class CreatePropertyFix implements SyntheticIntentionAction, LocalQuickFi
         myPropertiesFiles = propertiesFiles;
     }
 
-    @Nonnull
     @Override
     public LocalizeValue getName() {
         return NAME;
@@ -69,36 +67,35 @@ public class CreatePropertyFix implements SyntheticIntentionAction, LocalQuickFi
 
     @Override
     @RequiredUIAccess
-    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+    public void applyFix(Project project, ProblemDescriptor descriptor) {
         PsiElement psiElement = descriptor.getPsiElement();
         if (isAvailable(project, null, null)) {
             invoke(project, null, psiElement.getContainingFile());
         }
     }
 
-    @Nonnull
     @Override
     public LocalizeValue getText() {
         return NAME;
     }
 
     @Override
-    public boolean isAvailable(@Nonnull Project project, @Nullable Editor editor, @Nullable PsiFile file) {
+    public boolean isAvailable(Project project, @Nullable Editor editor, @Nullable PsiFile file) {
         return myElement != null && myElement.retrieve() != null;
     }
 
     @Override
     @RequiredUIAccess
-    public void invoke(@Nonnull final Project project, @Nullable Editor editor, @Nonnull PsiFile file) {
+    public void invoke(final Project project, @Nullable Editor editor, PsiFile file) {
         invokeAction(project, file, myElement.retrieve(), myKey, myPropertiesFiles);
     }
 
     @Nullable
     @RequiredUIAccess
     private Couple<String> invokeAction(
-        @Nonnull final Project project,
-        @Nonnull PsiFile file,
-        @Nonnull PsiElement psiElement,
+        final Project project,
+        PsiFile file,
+        PsiElement psiElement,
         @Nullable final String suggestedKey,
         @Nullable final List<PropertiesFile> propertiesFiles
     ) {
@@ -168,11 +165,11 @@ public class CreatePropertyFix implements SyntheticIntentionAction, LocalQuickFi
 
     @RequiredUIAccess
     public static void createProperty(
-        @Nonnull final Project project,
-        @Nonnull final PsiElement psiElement,
-        @Nonnull final Collection<PropertiesFile> selectedPropertiesFiles,
-        @Nonnull final String key,
-        @Nonnull final String value
+        final Project project,
+        final PsiElement psiElement,
+        final Collection<PropertiesFile> selectedPropertiesFiles,
+        final String key,
+        final String value
     ) {
         for (PropertiesFile selectedFile : selectedPropertiesFiles) {
             if (!FileModificationService.getInstance().prepareFileForWrite(selectedFile.getContainingFile())) {

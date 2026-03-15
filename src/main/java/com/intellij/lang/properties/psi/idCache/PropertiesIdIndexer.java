@@ -23,7 +23,6 @@ import consulo.language.psi.stub.LexerBasedIdIndexer;
 import consulo.language.psi.stub.OccurrenceConsumer;
 import consulo.virtualFileSystem.fileType.FileType;
 
-import jakarta.annotation.Nonnull;
 
 /**
  * @author Maxim.Mossienko
@@ -41,7 +40,6 @@ public class PropertiesIdIndexer extends LexerBasedIdIndexer
 		return new PropertiesFilterLexer(new _PropertiesLexer(), consumer);
 	}
 
-	@Nonnull
 	@Override
 	public FileType getFileType()
 	{

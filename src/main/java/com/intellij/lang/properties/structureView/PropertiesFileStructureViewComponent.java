@@ -24,7 +24,6 @@ import consulo.language.editor.LangDataKeys;
 import consulo.project.Project;
 import consulo.util.dataholder.Key;
 
-import jakarta.annotation.Nonnull;
 
 /**
  * @author cdr
@@ -39,7 +38,7 @@ public class PropertiesFileStructureViewComponent extends PropertiesGroupingStru
     showToolbar();
   }
 
-  public Object getData(@Nonnull Key dataId) {
+  public Object getData(Key dataId) {
     if (PlatformDataKeys.VIRTUAL_FILE == dataId) {
       return myPropertiesFile.getVirtualFile();
     }

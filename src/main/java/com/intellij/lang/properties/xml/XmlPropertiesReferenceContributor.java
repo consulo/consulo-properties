@@ -26,7 +26,6 @@ import consulo.language.util.ProcessingContext;
 import consulo.xml.lang.xml.XMLLanguage;
 import consulo.xml.patterns.XmlPatterns;
 import consulo.xml.psi.xml.XmlTag;
-import jakarta.annotation.Nonnull;
 
 /**
  * @author Dmitry Avdeev
@@ -41,9 +40,8 @@ public class XmlPropertiesReferenceContributor extends PsiReferenceContributor
 		registrar.registerReferenceProvider(XmlPatterns.xmlAttributeValue().withLocalName("key"),
 				new PsiReferenceProvider()
 				{
-					@Nonnull
 					@Override
-					public PsiReference[] getReferencesByElement(@Nonnull PsiElement element, @Nonnull ProcessingContext context)
+					public PsiReference[] getReferencesByElement(PsiElement element, ProcessingContext context)
 					{
 						PropertiesFile propertiesFile = PropertiesUtil.getPropertiesFile(element.getContainingFile());
 						if(propertiesFile == null)
@@ -56,7 +54,6 @@ public class XmlPropertiesReferenceContributor extends PsiReferenceContributor
 				});
 	}
 
-	@Nonnull
 	@Override
 	public Language getLanguage()
 	{

@@ -8,8 +8,6 @@ import consulo.language.psi.PsiInvalidElementAccessException;
 import consulo.language.psi.PsiTarget;
 import consulo.language.util.IncorrectOperationException;
 import consulo.xml.psi.xml.XmlTag;
-import jakarta.annotation.Nonnull;
-import org.jetbrains.annotations.NonNls;
 
 /**
  * @author Dmitry Avdeev
@@ -36,7 +34,7 @@ public class XmlProperty implements IProperty, PomRenameableTarget, PsiTarget {
   }
 
   @Override
-  public PsiElement setName(@Nonnull String name) {
+  public PsiElement setName(String name) {
     return myTag.setAttribute("key", name);
   }
 
@@ -61,7 +59,7 @@ public class XmlProperty implements IProperty, PomRenameableTarget, PsiTarget {
   }
 
   @Override
-  public void setValue(@NonNls @Nonnull String value) throws IncorrectOperationException
+  public void setValue(String value) throws IncorrectOperationException
   {
     myTag.getValue().setText(value);
   }
@@ -101,7 +99,6 @@ public class XmlProperty implements IProperty, PomRenameableTarget, PsiTarget {
     return myTag.isValid();
   }
 
-  @Nonnull
   @Override
   public PsiElement getNavigationElement() {
     return getPsiElement();

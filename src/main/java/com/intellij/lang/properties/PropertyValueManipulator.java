@@ -20,7 +20,6 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.document.util.TextRange;
 import consulo.language.psi.AbstractElementManipulator;
 import consulo.language.util.IncorrectOperationException;
-import jakarta.annotation.Nonnull;
 
 /**
  * User: anna
@@ -38,7 +37,6 @@ public class PropertyValueManipulator extends AbstractElementManipulator<Propert
 		return (PropertyValueImpl) element.replaceWithText(newText);
 	}
 
-	@Nonnull
 	@Override
 	public Class<PropertyValueImpl> getElementClass()
 	{

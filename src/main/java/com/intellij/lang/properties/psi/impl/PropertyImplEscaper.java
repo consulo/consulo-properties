@@ -1,6 +1,5 @@
 package com.intellij.lang.properties.psi.impl;
 
-import jakarta.annotation.Nonnull;
 
 import consulo.document.util.ProperTextRange;
 import consulo.document.util.TextRange;
@@ -18,7 +17,7 @@ public class PropertyImplEscaper extends LiteralTextEscaper<PropertyImpl>
   }
 
   @Override
-  public boolean decode(@Nonnull TextRange rangeInsideHost, @Nonnull StringBuilder outChars) {
+  public boolean decode(TextRange rangeInsideHost, StringBuilder outChars) {
     ProperTextRange.assertProperRange(rangeInsideHost);
     String subText = rangeInsideHost.substring(myHost.getText());
     outSourceOffsets = new int[subText.length() + 1];
@@ -36,7 +35,7 @@ public class PropertyImplEscaper extends LiteralTextEscaper<PropertyImpl>
   }
 
   @Override
-  public int getOffsetInHost(int offsetInDecoded, @Nonnull TextRange rangeInsideHost) {
+  public int getOffsetInHost(int offsetInDecoded, TextRange rangeInsideHost) {
     int result = offsetInDecoded < outSourceOffsets.length ? outSourceOffsets[offsetInDecoded] : -1;
     if (result == -1) return -1;
     return (result <= rangeInsideHost.getLength() ? result : rangeInsideHost.getLength()) + rangeInsideHost.getStartOffset();

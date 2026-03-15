@@ -25,7 +25,6 @@ import consulo.colorScheme.TextAttributesKey;
 import consulo.language.editor.highlight.SyntaxHighlighterBase;
 import consulo.util.lang.Pair;
 import consulo.language.ast.IElementType;
-import jakarta.annotation.Nonnull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +36,6 @@ public class PropertiesHighlighter extends SyntaxHighlighterBase {
   private static final Map<IElementType, TextAttributesKey> keys1;
   private static final Map<IElementType, TextAttributesKey> keys2;
 
-  @Nonnull
   public Lexer getHighlightingLexer() {
     return new PropertiesHighlightingLexer();
   }
@@ -85,7 +83,6 @@ public class PropertiesHighlighter extends SyntaxHighlighterBase {
     keys1.put(StringEscapesTokenTypes.INVALID_UNICODE_ESCAPE_TOKEN, PROPERTIES_INVALID_STRING_ESCAPE);
   }
 
-  @Nonnull
   public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
     return pack(keys1.get(tokenType), keys2.get(tokenType));
   }

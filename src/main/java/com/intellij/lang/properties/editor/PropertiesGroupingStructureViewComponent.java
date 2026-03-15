@@ -25,7 +25,6 @@ import consulo.ui.ex.action.AnActionEvent;
 import consulo.ui.ex.action.DefaultActionGroup;
 import consulo.ui.ex.action.Presentation;
 import consulo.ui.ex.awt.Messages;
-import org.jetbrains.annotations.NonNls;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -129,7 +128,6 @@ public class PropertiesGroupingStructureViewComponent extends StructureViewCompo
 		}
 	}
 
-	@NonNls
 	public String getHelpID()
 	{
 		return "editing.propertyFile.bundleEditor";

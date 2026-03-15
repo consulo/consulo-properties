@@ -15,7 +15,6 @@
  */
 package com.intellij.lang.properties.psi.impl;
 
-import jakarta.annotation.Nonnull;
 
 import consulo.language.Language;
 import consulo.language.impl.psi.ASTWrapperPsiElement;
@@ -30,7 +29,6 @@ public class PropertiesElementImpl extends ASTWrapperPsiElement  {
     super(node);
   }
 
-  @Nonnull
   public Language getLanguage() {
     return PropertiesLanguage.INSTANCE;
   }

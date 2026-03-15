@@ -29,8 +29,7 @@ import consulo.logging.Logger;
 import consulo.properties.localize.PropertiesLocalize;
 import consulo.util.collection.Lists;
 import consulo.util.lang.Comparing;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +46,11 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
   protected boolean mySoft;
   private final TextRange myTextRange;
 
-  public PropertyReferenceBase(@Nonnull String key, final boolean soft, @Nonnull PsiElement element) {
+  public PropertyReferenceBase(String key, final boolean soft, PsiElement element) {
     this(key, soft, element, ElementManipulators.getValueTextRange(element));
   }
 
-  public PropertyReferenceBase(@Nonnull String key, final boolean soft, @Nonnull PsiElement element, TextRange range) {
+  public PropertyReferenceBase(String key, final boolean soft, PsiElement element, TextRange range) {
     myKey = key;
     mySoft = soft;
     myElement = element;
@@ -65,7 +64,6 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
     return resolveResults.length == 1 ? resolveResults[0].getElement() : null;
   }
 
-  @Nonnull
   protected String getKeyText() {
     return myKey;
   }
@@ -86,12 +84,10 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
 
   @RequiredReadAction
   @Override
-  @Nonnull
   public PsiElement getElement() {
     return myElement;
   }
 
-  @Nonnull
   @RequiredReadAction
   @Override
   public TextRange getRangeInElement() {
@@ -100,7 +96,6 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
 
   @RequiredReadAction
   @Override
-  @Nonnull
   public String getCanonicalText() {
     return myKey;
   }
@@ -126,7 +121,7 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
 
   @RequiredWriteAction
   @Override
-  public PsiElement bindToElement(@Nonnull PsiElement element) throws IncorrectOperationException
+  public PsiElement bindToElement(PsiElement element) throws IncorrectOperationException
   {
     throw new IncorrectOperationException("not implemented");
   }
@@ -155,15 +150,13 @@ public abstract class PropertyReferenceBase implements PsiPolyVariantReference, 
     return mySoft;
   }
 
-  @Nonnull
   @Override
-  public LocalizeValue buildUnresolvedMessage(@Nonnull String referenceText) {
+  public LocalizeValue buildUnresolvedMessage(String referenceText) {
     return PropertiesLocalize.unresolvedPropertyKey();
   }
 
   @RequiredReadAction
   @Override
-  @Nonnull
   public ResolveResult[] multiResolve(final boolean incompleteCode) {
     final String key = getKeyText();
 

@@ -16,7 +16,6 @@
 package com.intellij.lang.properties;
 
 import consulo.language.lexer.Lexer;
-import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.properties.parsing._PropertiesLexer;
 import com.intellij.testFramework.PlatformLiteFixture;
 
@@ -28,12 +27,12 @@ public abstract class PropertiesLexerTest extends PlatformLiteFixture {
   public PropertiesLexerTest() {
   }
 
-  private static void doTest(@NonNls String text, @NonNls String[] expectedTokens) {
+  private static void doTest(String text, String[] expectedTokens) {
     Lexer lexer = new _PropertiesLexer();
     doTest(text, expectedTokens, lexer);
   }
 
-  private static void doTestHL(@NonNls String text, @NonNls String[] expectedTokens) {
+  private static void doTestHL(String text, String[] expectedTokens) {
     Lexer lexer = new PropertiesHighlightingLexer();
     doTest(text, expectedTokens, lexer);
   }

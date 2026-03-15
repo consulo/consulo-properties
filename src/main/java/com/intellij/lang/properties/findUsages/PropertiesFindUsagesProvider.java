@@ -26,7 +26,6 @@ import consulo.language.findUsage.FindUsagesProvider;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiNamedElement;
 
-import jakarta.annotation.Nonnull;
 
 /**
  * @author cdr
@@ -34,13 +33,12 @@ import jakarta.annotation.Nonnull;
 @ExtensionImpl
 public class PropertiesFindUsagesProvider implements FindUsagesProvider
 {
-	public boolean canFindUsagesFor(@Nonnull PsiElement psiElement)
+	public boolean canFindUsagesFor(PsiElement psiElement)
 	{
 		return psiElement instanceof PsiNamedElement;
 	}
 
-	@Nonnull
-	public String getType(@Nonnull PsiElement element)
+	public String getType(PsiElement element)
 	{
 		if(element instanceof IProperty)
 		{
@@ -49,14 +47,12 @@ public class PropertiesFindUsagesProvider implements FindUsagesProvider
 		return "";
 	}
 
-	@Nonnull
-	public String getDescriptiveName(@Nonnull PsiElement element)
+	public String getDescriptiveName(PsiElement element)
 	{
 		return ((PsiNamedElement) element).getName();
 	}
 
-	@Nonnull
-	public String getNodeText(@Nonnull PsiElement element, boolean useFullName)
+	public String getNodeText(PsiElement element, boolean useFullName)
 	{
 		return getDescriptiveName(element);
 	}
@@ -66,7 +62,6 @@ public class PropertiesFindUsagesProvider implements FindUsagesProvider
 		return new PropertiesWordsScanner();
 	}
 
-	@Nonnull
 	@Override
 	public Language getLanguage()
 	{

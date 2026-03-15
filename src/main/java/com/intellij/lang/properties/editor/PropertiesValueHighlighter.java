@@ -17,14 +17,12 @@ package com.intellij.lang.properties.editor;
 
 import com.intellij.lang.properties.PropertiesHighlighter;
 import consulo.language.lexer.Lexer;
-import jakarta.annotation.Nonnull;
 
 /**
  * @author max
  */
 public class PropertiesValueHighlighter extends PropertiesHighlighter {
 
-  @Nonnull
   public Lexer getHighlightingLexer() {
     return new PropertiesValueHighlightingLexer();
   }

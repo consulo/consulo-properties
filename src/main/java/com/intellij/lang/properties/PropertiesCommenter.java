@@ -18,7 +18,6 @@ package com.intellij.lang.properties;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.Commenter;
 import consulo.language.Language;
-import jakarta.annotation.Nonnull;
 
 /**
  * @author max
@@ -51,7 +50,6 @@ public class PropertiesCommenter implements Commenter
 		return null;
 	}
 
-	@Nonnull
 	@Override
 	public Language getLanguage()
 	{

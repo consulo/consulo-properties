@@ -34,7 +34,6 @@ import consulo.project.Project;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.InputValidator;
 import consulo.ui.ex.awt.Messages;
-import jakarta.annotation.Nonnull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -62,7 +61,6 @@ public class ResourceBundleKeyRenameHandler implements RenameHandler {
         return isAvailableOnDataContext(dataContext);
     }
 
-    @Nonnull
     @Override
     public LocalizeValue getActionTitleValue() {
         return LocalizeValue.localizeTODO("Resource Bundle Key Rename...");
@@ -70,7 +68,7 @@ public class ResourceBundleKeyRenameHandler implements RenameHandler {
 
     @RequiredUIAccess
     @Override
-    public void invoke(@Nonnull Project project, Editor editor, PsiFile file, DataContext dataContext) {
+    public void invoke(Project project, Editor editor, PsiFile file, DataContext dataContext) {
         ResourceBundleEditor bundleEditor = ResourceBundleUtil.getEditor(dataContext);
         if (bundleEditor == null) {
             return;
@@ -92,7 +90,7 @@ public class ResourceBundleKeyRenameHandler implements RenameHandler {
 
     @RequiredUIAccess
     @Override
-    public void invoke(@Nonnull Project project, @Nonnull PsiElement[] elements, DataContext dataContext) {
+    public void invoke(Project project, PsiElement[] elements, DataContext dataContext) {
         invoke(project, null, null, dataContext);
     }
 

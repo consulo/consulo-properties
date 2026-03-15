@@ -28,8 +28,7 @@ import consulo.ui.color.ColorValue;
 import consulo.ui.util.ColorValueUtil;
 import consulo.util.lang.StringUtil;
 import consulo.util.lang.xml.XmlStringUtil;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * @author max
@@ -54,7 +53,7 @@ public class PropertiesDocumentationProvider extends AbstractDocumentationProvid
         return file != null ? " [" + file.getName() + "]" : "";
     }
 
-    private static void renderPropertyValue(@Nonnull IProperty prop, @Nonnull StringBuilder builder) {
+    private static void renderPropertyValue(IProperty prop, StringBuilder builder) {
         String raw = prop.getValue();
         if (raw == null) {
             builder.append("<i>empty</i>");
@@ -95,7 +94,6 @@ public class PropertiesDocumentationProvider extends AbstractDocumentationProvid
         return null;
     }
 
-    @Nonnull
     @Override
     public Language getLanguage() {
         return PropertiesLanguage.INSTANCE;

@@ -16,7 +16,6 @@
 package com.intellij.lang.properties.parsing;
 
 import consulo.language.ast.IElementType;
-import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.properties.PropertiesLanguage;
 
 /**
@@ -24,7 +23,7 @@ import com.intellij.lang.properties.PropertiesLanguage;
  */
 public class PropertiesElementType extends IElementType
 {
-  public PropertiesElementType(@NonNls String debugName) {
+  public PropertiesElementType(String debugName) {
     super(debugName, PropertiesLanguage.INSTANCE);
   }
 

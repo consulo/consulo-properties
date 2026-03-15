@@ -19,8 +19,6 @@ import consulo.language.ast.IElementType;
 import consulo.language.impl.psi.LeafPsiElement;
 import consulo.language.psi.PsiReference;
 import consulo.language.psi.ReferenceProvidersRegistry;
-import jakarta.annotation.Nonnull;
-import org.jetbrains.annotations.NonNls;
 
 /**
  * @author cdr
@@ -31,7 +29,6 @@ public class PropertyValueImpl extends LeafPsiElement
     super(type, text);
   }
 
-  @Nonnull
   public PsiReference[] getReferences() {
     return ReferenceProvidersRegistry.getReferencesFromProviders(this, PropertyValueImpl.class);
   }
@@ -41,7 +38,6 @@ public class PropertyValueImpl extends LeafPsiElement
     return references.length == 0 ? null : references[0];
   }
 
-  @NonNls
   public String toString() {
     return "Property value: " + getText();
   }

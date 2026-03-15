@@ -29,7 +29,6 @@ import consulo.language.spellcheker.tokenizer.Tokenizer;
 import consulo.language.spellcheker.tokenizer.TokenizerBase;
 import consulo.language.spellcheker.tokenizer.splitter.PlainTextTokenSplitter;
 import consulo.language.spellcheker.tokenizer.splitter.PropertiesTokenSplitter;
-import jakarta.annotation.Nonnull;
 
 
 @ExtensionImpl
@@ -39,7 +38,6 @@ public class PropertiesSpellcheckingStrategy extends SpellcheckingStrategy
 	private Tokenizer<PropertyImpl> myPropertyTokenizer = new MyPropertyTokenizer();
 
 	@RequiredReadAction
-	@Nonnull
 	@Override
 	public Tokenizer getTokenizer(PsiElement element)
 	{
@@ -56,14 +54,13 @@ public class PropertiesSpellcheckingStrategy extends SpellcheckingStrategy
 
 	private static class MyPropertyTokenizer extends Tokenizer<PropertyImpl>
 	{
-		public void tokenize(@Nonnull PropertyImpl element, TokenConsumer consumer)
+		public void tokenize(PropertyImpl element, TokenConsumer consumer)
 		{
 			String key = element.getKey();
 			consumer.consumeToken(element, key, true, 0, TextRange.allOf(key), PropertiesTokenSplitter.getInstance());
 		}
 	}
 
-	@Nonnull
 	@Override
 	public Language getLanguage()
 	{

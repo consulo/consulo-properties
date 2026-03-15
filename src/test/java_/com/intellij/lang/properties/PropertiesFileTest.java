@@ -18,7 +18,6 @@ package com.intellij.lang.properties;
 import java.util.List;
 
 import consulo.util.lang.IncorrectOperationException;
-import org.jetbrains.annotations.NonNls;
 import com.intellij.lang.properties.psi.PropertiesElementFactory;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.lang.properties.psi.Property;
@@ -51,7 +50,7 @@ public abstract class PropertiesFileTest extends LightPlatformTestCase {
     assertPropertyEquals(added, myPropertyToAdd.getName(), myPropertyToAdd.getValue());
   }
 
-  private static void assertPropertyEquals(final IProperty property, @NonNls String name, @NonNls String value) {
+  private static void assertPropertyEquals(final IProperty property, String name, String value) {
     assertEquals(name, property.getName());
     assertEquals(value, property.getValue());
   }

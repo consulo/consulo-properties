@@ -50,8 +50,7 @@ import consulo.util.lang.Comparing;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -64,12 +63,12 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool {
     @RequiredReadAction
     @Override
     public void checkFile(
-        @Nonnull PsiFile file,
-        @Nonnull InspectionManager manager,
-        @Nonnull ProblemsHolder problemsHolder,
-        @Nonnull GlobalInspectionContext globalContext,
-        @Nonnull ProblemDescriptionsProcessor problemDescriptionsProcessor,
-        @Nonnull Object state
+        PsiFile file,
+        InspectionManager manager,
+        ProblemsHolder problemsHolder,
+        GlobalInspectionContext globalContext,
+        ProblemDescriptionsProcessor problemDescriptionsProcessor,
+        Object state
     ) {
         checkFile(
             file,
@@ -87,7 +86,6 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool {
         return PropertiesLanguage.INSTANCE;
     }
 
-    @Nonnull
     @Override
     public HighlightDisplayLevel getDefaultLevel() {
         return HighlightDisplayLevel.WARNING;
@@ -466,26 +464,22 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool {
         }
     }
 
-    @Nonnull
     @Override
     public LocalizeValue getDisplayName() {
         return InspectionLocalize.duplicatePropertyDisplayName();
     }
 
-    @Nonnull
     @Override
     public LocalizeValue getGroupDisplayName() {
         return InspectionLocalize.groupNamesPropertiesFiles();
     }
 
-    @Nonnull
     @Override
     public LocalizeValue[] getGroupPath() {
         return new LocalizeValue[]{getGroupDisplayName()};
     }
 
     @Override
-    @Nonnull
     public String getShortName() {
         return "DuplicatePropertyInspection";
     }
@@ -495,7 +489,6 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool {
         return false;
     }
 
-    @Nonnull
     @Override
     public InspectionToolState<?> createStateProvider() {
         return new DuplicatePropertyInspectionState();

@@ -23,7 +23,6 @@ import consulo.language.editor.structureView.PsiTreeElementBase;
 import consulo.language.icon.IconDescriptorUpdaters;
 import consulo.navigation.ItemPresentation;
 import consulo.ui.image.Image;
-import jakarta.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,7 +37,6 @@ public class PropertiesFileStructureViewElement extends PsiTreeElementBase<Prope
     super(propertiesFile);
   }
 
-  @Nonnull
   public Collection<StructureViewTreeElement> getChildrenBase() {
     List<? extends IProperty> properties = getElement().getProperties();
 

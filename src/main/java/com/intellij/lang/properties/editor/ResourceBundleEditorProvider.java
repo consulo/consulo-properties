@@ -33,7 +33,6 @@ import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
 import org.jdom.Element;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class ResourceBundleEditorProvider implements FileEditorProvider, DumbAware
@@ -41,7 +40,7 @@ public class ResourceBundleEditorProvider implements FileEditorProvider, DumbAwa
 	public static final ResourceBundleFileType RESOURCE_BUNDLE_FILE_TYPE = new ResourceBundleFileType();
 
 	@Override
-	public boolean accept(@Nonnull final Project project, @Nonnull final VirtualFile file)
+	public boolean accept(final Project project, final VirtualFile file)
 	{
 		if(file instanceof ResourceBundleAsVirtualFile)
 		{
@@ -60,8 +59,7 @@ public class ResourceBundleEditorProvider implements FileEditorProvider, DumbAwa
 	}
 
 	@Override
-	@Nonnull
-	public FileEditor createEditor(@Nonnull Project project, @Nonnull final VirtualFile file)
+	public FileEditor createEditor(Project project, final VirtualFile file)
 	{
 		ResourceBundle resourceBundle;
 		if(file instanceof ResourceBundleAsVirtualFile)
@@ -82,32 +80,29 @@ public class ResourceBundleEditorProvider implements FileEditorProvider, DumbAwa
 	}
 
 	@Override
-	public void disposeEditor(@Nonnull FileEditor editor)
+	public void disposeEditor(FileEditor editor)
 	{
 		Disposer.dispose(editor);
 	}
 
 	@Override
-	@Nonnull
-	public FileEditorState readState(@Nonnull Element element, @Nonnull Project project, @Nonnull VirtualFile file)
+	public FileEditorState readState(Element element, Project project, VirtualFile file)
 	{
 		return new ResourceBundleEditor.ResourceBundleEditorState(null);
 	}
 
 	@Override
-	public void writeState(@Nonnull FileEditorState state, @Nonnull Project project, @Nonnull Element element)
+	public void writeState(FileEditorState state, Project project, Element element)
 	{
 	}
 
 	@Override
-	@Nonnull
 	public FileEditorPolicy getPolicy()
 	{
 		return FileEditorPolicy.PLACE_AFTER_DEFAULT_EDITOR;
 	}
 
 	@Override
-	@Nonnull
 	public String getEditorTypeId()
 	{
 		return "ResourceBundle";

@@ -36,7 +36,6 @@ import consulo.language.psi.stub.IStubFileElementType;
 import consulo.language.version.LanguageVersion;
 import consulo.logging.Logger;
 
-import jakarta.annotation.Nonnull;
 
 /**
  * @author max
@@ -48,45 +47,38 @@ public class PropertiesParserDefinition implements ParserDefinition
 
 	private static final Logger LOG = Logger.getInstance(PropertiesParserDefinition.class);
 
-	@Nonnull
 	@Override
 	public Language getLanguage()
 	{
 		return PropertiesLanguage.INSTANCE;
 	}
 
-	@Nonnull
-	public Lexer createLexer(@Nonnull LanguageVersion languageVersion)
+	public Lexer createLexer(LanguageVersion languageVersion)
 	{
 		return new _PropertiesLexer();
 	}
 
-	@Nonnull
 	public IFileElementType getFileNodeType()
 	{
 		return FILE;
 	}
 
-	@Nonnull
-	public TokenSet getWhitespaceTokens(@Nonnull LanguageVersion languageVersion)
+	public TokenSet getWhitespaceTokens(LanguageVersion languageVersion)
 	{
 		return PropertiesTokenTypes.WHITESPACES;
 	}
 
-	@Nonnull
 	public TokenSet getCommentTokens(LanguageVersion languageVersion)
 	{
 		return PropertiesTokenTypes.COMMENTS;
 	}
 
-	@Nonnull
 	public TokenSet getStringLiteralElements(LanguageVersion languageVersion)
 	{
 		return TokenSet.EMPTY;
 	}
 
-	@Nonnull
-	public PsiParser createParser(@Nonnull LanguageVersion languageVersion)
+	public PsiParser createParser(LanguageVersion languageVersion)
 	{
 		return new PropertiesParser();
 	}
@@ -101,7 +93,6 @@ public class PropertiesParserDefinition implements ParserDefinition
 		return SpaceRequirements.MAY;
 	}
 
-	@Nonnull
 	public PsiElement createElement(ASTNode node)
 	{
 		final IElementType type = node.getElementType();

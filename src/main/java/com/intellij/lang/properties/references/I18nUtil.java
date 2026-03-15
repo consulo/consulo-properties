@@ -30,7 +30,6 @@ import consulo.module.content.ProjectRootManager;
 import consulo.project.Project;
 import consulo.util.io.FileUtil;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,7 +37,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class I18nUtil {
-  @Nonnull
   public static List<PropertiesFile> propertiesFilesByBundleName(final String resourceBundleName, final PsiElement context) {
     PsiFile containingFile = context.getContainingFile();
     PsiElement containingFileContext = InjectedLanguageManager.getInstance(containingFile.getProject()).getInjectionHost(containingFile);

@@ -27,8 +27,6 @@ import consulo.fileEditor.structureView.tree.ActionPresentationData;
 import consulo.fileEditor.structureView.tree.Grouper;
 import consulo.ide.IdeBundle;
 import consulo.language.editor.structureView.TextEditorBasedStructureViewModel;
-import org.jetbrains.annotations.NonNls;
-import jakarta.annotation.Nonnull;
 
 import java.util.Comparator;
 
@@ -38,7 +36,7 @@ import java.util.Comparator;
 public class PropertiesFileStructureViewModel extends TextEditorBasedStructureViewModel implements PropertiesGroupingStructureViewModel {
   private final PropertiesFileImpl myPropertiesFile;
   private final GroupByWordPrefixes myGroupByWordPrefixes;
-  @NonNls public static final String KIND_SORTER_ID = "KIND_SORTER";
+  public static final String KIND_SORTER_ID = "KIND_SORTER";
   private static final Sorter KIND_SORTER = new Sorter() {
     public Comparator getComparator() {
       return new Comparator() {
@@ -54,13 +52,11 @@ public class PropertiesFileStructureViewModel extends TextEditorBasedStructureVi
       return true;
     }
 
-    @Nonnull
     public ActionPresentation getPresentation() {
       String name = IdeBundle.message("action.sort.by.type");
       return new ActionPresentationData(name, name, AllIcons.ObjectBrowser.SortByType);
     }
 
-    @Nonnull
     public String getName() {
       return KIND_SORTER_ID;
     }
@@ -82,17 +78,14 @@ public class PropertiesFileStructureViewModel extends TextEditorBasedStructureVi
     return myGroupByWordPrefixes.getSeparator();
   }
 
-  @Nonnull
   public StructureViewTreeElement getRoot() {
     return new PropertiesFileStructureViewElement(myPropertiesFile);
   }
 
-  @Nonnull
   public Grouper[] getGroupers() {
     return new Grouper[]{myGroupByWordPrefixes};
   }
 
-  @Nonnull
   public Sorter[] getSorters() {
     return new Sorter[] {Sorter.ALPHA_SORTER, KIND_SORTER};
   }
@@ -101,7 +94,6 @@ public class PropertiesFileStructureViewModel extends TextEditorBasedStructureVi
     return myPropertiesFile;
   }
 
-  @Nonnull
   protected Class[] getSuitableClasses() {
     return new Class[] {Property.class};
   }

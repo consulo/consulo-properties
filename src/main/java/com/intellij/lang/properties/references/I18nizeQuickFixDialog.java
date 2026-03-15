@@ -45,7 +45,6 @@ import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.fileType.FileType;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
 
-import jakarta.annotation.Nonnull;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import java.awt.*;
@@ -108,8 +107,8 @@ public class I18nizeQuickFixDialog extends DialogWrapper implements I18nizeQuick
 		}
 	}
 
-	public I18nizeQuickFixDialog(@Nonnull Project project,
-								 @Nonnull final PsiFile context,
+	public I18nizeQuickFixDialog(Project project,
+								 final PsiFile context,
 								 String defaultPropertyValue,
 								 DialogCustomization customization
 	)
@@ -117,8 +116,8 @@ public class I18nizeQuickFixDialog extends DialogWrapper implements I18nizeQuick
 		this(project, context, defaultPropertyValue, customization, false);
 	}
 
-	protected I18nizeQuickFixDialog(@Nonnull Project project,
-									@Nonnull final PsiFile context,
+	protected I18nizeQuickFixDialog(Project project,
+									final PsiFile context,
 									String defaultPropertyValue,
 									DialogCustomization customization,
 									boolean ancestorResponsible)
@@ -223,7 +222,6 @@ public class I18nizeQuickFixDialog extends DialogWrapper implements I18nizeQuick
 		return (JTextField) myKey.getEditor().getEditorComponent();
 	}
 
-	@Nonnull
 	protected List<String> getExistingValueKeys(String value)
 	{
 		if(!myCustomization.suggestExistingProperties)
@@ -571,7 +569,6 @@ public class I18nizeQuickFixDialog extends DialogWrapper implements I18nizeQuick
 		super.doOKAction();
 	}
 
-	@Nonnull
 	protected Action[] createActions()
 	{
 		return new Action[]{

@@ -36,8 +36,7 @@ import consulo.logging.Logger;
 import consulo.navigation.ItemPresentation;
 import consulo.ui.image.Image;
 import consulo.util.lang.StringUtil;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * @author max
@@ -45,7 +44,7 @@ import jakarta.annotation.Nullable;
 public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implements Property, PsiLanguageInjectionHost, PsiNameIdentifierOwner {
     private static final Logger LOG = Logger.getInstance(PropertyImpl.class);
 
-    public PropertyImpl(@Nonnull ASTNode node) {
+    public PropertyImpl(ASTNode node) {
         super(node);
     }
 
@@ -60,7 +59,7 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
 
     @RequiredWriteAction
     @Override
-    public PsiElement setName(@Nonnull String name) throws IncorrectOperationException {
+    public PsiElement setName(String name) throws IncorrectOperationException {
         PropertyImpl property = (PropertyImpl) PropertiesElementFactory.createProperty(getProject(), name, "xxx");
         ASTNode keyNode = getKeyNode();
         ASTNode newKeyNode = property.getKeyNode();
@@ -75,7 +74,7 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
     }
 
     @Override
-    public void setValue(@Nonnull String value) throws IncorrectOperationException {
+    public void setValue(String value) throws IncorrectOperationException {
         ASTNode node = getValueNode();
         PropertyImpl property = (PropertyImpl) PropertiesElementFactory.createProperty(getProject(), "xxx", value);
         ASTNode valueNode = property.getValueNode();
@@ -437,7 +436,6 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
     }
 
     @Override
-    @Nonnull
     public SearchScope getUseScope() {
         // property ref can occur in any file
         return GlobalSearchScope.allScope(getProject());
@@ -469,11 +467,10 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
     }
 
     @Override
-    public PsiLanguageInjectionHost updateText(@Nonnull String text) {
+    public PsiLanguageInjectionHost updateText(String text) {
         return new PropertyManipulator().handleContentChange(this, text);
     }
 
-    @Nonnull
     @Override
     public LiteralTextEscaper<? extends PsiLanguageInjectionHost> createLiteralTextEscaper() {
         return new PropertyImplEscaper(this);

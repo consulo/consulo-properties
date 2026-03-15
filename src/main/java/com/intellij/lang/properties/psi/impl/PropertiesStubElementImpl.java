@@ -25,7 +25,6 @@ import consulo.language.ast.ASTNode;
 import consulo.language.impl.psi.stub.StubBasedPsiElementBase;
 import consulo.language.psi.stub.IStubElementType;
 import consulo.language.psi.stub.StubElement;
-import jakarta.annotation.Nonnull;
 
 public class PropertiesStubElementImpl <T extends StubElement> extends StubBasedPsiElementBase<T> {
   public PropertiesStubElementImpl(final T stub, IStubElementType nodeType) {
@@ -36,7 +35,6 @@ public class PropertiesStubElementImpl <T extends StubElement> extends StubBased
     super(node);
   }
 
-  @Nonnull
   public Language getLanguage() {
     return PropertiesLanguage.INSTANCE;
   }

@@ -25,7 +25,6 @@ import consulo.language.Language;
 import consulo.language.ast.IElementType;
 import consulo.language.editor.completion.WordCompletionElementFilter;
 import consulo.language.version.LanguageVersion;
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class PropertiesWordCompletionFilter implements WordCompletionElementFilter
@@ -35,7 +34,6 @@ public class PropertiesWordCompletionFilter implements WordCompletionElementFilt
 		return WordCompletionElementFilter.super.isWordCompletionEnabledIn(element, languageVersion) || element == PropertiesStubElementTypes.PROPERTY;
 	}
 
-	@Nonnull
 	@Override
 	public Language getLanguage()
 	{

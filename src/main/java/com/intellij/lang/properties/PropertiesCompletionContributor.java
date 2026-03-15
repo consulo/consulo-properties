@@ -40,8 +40,7 @@ import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.util.collection.ArrayUtil;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.StringUtil;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -56,9 +55,9 @@ public class PropertiesCompletionContributor extends CompletionContributor {
         extend(null, PlatformPatterns.psiElement(), new CompletionProvider() {
             @RequiredReadAction
             @Override
-            public void addCompletions(@Nonnull CompletionParameters parameters,
-                                       @Nonnull ProcessingContext context,
-                                       @Nonnull CompletionResultSet result) {
+            public void addCompletions(CompletionParameters parameters,
+                                       ProcessingContext context,
+                                       CompletionResultSet result) {
                 doAdd(parameters, result);
             }
         });
@@ -93,7 +92,7 @@ public class PropertiesCompletionContributor extends CompletionContributor {
     }
 
     @RequiredReadAction
-    public static boolean hasMoreImportantReference(@Nonnull PsiReference[] references, @Nonnull PropertyReference propertyReference) {
+    public static boolean hasMoreImportantReference(PsiReference[] references, PropertyReference propertyReference) {
         return propertyReference.isSoft() && ContainerUtil.or(references, reference -> !reference.isSoft());
     }
 
@@ -129,7 +128,6 @@ public class PropertiesCompletionContributor extends CompletionContributor {
         }
     };
 
-    @Nonnull
     public static LookupElement[] getVariants(final PropertyReferenceBase propertyReference) {
         final Set<Object> variants = PropertiesPsiCompletionUtil.getPropertiesKeys(propertyReference);
         return getVariants(variants);
@@ -149,13 +147,12 @@ public class PropertiesCompletionContributor extends CompletionContributor {
     }
 
     @Override
-    public void beforeCompletion(@Nonnull CompletionInitializationContext context) {
+    public void beforeCompletion(CompletionInitializationContext context) {
         if (context.getFile() instanceof PropertiesFile) {
             context.setDummyIdentifier(CompletionUtilCore.DUMMY_IDENTIFIER_TRIMMED);
         }
     }
 
-    @Nonnull
     @Override
     public Language getLanguage() {
         return Language.ANY;

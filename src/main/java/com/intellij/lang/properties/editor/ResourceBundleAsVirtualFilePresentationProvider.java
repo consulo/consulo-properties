@@ -4,9 +4,8 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.application.presentation.TypePresentationProvider;
 import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.image.Image;
-import jakarta.annotation.Nonnull;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * @author VISTALL
@@ -15,7 +14,6 @@ import jakarta.annotation.Nullable;
 @ExtensionImpl
 public class ResourceBundleAsVirtualFilePresentationProvider extends TypePresentationProvider<ResourceBundleAsVirtualFile>
 {
-	@Nonnull
 	@Override
 	public Class<ResourceBundleAsVirtualFile> getItemClass()
 	{

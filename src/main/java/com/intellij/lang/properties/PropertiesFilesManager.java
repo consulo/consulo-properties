@@ -19,7 +19,6 @@ import consulo.annotation.component.ComponentScope;
 import consulo.annotation.component.ServiceAPI;
 import consulo.annotation.component.ServiceImpl;
 import consulo.project.Project;
-import jakarta.annotation.Nonnull;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -31,7 +30,6 @@ import jakarta.inject.Singleton;
 @ServiceImpl
 public class PropertiesFilesManager
 {
-	@Nonnull
 	public static PropertiesFilesManager getInstance(Project project)
 	{
 		return project.getInstance(PropertiesFilesManager.class);

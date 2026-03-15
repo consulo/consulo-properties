@@ -24,7 +24,6 @@ import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.VirtualFileSystem;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -40,7 +39,6 @@ public class ResourceBundleAsVirtualFile extends VirtualFile {
     return myResourceBundle;
   }
 
-  @Nonnull
   public VirtualFileSystem getFileSystem() {
     return LocalFileSystem.getInstance();
   }
@@ -49,7 +47,6 @@ public class ResourceBundleAsVirtualFile extends VirtualFile {
     return getName();
   }
 
-  @Nonnull
   public String getName() {
     return myResourceBundle.getBaseName();
   }
@@ -69,7 +66,7 @@ public class ResourceBundleAsVirtualFile extends VirtualFile {
     return myResourceBundle.hashCode();
   }
 
-  public void rename(Object requestor, @Nonnull String newName) throws IOException {
+  public void rename(Object requestor, String newName) throws IOException {
   }
 
   public boolean isWritable() {
@@ -96,7 +93,7 @@ public class ResourceBundleAsVirtualFile extends VirtualFile {
     throw new UnsupportedOperationException();
   }
 
-  public VirtualFile createChildData(Object requestor, @Nonnull String name) throws IOException {
+  public VirtualFile createChildData(Object requestor, String name) throws IOException {
     throw new UnsupportedOperationException();
   }
 
@@ -104,7 +101,7 @@ public class ResourceBundleAsVirtualFile extends VirtualFile {
     //todo
   }
 
-  public void move(Object requestor, @Nonnull VirtualFile newParent) throws IOException {
+  public void move(Object requestor, VirtualFile newParent) throws IOException {
     //todo
   }
 
@@ -112,12 +109,10 @@ public class ResourceBundleAsVirtualFile extends VirtualFile {
     throw new UnsupportedOperationException();
   }
 
-  @Nonnull
   public OutputStream getOutputStream(Object requestor, long newModificationStamp, long newTimeStamp) throws IOException {
     throw new UnsupportedOperationException();
   }
 
-  @Nonnull
   public byte[] contentsToByteArray() throws IOException {
     throw new UnsupportedOperationException();
   }

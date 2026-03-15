@@ -20,19 +20,17 @@ import consulo.language.editor.PlatformDataKeys;
 import consulo.project.Project;
 import consulo.util.dataholder.Key;
 
-import jakarta.annotation.Nonnull;
 
 /**
  * @author cdr
  */
 class ResourceBundleStructureViewComponent extends PropertiesGroupingStructureViewComponent
 {
-	@Nonnull
 	private final ResourceBundle myResourceBundle;
 
-	public ResourceBundleStructureViewComponent(@Nonnull Project project,
-			@Nonnull ResourceBundle resourceBundle,
-			@Nonnull ResourceBundleEditor editor)
+	public ResourceBundleStructureViewComponent(Project project,
+			ResourceBundle resourceBundle,
+			ResourceBundleEditor editor)
 	{
 		super(project, editor, new ResourceBundleStructureViewModel(project, resourceBundle));
 		myResourceBundle = resourceBundle;
@@ -40,7 +38,7 @@ class ResourceBundleStructureViewComponent extends PropertiesGroupingStructureVi
 	}
 
 	@Override
-	public Object getData(@Nonnull Key dataId)
+	public Object getData(Key dataId)
 	{
 		if(PlatformDataKeys.VIRTUAL_FILE == dataId)
 		{

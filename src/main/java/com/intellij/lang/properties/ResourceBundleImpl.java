@@ -29,28 +29,22 @@ import consulo.util.collection.SmartList;
 import consulo.util.lang.Comparing;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.VirtualFileManager;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
-import org.jetbrains.annotations.NonNls;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Supplier;
 
 public class ResourceBundleImpl implements ResourceBundle {
-    @Nonnull
     private final VirtualFile myBaseDirectory;
-    @Nonnull
     private final String myBaseName;
-    @NonNls
     private static final String RESOURCE_BUNDLE_PREFIX = "resourceBundle:";
 
-    public ResourceBundleImpl(@Nonnull VirtualFile baseDirectory, @Nonnull String baseName) {
+    public ResourceBundleImpl(VirtualFile baseDirectory, String baseName) {
         myBaseDirectory = baseDirectory;
         myBaseName = baseName;
     }
 
     @Override
-    @Nonnull
     public List<PropertiesFile> getPropertiesFiles(final Project project) {
         VirtualFile[] children = myBaseDirectory.getChildren();
         List<PropertiesFile> result = new SmartList<PropertiesFile>();
@@ -76,7 +70,6 @@ public class ResourceBundleImpl implements ResourceBundle {
     }
 
     @Override
-    @Nonnull
     public PropertiesFile getDefaultPropertiesFile(final Project project) {
         List<PropertiesFile> files = getPropertiesFiles(project);
         // put default properties file first
@@ -85,7 +78,6 @@ public class ResourceBundleImpl implements ResourceBundle {
     }
 
     @Override
-    @Nonnull
     public String getBaseName() {
         return myBaseName;
     }
@@ -143,7 +135,6 @@ public class ResourceBundleImpl implements ResourceBundle {
     }
 
     @Override
-    @Nonnull
     public VirtualFile getBaseDirectory() {
         return myBaseDirectory;
     }

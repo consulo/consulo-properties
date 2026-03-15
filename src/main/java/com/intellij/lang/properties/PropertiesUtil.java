@@ -34,8 +34,7 @@ import consulo.util.collection.SmartList;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -63,7 +62,6 @@ public class PropertiesUtil {
     return file instanceof PropertiesFile ? (PropertiesFile)file : XmlPropertiesFile.getPropertiesFile(file);
   }
 
-  @Nonnull
   public static List<IProperty> findPropertiesByKey(final Project project, final String key) {
     final GlobalSearchScope scope = GlobalSearchScope.allScope(project);
     final ArrayList<IProperty> properties =
@@ -93,8 +91,7 @@ public class PropertiesUtil {
     return true;
   }
 
-  @Nonnull
-  public static String getBaseName(@Nonnull VirtualFile virtualFile) {
+  public static String getBaseName(VirtualFile virtualFile) {
     String name = virtualFile.getNameWithoutExtension();
 
     List<String> parts = StringUtil.split(name, "_");
@@ -155,7 +152,6 @@ public class PropertiesUtil {
     });
   }
 
-  @Nonnull
   public static Locale getLocale(VirtualFile propertiesFile) {
     String name = propertiesFile.getNameWithoutExtension();
     String tail = StringUtil.trimStart(name, getBaseName(propertiesFile));
@@ -176,8 +172,7 @@ public class PropertiesUtil {
     return new Locale(language,country,variant);
   }
 
-  @Nonnull
-  public static List<IProperty> findAllProperties(Project project, @Nonnull ResourceBundle resourceBundle, String key) {
+  public static List<IProperty> findAllProperties(Project project, ResourceBundle resourceBundle, String key) {
     List<IProperty> result = new SmartList<IProperty>();
     List<PropertiesFile> propertiesFiles = resourceBundle.getPropertiesFiles(project);
     for (PropertiesFile propertiesFile : propertiesFiles) {
@@ -200,15 +195,15 @@ public class PropertiesUtil {
   }
 
   @Nullable
-  public static PropertiesFile getPropertiesFile(@Nonnull String bundleName,
-                                                 @Nonnull Module searchFromModule,
+  public static PropertiesFile getPropertiesFile(String bundleName,
+                                                 Module searchFromModule,
                                                  @Nullable Locale locale) {
     PropertiesReferenceManager manager = PropertiesReferenceManager.getInstance(searchFromModule.getProject());
     return manager.findPropertiesFile(searchFromModule, bundleName, locale);
   }
 
   @Nullable
-  public static String getPackageQualifiedName(@Nonnull PsiDirectory directory) {
+  public static String getPackageQualifiedName(PsiDirectory directory) {
     return ProjectRootManager.getInstance(directory.getProject()).getFileIndex().getPackageNameByDirectory(directory.getVirtualFile());
   }
 

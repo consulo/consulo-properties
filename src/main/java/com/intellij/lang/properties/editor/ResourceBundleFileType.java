@@ -20,20 +20,17 @@ import consulo.properties.localize.PropertiesLocalize;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.fileType.FakeFileType;
 
-import jakarta.annotation.Nonnull;
 
 /**
  * @author cdr
  */
 class ResourceBundleFileType extends FakeFileType
 {
-	@Nonnull
 	public String getId()
 	{
 		return "ResourceBundle";
 	}
 
-	@Nonnull
 	public LocalizeValue getDescription()
 	{
 		return PropertiesLocalize.resourcebundleFakeFileTypeDescription();

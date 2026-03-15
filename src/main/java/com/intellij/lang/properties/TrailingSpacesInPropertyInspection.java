@@ -38,8 +38,7 @@ import consulo.project.Project;
 import consulo.properties.localize.PropertiesLocalize;
 import consulo.util.collection.SmartList;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
@@ -48,7 +47,6 @@ import java.util.List;
  */
 @ExtensionImpl
 public class TrailingSpacesInPropertyInspection extends PropertySuppressableInspectionBase {
-    @Nonnull
     @Override
     public LocalizeValue getDisplayName() {
         return PropertiesLocalize.trailSpacesPropertyInspectionDisplayName();
@@ -60,13 +58,11 @@ public class TrailingSpacesInPropertyInspection extends PropertySuppressableInsp
         return PropertiesLanguage.INSTANCE;
     }
 
-    @Nonnull
     @Override
     public String getShortName() {
         return "TrailingSpacesInProperty";
     }
 
-    @Nonnull
     @Override
     public HighlightDisplayLevel getDefaultLevel() {
         return HighlightDisplayLevel.WARNING;
@@ -74,7 +70,7 @@ public class TrailingSpacesInPropertyInspection extends PropertySuppressableInsp
 
     @Override
     @RequiredReadAction
-    public ProblemDescriptor[] checkFile(@Nonnull PsiFile file, @Nonnull final InspectionManager manager, final boolean isOnTheFly) {
+    public ProblemDescriptor[] checkFile(PsiFile file, final InspectionManager manager, final boolean isOnTheFly) {
         if (!(file instanceof PropertiesFile propertiesFile)) {
             return null;
         }
@@ -128,7 +124,6 @@ public class TrailingSpacesInPropertyInspection extends PropertySuppressableInsp
     private static class RemoveTrailingSpacesFix implements LocalQuickFix {
         private static final RemoveTrailingSpacesFix INSTANCE = new RemoveTrailingSpacesFix();
 
-        @Nonnull
         @Override
         public LocalizeValue getName() {
             return LocalizeValue.localizeTODO("Remove Trailing Spaces");
@@ -136,7 +131,7 @@ public class TrailingSpacesInPropertyInspection extends PropertySuppressableInsp
 
         @Override
         @RequiredWriteAction
-        public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+        public void applyFix(Project project, ProblemDescriptor descriptor) {
             PsiElement element = descriptor.getPsiElement();
             PsiElement parent = element == null ? null : element.getParent();
             if (!(parent instanceof PropertyImpl)) {

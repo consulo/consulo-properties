@@ -15,8 +15,7 @@ import consulo.virtualFileSystem.encoding.EncodingManagerListener;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
 import jakarta.inject.Inject;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collection;
 
 @TopicImpl(ComponentScope.PROJECT)
@@ -31,7 +30,7 @@ public class PropertiesFilesManagerEncodingListener implements EncodingManagerLi
 	}
 
 	@Override
-	public void propertyChanged(@Nullable Object document, @Nonnull String propertyName, Object oldValue, Object newValue)
+	public void propertyChanged(@Nullable Object document, String propertyName, Object oldValue, Object newValue)
 	{
 		if(EncodingManager.PROP_NATIVE2ASCII_SWITCH.equals(propertyName) ||
 				EncodingManager.PROP_PROPERTIES_FILES_ENCODING.equals(propertyName))

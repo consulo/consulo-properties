@@ -27,7 +27,6 @@ import consulo.language.editor.folding.CustomFoldingBuilder;
 import consulo.language.editor.folding.FoldingDescriptor;
 import consulo.language.psi.PsiElement;
 
-import jakarta.annotation.Nonnull;
 import java.util.List;
 
 /**
@@ -38,21 +37,21 @@ public class PropertiesFoldingBuilder extends CustomFoldingBuilder
 {
 	@RequiredReadAction
 	@Override
-	protected void buildLanguageFoldRegions(@Nonnull List<FoldingDescriptor> descriptors,
-											@Nonnull PsiElement root,
-											@Nonnull Document document,
+	protected void buildLanguageFoldRegions(List<FoldingDescriptor> descriptors,
+											PsiElement root,
+											Document document,
 											boolean quick)
 	{
 	}
 
 	@Override
-	protected String getLanguagePlaceholderText(@Nonnull ASTNode node, @Nonnull TextRange range)
+	protected String getLanguagePlaceholderText(ASTNode node, TextRange range)
 	{
 		return "";
 	}
 
 	@Override
-	protected boolean isRegionCollapsedByDefault(@Nonnull ASTNode node)
+	protected boolean isRegionCollapsedByDefault(ASTNode node)
 	{
 		return false;
 	}
@@ -63,7 +62,6 @@ public class PropertiesFoldingBuilder extends CustomFoldingBuilder
 		return node.getPsi() instanceof PropertiesFile;
 	}
 
-	@Nonnull
 	@Override
 	public Language getLanguage()
 	{

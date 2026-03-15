@@ -38,7 +38,6 @@ import consulo.project.ui.view.tree.PsiFileNode;
 import consulo.project.ui.view.tree.ViewSettings;
 import consulo.ui.ex.tree.PresentationData;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,7 +48,6 @@ public class ResourceBundleNode extends ProjectViewNode<ResourceBundle> {
     super(project, resourceBundle, settings);
   }
 
-  @Nonnull
   public Collection<AbstractTreeNode> getChildren() {
     List<PropertiesFile> propertiesFiles = getValue().getPropertiesFiles(myProject);
     Collection<AbstractTreeNode> children = new ArrayList<AbstractTreeNode>();
@@ -60,7 +58,7 @@ public class ResourceBundleNode extends ProjectViewNode<ResourceBundle> {
     return children;
   }
 
-  public boolean contains(@Nonnull VirtualFile file) {
+  public boolean contains(VirtualFile file) {
     if (!file.isValid()) return false;
     PsiFile psiFile = PsiManager.getInstance(getProject()).findFile(file);
     PropertiesFile propertiesFile = PropertiesUtil.getPropertiesFile(psiFile);

@@ -21,7 +21,6 @@ import consulo.fileEditor.structureView.StructureViewTreeElement;
 import consulo.language.icon.IconDescriptorUpdaters;
 import consulo.navigation.ItemPresentation;
 import consulo.ui.image.Image;
-import jakarta.annotation.Nonnull;
 
 /**
  * @author max
@@ -54,13 +53,11 @@ public class PropertiesStructureViewElement implements StructureViewTreeElement 
     return myProperty.canNavigateToSource();
   }
 
-  @Nonnull
   @Override
   public StructureViewTreeElement[] getChildren() {
     return EMPTY_ARRAY;
   }
 
-  @Nonnull
   @Override
   public ItemPresentation getPresentation() {
     return new ItemPresentation() {

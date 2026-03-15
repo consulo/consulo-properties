@@ -31,8 +31,7 @@ import consulo.project.DumbService;
 import consulo.project.Project;
 import consulo.util.collection.ArrayUtil;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -60,15 +59,13 @@ public class PropertiesReferenceManager {
         myDumbService = dumbService;
     }
 
-    @Nonnull
     @RequiredReadAction
-    public List<PropertiesFile> findPropertiesFiles(@Nonnull final Module module, final String bundleName) {
+    public List<PropertiesFile> findPropertiesFiles(final Module module, final String bundleName) {
         return findPropertiesFiles(GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(module), bundleName, BundleNameEvaluator.DEFAULT);
     }
 
-    @Nonnull
     @RequiredReadAction
-    public List<PropertiesFile> findPropertiesFiles(@Nonnull final GlobalSearchScope searchScope,
+    public List<PropertiesFile> findPropertiesFiles(final GlobalSearchScope searchScope,
                                                     final String bundleName,
                                                     BundleNameEvaluator bundleNameEvaluator) {
 
@@ -112,7 +109,7 @@ public class PropertiesReferenceManager {
     }
 
     @RequiredReadAction
-    public String[] getPropertyFileBaseNames(@Nonnull final GlobalSearchScope searchScope, final BundleNameEvaluator bundleNameEvaluator) {
+    public String[] getPropertyFileBaseNames(final GlobalSearchScope searchScope, final BundleNameEvaluator bundleNameEvaluator) {
         final ArrayList<String> result = new ArrayList<>();
         processPropertiesFiles(searchScope, (baseName, propertiesFile) -> {
             result.add(baseName);
@@ -122,14 +119,14 @@ public class PropertiesReferenceManager {
     }
 
     @RequiredReadAction
-    public boolean processAllPropertiesFiles(@Nonnull final PropertiesFileProcessor processor) {
+    public boolean processAllPropertiesFiles(final PropertiesFileProcessor processor) {
         return processPropertiesFiles(GlobalSearchScope.allScope(myPsiManager.getProject()), processor, BundleNameEvaluator.DEFAULT);
     }
 
     @RequiredReadAction
-    public boolean processPropertiesFiles(@Nonnull final GlobalSearchScope searchScope,
-                                          @RequiredReadAction @Nonnull final PropertiesFileProcessor processor,
-                                          @Nonnull final BundleNameEvaluator evaluator) {
+    public boolean processPropertiesFiles(final GlobalSearchScope searchScope,
+                                          @RequiredReadAction final PropertiesFileProcessor processor,
+                                          final BundleNameEvaluator evaluator) {
 
         for (VirtualFile file : FileTypeIndex.getFiles(PropertiesFileType.INSTANCE, searchScope)) {
             if (!processFile(file, evaluator, processor)) {

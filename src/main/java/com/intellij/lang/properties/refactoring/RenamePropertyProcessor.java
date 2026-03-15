@@ -27,7 +27,6 @@ import consulo.localize.LocalizeValue;
 import consulo.usage.UsageInfo;
 import consulo.util.lang.Comparing;
 
-import jakarta.annotation.Nonnull;
 
 import java.util.List;
 import java.util.Map;
@@ -35,7 +34,7 @@ import java.util.Map;
 @ExtensionImpl
 public class RenamePropertyProcessor extends RenamePsiElementProcessor {
     @Override
-    public boolean canProcessElement(@Nonnull final PsiElement element) {
+    public boolean canProcessElement(final PsiElement element) {
         return element instanceof IProperty;
     }
 
@@ -52,7 +51,7 @@ public class RenamePropertyProcessor extends RenamePsiElementProcessor {
 
     @Override
     public void findCollisions(
-        @Nonnull PsiElement element,
+        PsiElement element,
         final String newName,
         Map<? extends PsiElement, String> allRenames,
         List<UsageInfo> result

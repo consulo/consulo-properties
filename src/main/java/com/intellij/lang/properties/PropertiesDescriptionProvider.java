@@ -23,15 +23,14 @@ import consulo.language.psi.ElementDescriptionProvider;
 import consulo.language.psi.PsiElement;
 import consulo.usage.UsageViewLongNameLocation;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * @author yole
  */
 @ExtensionImpl
 public class PropertiesDescriptionProvider implements ElementDescriptionProvider {
-  public String getElementDescription(@Nonnull final PsiElement element, @Nullable final ElementDescriptionLocation location) {
+  public String getElementDescription(final PsiElement element, @Nullable final ElementDescriptionLocation location) {
     if (element instanceof IProperty) {
       if (location instanceof DeleteTypeDescriptionLocation) {
         int count = ((DeleteTypeDescriptionLocation) location).isPlural() ? 2 : 1;

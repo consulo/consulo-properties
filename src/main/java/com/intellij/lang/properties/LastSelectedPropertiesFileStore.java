@@ -34,11 +34,9 @@ import consulo.util.io.FileUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.VirtualFileManager;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import jakarta.inject.Singleton;
 import org.jdom.Element;
-import org.jetbrains.annotations.NonNls;
 
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +53,6 @@ public class LastSelectedPropertiesFileStore implements PersistentStateComponent
 {
 	private final Map<String, String> lastSelectedUrls = new HashMap<String, String>();
 	private String lastSelectedFileUrl;
-	@NonNls
 	private static final String PROPERTIES_FILE_STATISTICS_KEY = "PROPERTIES_FILE";
 
 	public static LastSelectedPropertiesFileStore getInstance()
@@ -90,7 +87,7 @@ public class LastSelectedPropertiesFileStore implements PersistentStateComponent
 		return null;
 	}
 
-	public static int getUseCount(@Nonnull String path)
+	public static int getUseCount(String path)
 	{
 		return StatisticsManager.getInstance().getUseCount(new StatisticsInfo(PROPERTIES_FILE_STATISTICS_KEY, path));
 	}
@@ -116,13 +113,13 @@ public class LastSelectedPropertiesFileStore implements PersistentStateComponent
 		}
 	}
 
-	private void readExternal(@NonNls Element element)
+	private void readExternal(Element element)
 	{
 		lastSelectedUrls.clear();
 		List list = element.getChildren("entry");
 		for(Object o : list)
 		{
-			@NonNls Element child = (Element) o;
+			Element child = (Element) o;
 			String context = child.getAttributeValue("context");
 			String url = child.getAttributeValue("url");
 			VirtualFile propFile = VirtualFileManager.getInstance().findFileByUrl(url);
@@ -135,13 +132,13 @@ public class LastSelectedPropertiesFileStore implements PersistentStateComponent
 		lastSelectedFileUrl = element.getAttributeValue("lastSelectedFileUrl");
 	}
 
-	private void writeExternal(@NonNls Element element)
+	private void writeExternal(Element element)
 	{
 		for(Map.Entry<String, String> entry : lastSelectedUrls.entrySet())
 		{
 			String context = entry.getKey();
 			String url = entry.getValue();
-			@NonNls Element child = new Element("entry");
+			Element child = new Element("entry");
 			child.setAttribute("context", context);
 			child.setAttribute("url", url);
 			element.addContent(child);

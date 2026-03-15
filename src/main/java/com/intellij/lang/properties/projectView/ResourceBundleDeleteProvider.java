@@ -25,7 +25,6 @@ import consulo.project.Project;
 import consulo.ui.ex.DeleteProvider;
 import consulo.util.collection.ContainerUtil;
 
-import jakarta.annotation.Nonnull;
 import java.util.List;
 import java.util.function.Function;
 
@@ -42,7 +41,7 @@ class ResourceBundleDeleteProvider implements DeleteProvider
 		myResourceBundle = resourceBundle;
 	}
 
-	public void deleteElement(@Nonnull DataContext dataContext)
+	public void deleteElement(DataContext dataContext)
 	{
 		final Project project = dataContext.getData(CommonDataKeys.PROJECT);
 		List<PropertiesFile> propertiesFiles = myResourceBundle.getPropertiesFiles(project);
@@ -50,7 +49,7 @@ class ResourceBundleDeleteProvider implements DeleteProvider
 		new SafeDeleteHandler().invoke(project, ContainerUtil.map2Array(propertiesFiles, PsiElement.class, MAPPER), dataContext);
 	}
 
-	public boolean canDeleteElement(@Nonnull DataContext dataContext)
+	public boolean canDeleteElement(DataContext dataContext)
 	{
 		final Project project = dataContext.getData(CommonDataKeys.PROJECT);
 		return project != null;

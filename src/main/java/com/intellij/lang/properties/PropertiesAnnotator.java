@@ -41,7 +41,6 @@ import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.properties.localize.PropertiesLocalize;
 import consulo.util.lang.Pair;
-import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 
@@ -51,7 +50,7 @@ import java.util.Collection;
 public class PropertiesAnnotator implements Annotator {
     @Override
     @RequiredReadAction
-    public void annotate(@Nonnull PsiElement element, @Nonnull AnnotationHolder holder) {
+    public void annotate(PsiElement element, AnnotationHolder holder) {
         if (!(element instanceof IProperty)) {
             return;
         }
@@ -103,7 +102,6 @@ public class PropertiesAnnotator implements Annotator {
                     annotation.setEnforcedTextAttributes(attributes);
                     if (key == PropertiesHighlighter.PROPERTIES_INVALID_STRING_ESCAPE) {
                         annotation.registerFix(new SyntheticIntentionAction() {
-                            @Nonnull
                             @Override
                             public LocalizeValue getText() {
                                 return PropertiesLocalize.unescape();
@@ -111,7 +109,7 @@ public class PropertiesAnnotator implements Annotator {
 
                             @Override
                             @RequiredReadAction
-                            public boolean isAvailable(@Nonnull Project project, Editor editor, PsiFile file) {
+                            public boolean isAvailable(Project project, Editor editor, PsiFile file) {
                                 if (!property.isValid() || !property.getManager().isInProject(property)) {
                                     return false;
                                 }
@@ -123,7 +121,7 @@ public class PropertiesAnnotator implements Annotator {
 
                             @Override
                             @RequiredWriteAction
-                            public void invoke(@Nonnull Project project, Editor editor, PsiFile file) {
+                            public void invoke(Project project, Editor editor, PsiFile file) {
                                 if (!FileModificationService.getInstance().prepareFileForWrite(file)) {
                                     return;
                                 }

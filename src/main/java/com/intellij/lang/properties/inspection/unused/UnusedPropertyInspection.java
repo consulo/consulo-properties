@@ -38,27 +38,23 @@ import consulo.language.psi.search.ReferencesSearch;
 import consulo.localize.LocalizeValue;
 import consulo.module.Module;
 import consulo.properties.localize.PropertiesLocalize;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * @author cdr
  */
 @ExtensionImpl
 public class UnusedPropertyInspection extends PropertySuppressableInspectionBase {
-    @Nonnull
     @Override
     public LocalizeValue getDisplayName() {
         return PropertiesLocalize.unusedPropertyInspectionDisplayName();
     }
 
-    @Nonnull
     @Override
     public String getShortName() {
         return "UnusedProperty";
     }
 
-    @Nonnull
     @Override
     public HighlightDisplayLevel getDefaultLevel() {
         return HighlightDisplayLevel.WARNING;
@@ -70,14 +66,13 @@ public class UnusedPropertyInspection extends PropertySuppressableInspectionBase
         return PropertiesLanguage.INSTANCE;
     }
 
-    @Nonnull
     @Override
     @RequiredReadAction
     public PsiElementVisitor buildVisitor(
-        @Nonnull final ProblemsHolder holder,
+        final ProblemsHolder holder,
         final boolean isOnTheFly,
-        @Nonnull final LocalInspectionToolSession session,
-        @Nonnull Object state
+        final LocalInspectionToolSession session,
+        Object state
     ) {
         final PsiFile file = session.getFile();
         Module module = file.getModule();

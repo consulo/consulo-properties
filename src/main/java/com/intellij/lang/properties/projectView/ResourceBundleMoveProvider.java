@@ -25,7 +25,7 @@ import consulo.language.editor.refactoring.move.fileOrDirectory.MoveFilesOrDirec
 import consulo.language.psi.PsiDirectory;
 import consulo.language.psi.PsiElement;
 import consulo.logging.Logger;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.Set;

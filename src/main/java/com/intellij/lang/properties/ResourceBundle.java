@@ -27,21 +27,16 @@ import consulo.project.Project;
 import consulo.util.dataholder.Key;
 import consulo.virtualFileSystem.VirtualFile;
 
-import jakarta.annotation.Nonnull;
 import java.util.List;
 
 public interface ResourceBundle {
   Key<ResourceBundle[]> ARRAY_DATA_KEY = Key.create("resource.bundle.array");
 
-  @Nonnull
   List<PropertiesFile> getPropertiesFiles(final Project project);
 
-  @Nonnull
   PropertiesFile getDefaultPropertiesFile(final Project project);
 
-  @Nonnull
   String getBaseName();
 
-  @Nonnull
   VirtualFile getBaseDirectory();
 }
