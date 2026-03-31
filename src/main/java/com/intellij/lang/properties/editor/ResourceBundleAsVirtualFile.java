@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * @author Alexey
- */
 package com.intellij.lang.properties.editor;
 
 import com.intellij.lang.properties.ResourceBundle;
+import consulo.virtualFileSystem.BaseVirtualFile;
 import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.VirtualFileSystem;
@@ -28,108 +25,134 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class ResourceBundleAsVirtualFile extends VirtualFile {
-  private final ResourceBundle myResourceBundle;
+/**
+ * @author Alexey
+ */
+public class ResourceBundleAsVirtualFile extends BaseVirtualFile {
+    private final ResourceBundle myResourceBundle;
 
-  public ResourceBundleAsVirtualFile(ResourceBundle resourceBundle) {
-    myResourceBundle = resourceBundle;
-  }
+    public ResourceBundleAsVirtualFile(ResourceBundle resourceBundle) {
+        myResourceBundle = resourceBundle;
+    }
 
-  public ResourceBundle getResourceBundle() {
-    return myResourceBundle;
-  }
+    public ResourceBundle getResourceBundle() {
+        return myResourceBundle;
+    }
 
-  public VirtualFileSystem getFileSystem() {
-    return LocalFileSystem.getInstance();
-  }
+    @Override
+    public VirtualFileSystem getFileSystem() {
+        return LocalFileSystem.getInstance();
+    }
 
-  public String getPath() {
-    return getName();
-  }
+    @Override
+    public String getPath() {
+        return getName();
+    }
 
-  public String getName() {
-    return myResourceBundle.getBaseName();
-  }
+    @Override
+    public String getName() {
+        return myResourceBundle.getBaseName();
+    }
 
-  public boolean equals(final Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-    final ResourceBundleAsVirtualFile resourceBundleAsVirtualFile = (ResourceBundleAsVirtualFile)o;
+        ResourceBundleAsVirtualFile that = (ResourceBundleAsVirtualFile) o;
 
-    if (!myResourceBundle.equals(resourceBundleAsVirtualFile.myResourceBundle)) return false;
+        return myResourceBundle.equals(that.myResourceBundle);
+    }
 
-    return true;
-  }
+    @Override
+    public int hashCode() {
+        return myResourceBundle.hashCode();
+    }
 
-  public int hashCode() {
-    return myResourceBundle.hashCode();
-  }
+    @Override
+    public void rename(Object requestor, String newName) throws IOException {
+    }
 
-  public void rename(Object requestor, String newName) throws IOException {
-  }
+    @Override
+    public boolean isWritable() {
+        return true;
+    }
 
-  public boolean isWritable() {
-    return true;
-  }
+    @Override
+    public boolean isDirectory() {
+        return false;
+    }
 
-  public boolean isDirectory() {
-    return false;
-  }
+    @Override
+    public boolean isValid() {
+        return true;
+    }
 
-  public boolean isValid() {
-    return true;
-  }
+    @Override
+    public VirtualFile getParent() {
+        return myResourceBundle.getBaseDirectory();
+    }
 
-  public VirtualFile getParent() {
-    return myResourceBundle.getBaseDirectory();
-  }
+    @Override
+    public VirtualFile[] getChildren() {
+        return EMPTY_ARRAY;
+    }
 
-  public VirtualFile[] getChildren() {
-    return EMPTY_ARRAY;
-  }
+    @Override
+    public VirtualFile createChildDirectory(Object requestor, String name) throws IOException {
+        throw new UnsupportedOperationException();
+    }
 
-  public VirtualFile createChildDirectory(Object requestor, String name) throws IOException {
-    throw new UnsupportedOperationException();
-  }
+    @Override
+    public VirtualFile createChildData(Object requestor, String name) throws IOException {
+        throw new UnsupportedOperationException();
+    }
 
-  public VirtualFile createChildData(Object requestor, String name) throws IOException {
-    throw new UnsupportedOperationException();
-  }
+    @Override
+    public void delete(Object requestor) throws IOException {
+        //todo
+    }
 
-  public void delete(Object requestor) throws IOException {
-    //todo
-  }
+    @Override
+    public void move(Object requestor, VirtualFile newParent) throws IOException {
+        //todo
+    }
 
-  public void move(Object requestor, VirtualFile newParent) throws IOException {
-    //todo
-  }
+    @Override
+    public InputStream getInputStream() throws IOException {
+        throw new UnsupportedOperationException();
+    }
 
-  public InputStream getInputStream() throws IOException {
-    throw new UnsupportedOperationException();
-  }
+    @Override
+    public OutputStream getOutputStream(Object requestor, long newModificationStamp, long newTimeStamp) throws IOException {
+        throw new UnsupportedOperationException();
+    }
 
-  public OutputStream getOutputStream(Object requestor, long newModificationStamp, long newTimeStamp) throws IOException {
-    throw new UnsupportedOperationException();
-  }
+    @Override
+    public byte[] contentsToByteArray() throws IOException {
+        throw new UnsupportedOperationException();
+    }
 
-  public byte[] contentsToByteArray() throws IOException {
-    throw new UnsupportedOperationException();
-  }
+    @Override
+    public long getModificationStamp() {
+        return 0;
+    }
 
-  public long getModificationStamp() {
-    return 0;
-  }
+    @Override
+    public long getTimeStamp() {
+        return 0;
+    }
 
-  public long getTimeStamp() {
-    return 0;
-  }
+    @Override
+    public long getLength() {
+        return 0;
+    }
 
-  public long getLength() {
-    return 0;
-  }
-
-  public void refresh(boolean asynchronous, boolean recursive, Runnable postRunnable) {
-
-  }
+    @Override
+    public void refresh(boolean asynchronous, boolean recursive, Runnable postRunnable) {
+    }
 }
