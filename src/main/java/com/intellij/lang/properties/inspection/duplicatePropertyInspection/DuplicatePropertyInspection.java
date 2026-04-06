@@ -210,7 +210,7 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool {
                             if (original.isCanceled()) {
                                 return false;
                             }
-                            original.setText2Value(PropertiesLocalize.searchingForPropertyKeyProgressText(property.getUnescapedKey()));
+                            original.setText2(PropertiesLocalize.searchingForPropertyKeyProgressText(property.getUnescapedKey()));
                         }
                         processTextUsages(processedValueToFiles, property.getValue(), processedKeyToFiles, searchHelper, scope);
                         processTextUsages(processedKeyToFiles, property.getUnescapedKey(), processedValueToFiles,
@@ -291,7 +291,7 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool {
     ) {
         for (final String value : valueToFiles.keySet()) {
             if (progress != null) {
-                progress.setText2Value(InspectionLocalize.duplicatePropertyValueProgressIndicatorText(value));
+                progress.setText2(InspectionLocalize.duplicatePropertyValueProgressIndicatorText(value));
                 progress.checkCanceled();
             }
             if (value.length() == 0) {
@@ -345,7 +345,7 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool {
     ) {
         for (String key : keyToFiles.keySet()) {
             if (progress != null) {
-                progress.setText2Value(InspectionLocalize.duplicatePropertyKeyProgressIndicatorText(key));
+                progress.setText2(InspectionLocalize.duplicatePropertyKeyProgressIndicatorText(key));
                 if (progress.isCanceled()) {
                     throw new ProcessCanceledException();
                 }
@@ -398,7 +398,7 @@ public class DuplicatePropertyInspection extends GlobalSimpleInspectionTool {
     ) {
         for (String key : keyToDifferentValues.keySet()) {
             if (progress != null) {
-                progress.setText2Value(InspectionLocalize.duplicatePropertyDiffKeyProgressIndicatorText(key));
+                progress.setText2(InspectionLocalize.duplicatePropertyDiffKeyProgressIndicatorText(key));
                 if (progress.isCanceled()) {
                     throw new ProcessCanceledException();
                 }
