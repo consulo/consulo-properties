@@ -96,7 +96,7 @@ public class UnusedPropertyInspection extends PropertySuppressableInspectionBase
                     if (original.isCanceled()) {
                         return;
                     }
-                    original.setTextValue(PropertiesLocalize.searchingForPropertyKeyProgressText(property.getUnescapedKey()));
+                    original.setText(PropertiesLocalize.searchingForPropertyKeyProgressText(property.getUnescapedKey()));
                 }
 
                 if (ImplicitPropertyUsageProvider.isImplicitlyUsed(property)) {
