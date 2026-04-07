@@ -33,9 +33,9 @@ import consulo.util.collection.MultiMap;
 import consulo.util.dataholder.Key;
 import consulo.util.dataholder.UserDataHolderBase;
 import consulo.virtualFileSystem.VirtualFile;
-import consulo.xml.psi.xml.XmlFile;
-import consulo.xml.psi.xml.XmlTag;
 
+import consulo.xml.language.psi.XmlFile;
+import consulo.xml.language.psi.XmlTag;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;

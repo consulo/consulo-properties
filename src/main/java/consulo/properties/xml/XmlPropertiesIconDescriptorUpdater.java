@@ -23,7 +23,7 @@ import consulo.language.icon.IconDescriptor;
 import consulo.language.icon.IconDescriptorUpdater;
 import consulo.language.psi.PsiElement;
 import consulo.properties.icon.PropertiesIconGroup;
-import consulo.xml.psi.xml.XmlFile;
+import consulo.xml.language.psi.XmlFile;
 
 
 /**

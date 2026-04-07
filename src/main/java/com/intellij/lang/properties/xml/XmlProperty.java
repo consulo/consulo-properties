@@ -7,7 +7,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiInvalidElementAccessException;
 import consulo.language.psi.PsiTarget;
 import consulo.language.util.IncorrectOperationException;
-import consulo.xml.psi.xml.XmlTag;
+import consulo.xml.language.psi.XmlTag;
 
 /**
  * @author Dmitry Avdeev
