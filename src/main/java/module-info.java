@@ -13,8 +13,7 @@ module com.intellij.properties
 
     requires it.unimi.dsi.fastutil;
 
-    requires com.intellij.xml;
-
+    requires com.intellij.xml.api;
 
     requires consulo.util.xml.fast.reader;
 

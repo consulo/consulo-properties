@@ -25,7 +25,7 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.language.util.ProcessingContext;
 import consulo.xml.language.XMLLanguage;
 import consulo.xml.language.psi.XmlTag;
-import consulo.xml.patterns.XmlPatterns;
+import consulo.xml.language.psi.pattern.XmlPatterns;
 
 /**
  * @author Dmitry Avdeev
