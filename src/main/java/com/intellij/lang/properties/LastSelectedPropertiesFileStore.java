@@ -22,7 +22,7 @@ import consulo.annotation.component.ServiceImpl;
 import consulo.component.persist.PersistentStateComponent;
 import consulo.component.persist.State;
 import consulo.component.persist.Storage;
-import consulo.ide.ServiceManager;
+import consulo.application.Application;
 import consulo.language.file.inject.VirtualFileWindow;
 import consulo.language.psi.PsiFile;
 import consulo.language.statistician.StatisticsInfo;
@@ -57,7 +57,7 @@ public class LastSelectedPropertiesFileStore implements PersistentStateComponent
 
 	public static LastSelectedPropertiesFileStore getInstance()
 	{
-		return ServiceManager.getService(LastSelectedPropertiesFileStore.class);
+		return Application.get().getInstance(LastSelectedPropertiesFileStore.class);
 	}
 
 	@Nullable

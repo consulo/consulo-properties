@@ -10,6 +10,12 @@ module com.intellij.properties
 
     requires consulo.ide.api;
     requires consulo.language.impl;
+    requires consulo.language.editor.refactoring.api;
+    requires consulo.language.copyright.api;
+    requires consulo.file.editor.api;
+    requires consulo.project.ui.view.api;
+    requires consulo.ui.ex.api;
+    requires consulo.bookmark.ui.view.api;
 
     requires it.unimi.dsi.fastutil;
 
