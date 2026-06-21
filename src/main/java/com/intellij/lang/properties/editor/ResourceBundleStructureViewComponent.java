@@ -16,6 +16,7 @@
 package com.intellij.lang.properties.editor;
 
 import com.intellij.lang.properties.ResourceBundle;
+import consulo.dataContext.DataSink;
 import consulo.language.editor.PlatformDataKeys;
 import consulo.project.Project;
 import consulo.util.dataholder.Key;
@@ -24,33 +25,27 @@ import consulo.util.dataholder.Key;
 /**
  * @author cdr
  */
-class ResourceBundleStructureViewComponent extends PropertiesGroupingStructureViewComponent
-{
-	private final ResourceBundle myResourceBundle;
+class ResourceBundleStructureViewComponent extends PropertiesGroupingStructureViewComponent {
+    private final ResourceBundle myResourceBundle;
 
-	public ResourceBundleStructureViewComponent(Project project,
-			ResourceBundle resourceBundle,
-			ResourceBundleEditor editor)
-	{
-		super(project, editor, new ResourceBundleStructureViewModel(project, resourceBundle));
-		myResourceBundle = resourceBundle;
-		showToolbar();
-	}
+    public ResourceBundleStructureViewComponent(Project project,
+                                                ResourceBundle resourceBundle,
+                                                ResourceBundleEditor editor) {
+        super(project, editor, new ResourceBundleStructureViewModel(project, resourceBundle));
+        myResourceBundle = resourceBundle;
+        showToolbar();
+    }
 
-	@Override
-	public Object getData(Key dataId)
-	{
-		if(PlatformDataKeys.VIRTUAL_FILE == dataId)
-		{
-			return new ResourceBundleAsVirtualFile(myResourceBundle);
-		}
-		return super.getData(dataId);
-	}
+    @Override
+    public void uiDataSnapshot(DataSink sink) {
+        sink.lazy(PlatformDataKeys.VIRTUAL_FILE, () -> new ResourceBundleAsVirtualFile(myResourceBundle));
 
-	@Override
-	protected boolean showScrollToFromSourceActions()
-	{
-		return false;
-	}
+        super.uiDataSnapshot(sink);
+    }
+
+    @Override
+    protected boolean showScrollToFromSourceActions() {
+        return false;
+    }
 }
 
