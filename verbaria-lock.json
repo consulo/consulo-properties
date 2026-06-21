@@ -3,19 +3,11 @@
   "server" : "https://i.verbaria.org/",
   "project" : "consulo-properties",
   "projectVersion" : "master",
-  "generatedAt" : "2026-06-21T15:07:40.377119354Z",
+  "generatedAt" : "2026-06-21T15:09:00.881228386Z",
   "documents" : {
     "consulo.properties.PropertiesLocalize" : {
       "source" : {
         "revision" : 1
-      },
-      "translations" : {
-        "en-US" : {
-          "sig" : "e9ee21ff329fb41d08a9f5785cf6b283",
-          "state" : "Approved",
-          "total" : 53,
-          "translators" : [ "Valery Semenchuk <vistall.valeriy@gmail.com>" ]
-        }
       }
     }
   }
