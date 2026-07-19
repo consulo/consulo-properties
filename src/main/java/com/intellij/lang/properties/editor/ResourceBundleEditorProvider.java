@@ -19,6 +19,7 @@ import com.intellij.lang.properties.PropertiesUtil;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import consulo.annotation.component.ExtensionImpl;
+import consulo.application.Application;
 import consulo.application.ApplicationManager;
 import consulo.application.dumb.DumbAware;
 import consulo.application.util.function.Computable;
@@ -30,81 +31,76 @@ import consulo.fileEditor.FileEditorState;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiManager;
 import consulo.project.Project;
+import consulo.util.lang.ref.SimpleReference;
 import consulo.virtualFileSystem.VirtualFile;
+import jakarta.inject.Inject;
 import org.jdom.Element;
 
 
 @ExtensionImpl
-public class ResourceBundleEditorProvider implements FileEditorProvider, DumbAware
-{
-	public static final ResourceBundleFileType RESOURCE_BUNDLE_FILE_TYPE = new ResourceBundleFileType();
+public class ResourceBundleEditorProvider implements FileEditorProvider, DumbAware {
+    public static final ResourceBundleFileType RESOURCE_BUNDLE_FILE_TYPE = new ResourceBundleFileType();
 
-	@Override
-	public boolean accept(final Project project, final VirtualFile file)
-	{
-		if(file instanceof ResourceBundleAsVirtualFile)
-		{
-			return true;
-		}
-		PropertiesFile propertiesFile = ApplicationManager.getApplication().runReadAction(new Computable<PropertiesFile>()
-		{
-			@Override
-			public PropertiesFile compute()
-			{
-				PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
-				return psiFile == null ? null : PropertiesUtil.getPropertiesFile(psiFile);
-			}
-		});
-		return propertiesFile != null && propertiesFile.getResourceBundle().getPropertiesFiles(project).size() > 1;
-	}
+    private final Application myApplication;
 
-	@Override
-	public FileEditor createEditor(Project project, final VirtualFile file)
-	{
-		ResourceBundle resourceBundle;
-		if(file instanceof ResourceBundleAsVirtualFile)
-		{
-			resourceBundle = ((ResourceBundleAsVirtualFile) file).getResourceBundle();
-		}
-		else
-		{
-			PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
-			if(psiFile == null)
-			{
-				throw new IllegalArgumentException("psifile cannot be null");
-			}
-			resourceBundle = PropertiesUtil.getPropertiesFile(psiFile).getResourceBundle();
-		}
+    @Inject
+    public ResourceBundleEditorProvider(Application application) {
+        myApplication = application;
+    }
 
-		return new ResourceBundleEditor(project, resourceBundle);
-	}
+    @Override
+    public boolean accept(final Project project, final VirtualFile file) {
+        if (file instanceof ResourceBundleAsVirtualFile) {
+            return true;
+        }
+        SimpleReference<PropertiesFile> fileRef = SimpleReference.create();
+        myApplication.tryRunReadAction(fileRef, () -> {
+            PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
+            return psiFile == null ? null : PropertiesUtil.getPropertiesFile(psiFile);
+        });
 
-	@Override
-	public void disposeEditor(FileEditor editor)
-	{
-		Disposer.dispose(editor);
-	}
+        PropertiesFile propertiesFile = fileRef.get();
+        return propertiesFile != null && propertiesFile.getResourceBundle().getPropertiesFiles(project).size() > 1;
+    }
 
-	@Override
-	public FileEditorState readState(Element element, Project project, VirtualFile file)
-	{
-		return new ResourceBundleEditor.ResourceBundleEditorState(null);
-	}
+    @Override
+    public FileEditor createEditor(Project project, final VirtualFile file) {
+        ResourceBundle resourceBundle;
+        if (file instanceof ResourceBundleAsVirtualFile) {
+            resourceBundle = ((ResourceBundleAsVirtualFile) file).getResourceBundle();
+        }
+        else {
+            PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
+            if (psiFile == null) {
+                throw new IllegalArgumentException("psifile cannot be null");
+            }
+            resourceBundle = PropertiesUtil.getPropertiesFile(psiFile).getResourceBundle();
+        }
 
-	@Override
-	public void writeState(FileEditorState state, Project project, Element element)
-	{
-	}
+        return new ResourceBundleEditor(project, resourceBundle);
+    }
 
-	@Override
-	public FileEditorPolicy getPolicy()
-	{
-		return FileEditorPolicy.PLACE_AFTER_DEFAULT_EDITOR;
-	}
+    @Override
+    public void disposeEditor(FileEditor editor) {
+        Disposer.dispose(editor);
+    }
 
-	@Override
-	public String getEditorTypeId()
-	{
-		return "ResourceBundle";
-	}
+    @Override
+    public FileEditorState readState(Element element, Project project, VirtualFile file) {
+        return new ResourceBundleEditor.ResourceBundleEditorState(null);
+    }
+
+    @Override
+    public void writeState(FileEditorState state, Project project, Element element) {
+    }
+
+    @Override
+    public FileEditorPolicy getPolicy() {
+        return FileEditorPolicy.PLACE_AFTER_DEFAULT_EDITOR;
+    }
+
+    @Override
+    public String getEditorTypeId() {
+        return "ResourceBundle";
+    }
 }
