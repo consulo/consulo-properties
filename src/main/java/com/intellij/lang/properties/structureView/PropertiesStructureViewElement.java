@@ -19,6 +19,7 @@ import com.intellij.lang.properties.psi.Property;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.fileEditor.structureView.StructureViewTreeElement;
 import consulo.language.icon.IconDescriptorUpdaters;
+import consulo.localize.LocalizeValue;
 import consulo.navigation.ItemPresentation;
 import consulo.ui.image.Image;
 
@@ -26,65 +27,68 @@ import consulo.ui.image.Image;
  * @author max
  */
 public class PropertiesStructureViewElement implements StructureViewTreeElement {
-  private final Property myProperty;
-  private String myPresentableName;
+    private final Property myProperty;
+    private String myPresentableName;
 
-  public PropertiesStructureViewElement(final Property element) {
-    myProperty = element;
-  }
+    public PropertiesStructureViewElement(Property element) {
+        myProperty = element;
+    }
 
-  @Override
-  public Property getValue() {
-    return myProperty;
-  }
+    @Override
+    public Property getValue() {
+        return myProperty;
+    }
 
-  @Override
-  public void navigate(boolean requestFocus) {
-    myProperty.navigate(requestFocus);
-  }
+    @Override
+    @RequiredReadAction
+    public void navigate(boolean requestFocus) {
+        myProperty.navigate(requestFocus);
+    }
 
-  @Override
-  public boolean canNavigate() {
-    return myProperty.canNavigate();
-  }
+    @Override
+    @RequiredReadAction
+    public boolean canNavigate() {
+        return myProperty.canNavigate();
+    }
 
-  @Override
-  public boolean canNavigateToSource() {
-    return myProperty.canNavigateToSource();
-  }
+    @Override
+    @RequiredReadAction
+    public boolean canNavigateToSource() {
+        return myProperty.canNavigateToSource();
+    }
 
-  @Override
-  public StructureViewTreeElement[] getChildren() {
-    return EMPTY_ARRAY;
-  }
+    @Override
+    public StructureViewTreeElement[] getChildren() {
+        return EMPTY_ARRAY;
+    }
 
-  @Override
-  public ItemPresentation getPresentation() {
-    return new ItemPresentation() {
-      @Override
-      public String getPresentableText() {
-        if (myPresentableName == null) {
-          return myProperty.getUnescapedKey();
-        }
-        else {
-          return myPresentableName;
-        }
-      }
+    @Override
+    public ItemPresentation getPresentation() {
+        return new ItemPresentation() {
+            @Override
+            public LocalizeValue getPresentableText() {
+                if (myPresentableName == null) {
+                    return LocalizeValue.ofNullable(myProperty.getUnescapedKey());
+                }
+                else {
+                    return LocalizeValue.of(myPresentableName);
+                }
+            }
 
-      @Override
-      public String getLocationString() {
-        return null;
-      }
+            @Override
+            public String getLocationString() {
+                return null;
+            }
 
-      @Override
-      @RequiredReadAction
-      public Image getIcon() {
-        return IconDescriptorUpdaters.getIcon(myProperty, 0);
-      }
-    };
-  }
+            @Override
+            @RequiredReadAction
+            public Image getIcon() {
+                return IconDescriptorUpdaters.getIcon(myProperty, 0);
+            }
+        };
+    }
 
-  public void setPresentableName(final String presentableName) {
-    myPresentableName = presentableName;
-  }
+    public void setPresentableName(String presentableName) {
+        myPresentableName = presentableName;
+    }
 }

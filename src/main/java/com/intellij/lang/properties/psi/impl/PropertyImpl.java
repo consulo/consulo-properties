@@ -21,17 +21,18 @@ import com.intellij.lang.properties.psi.PropertiesElementFactory;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import com.intellij.lang.properties.psi.Property;
 import com.intellij.lang.properties.psi.PropertyStub;
+import com.uber.nullaway.annotations.Contract;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.access.RequiredWriteAction;
-import consulo.application.AllIcons;
 import consulo.content.scope.SearchScope;
 import consulo.document.util.TextRange;
 import consulo.language.ast.ASTNode;
-import consulo.language.ast.TokenType;
+import consulo.language.ast.StandardTokenTypes;
 import consulo.language.psi.*;
 import consulo.language.psi.scope.GlobalSearchScope;
 import consulo.language.psi.stub.IStubElementType;
 import consulo.language.util.IncorrectOperationException;
+import consulo.localize.LocalizeValue;
 import consulo.logging.Logger;
 import consulo.navigation.ItemPresentation;
 import consulo.ui.image.Image;
@@ -48,17 +49,18 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
         super(node);
     }
 
-    public PropertyImpl(final PropertyStub stub, final IStubElementType nodeType) {
+    public PropertyImpl(PropertyStub stub, IStubElementType nodeType) {
         super(stub, nodeType);
     }
 
     @Override
+    @RequiredReadAction
     public String toString() {
         return "Property:" + getKey();
     }
 
-    @RequiredWriteAction
     @Override
+    @RequiredWriteAction
     public PsiElement setName(String name) throws IncorrectOperationException {
         PropertyImpl property = (PropertyImpl) PropertiesElementFactory.createProperty(getProject(), name, "xxx");
         ASTNode keyNode = getKeyNode();
@@ -74,6 +76,7 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
     }
 
     @Override
+    @RequiredWriteAction
     public void setValue(String value) throws IncorrectOperationException {
         ASTNode node = getValueNode();
         PropertyImpl property = (PropertyImpl) PropertiesElementFactory.createProperty(getProject(), "xxx", value);
@@ -93,20 +96,21 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
         }
     }
 
-    @RequiredReadAction
     @Override
-    public String getName() {
+    @RequiredReadAction
+    public @Nullable String getName() {
         return getUnescapedKey();
     }
 
     @Override
-    public String getKey() {
-        final PropertyStub stub = getStub();
+    @RequiredReadAction
+    public @Nullable String getKey() {
+        PropertyStub stub = getStub();
         if (stub != null) {
             return stub.getKey();
         }
 
-        final ASTNode node = getKeyNode();
+        ASTNode node = getKeyNode();
         if (node == null) {
             return null;
         }
@@ -114,18 +118,21 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
     }
 
     @Nullable
+    @RequiredReadAction
     public ASTNode getKeyNode() {
         return getNode().findChildByType(PropertiesTokenTypes.KEY_CHARACTERS);
     }
 
     @Nullable
+    @RequiredReadAction
     public ASTNode getValueNode() {
         return getNode().findChildByType(PropertiesTokenTypes.VALUE_CHARACTERS);
     }
 
     @Override
+    @RequiredReadAction
     public String getValue() {
-        final ASTNode node = getValueNode();
+        ASTNode node = getValueNode();
         if (node == null) {
             return "";
         }
@@ -133,13 +140,13 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
     }
 
     @Override
-    @Nullable
-    public String getUnescapedValue() {
+    @RequiredReadAction
+    public @Nullable String getUnescapedValue() {
         return unescape(getValue());
     }
 
-
-    public static String unescape(String s) {
+    @Contract("null -> null; !null -> !null")
+    public static @Nullable String unescape(@Nullable String s) {
         if (s == null) {
             return null;
         }
@@ -148,13 +155,13 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
         return sb.toString();
     }
 
-    public static boolean parseCharacters(String s, StringBuilder outChars, @Nullable int[] sourceOffsets) {
+    public static boolean parseCharacters(String s, StringBuilder outChars, int @Nullable [] sourceOffsets) {
         assert sourceOffsets == null || sourceOffsets.length == s.length() + 1;
         int off = 0;
         int len = s.length();
 
         boolean result = true;
-        final int outOffset = outChars.length();
+        int outOffset = outChars.length();
         while (off < len) {
             char aChar = s.charAt(off++);
             if (sourceOffsets != null) {
@@ -373,29 +380,31 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
     }
 
     @Override
-    @Nullable
-    public String getUnescapedKey() {
+    @RequiredReadAction
+    public @Nullable String getUnescapedKey() {
         return unescape(getKey());
     }
 
     @RequiredReadAction
     @Override
     public @Nullable PsiElement getNameIdentifier() {
-        final ASTNode node = getKeyNode();
+        ASTNode node = getKeyNode();
         return node == null ? null : node.getPsi();
     }
 
     @Override
+    @RequiredWriteAction
     public void delete() throws IncorrectOperationException {
-        final ASTNode parentNode = getParent().getNode();
+        ASTNode parentNode = getParent().getNode();
         assert parentNode != null;
 
         ASTNode node = getNode();
         ASTNode prev = node.getTreePrev();
         ASTNode next = node.getTreeNext();
         parentNode.removeChild(node);
-        if ((prev == null || prev.getElementType() == TokenType.WHITE_SPACE) && next != null &&
-            next.getElementType() == TokenType.WHITE_SPACE) {
+        if ((prev == null || prev.getElementType() == StandardTokenTypes.WHITE_SPACE)
+            && next != null
+            && next.getElementType() == StandardTokenTypes.WHITE_SPACE) {
             parentNode.removeChild(next);
         }
     }
@@ -406,7 +415,8 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
     }
 
     @Override
-    public String getDocCommentText() {
+    @RequiredReadAction
+    public @Nullable String getDocCommentText() {
         StringBuilder text = new StringBuilder();
         for (PsiElement doc = getPrevSibling(); doc != null; doc = doc.getPrevSibling()) {
             if (doc instanceof PsiWhiteSpace) {
@@ -424,7 +434,7 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
                 break;
             }
         }
-        if (text.length() == 0) {
+        if (text.isEmpty()) {
             return null;
         }
         return text.toString();
@@ -445,8 +455,9 @@ public class PropertyImpl extends PropertiesStubElementImpl<PropertyStub> implem
     public ItemPresentation getPresentation() {
         return new ItemPresentation() {
             @Override
-            public String getPresentableText() {
-                return getName();
+            @RequiredReadAction
+            public LocalizeValue getPresentableText() {
+                return LocalizeValue.ofNullable(getName());
             }
 
             @Override

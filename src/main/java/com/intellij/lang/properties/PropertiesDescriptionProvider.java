@@ -15,12 +15,14 @@
  */
 package com.intellij.lang.properties;
 
+import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ExtensionImpl;
-import consulo.ide.IdeBundle;
+import consulo.ide.localize.IdeLocalize;
 import consulo.language.editor.refactoring.util.DeleteTypeDescriptionLocation;
 import consulo.language.psi.ElementDescriptionLocation;
 import consulo.language.psi.ElementDescriptionProvider;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import consulo.usage.UsageViewLongNameLocation;
 
 import org.jspecify.annotations.Nullable;
@@ -30,16 +32,18 @@ import org.jspecify.annotations.Nullable;
  */
 @ExtensionImpl
 public class PropertiesDescriptionProvider implements ElementDescriptionProvider {
-  public String getElementDescription(final PsiElement element, @Nullable final ElementDescriptionLocation location) {
-    if (element instanceof IProperty) {
-      if (location instanceof DeleteTypeDescriptionLocation) {
-        int count = ((DeleteTypeDescriptionLocation) location).isPlural() ? 2 : 1;
-        return IdeBundle.message("prompt.delete.property", count);
-      }
-      if (location instanceof UsageViewLongNameLocation) {
-        return ((IProperty) element).getKey();
-      }
+    @Override
+    @RequiredReadAction
+    public LocalizeValue getElementDescription(PsiElement element, @Nullable ElementDescriptionLocation location) {
+        if (element instanceof IProperty property) {
+            if (location instanceof DeleteTypeDescriptionLocation deleteTypeDescriptionLocation) {
+                int count = deleteTypeDescriptionLocation.isPlural() ? 2 : 1;
+                return IdeLocalize.promptDeleteProperty(count);
+            }
+            if (location instanceof UsageViewLongNameLocation) {
+                return LocalizeValue.ofNullable(property.getKey());
+            }
+        }
+        return LocalizeValue.empty();
     }
-    return null;
-  }
 }
