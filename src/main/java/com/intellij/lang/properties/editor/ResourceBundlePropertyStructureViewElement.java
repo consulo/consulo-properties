@@ -13,19 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * @author Alexey
- */
 package com.intellij.lang.properties.editor;
 
-import consulo.application.AllIcons;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.colorScheme.TextAttributes;
 import consulo.fileEditor.structureView.StructureViewTreeElement;
 import com.intellij.lang.properties.PropertiesHighlighter;
 import com.intellij.lang.properties.PropertiesUtil;
 import com.intellij.lang.properties.ResourceBundle;
+import consulo.localize.LocalizeValue;
 import consulo.navigation.ItemPresentation;
+import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.ex.ColoredItemPresentation;
 import consulo.colorScheme.EditorColorsManager;
 import consulo.colorScheme.TextAttributesKey;
@@ -33,74 +31,91 @@ import consulo.project.Project;
 import consulo.ui.image.Image;
 import consulo.ui.style.StandardColors;
 
+/**
+ * @author Alexey
+ */
 public class ResourceBundlePropertyStructureViewElement implements StructureViewTreeElement {
-  private final String myPropertyName;
-  private final Project myProject;
-  private final ResourceBundle myResourceBundle;
-  private String myPresentableName;
+    private final String myPropertyName;
+    private final Project myProject;
+    private final ResourceBundle myResourceBundle;
+    private String myPresentableName;
 
-  private static final TextAttributesKey INCOMPLETE_PROPERTY_KEY;
+    private static final TextAttributesKey INCOMPLETE_PROPERTY_KEY;
 
-  static {
-    TextAttributes textAttributes = EditorColorsManager.getInstance().getGlobalScheme().getAttributes(PropertiesHighlighter.PROPERTY_KEY).clone();
-    textAttributes.setForegroundColor(StandardColors.RED);
-    INCOMPLETE_PROPERTY_KEY = TextAttributesKey.createTextAttributesKey("INCOMPLETE_PROPERTY_KEY", textAttributes);
+    static {
+        TextAttributes textAttributes = EditorColorsManager.getInstance()
+            .getGlobalScheme()
+            .getAttributes(PropertiesHighlighter.PROPERTY_KEY)
+            .clone();
+        textAttributes.setForegroundColor(StandardColors.RED);
+        INCOMPLETE_PROPERTY_KEY = TextAttributesKey.createTextAttributesKey("INCOMPLETE_PROPERTY_KEY", textAttributes);
+    }
 
-  }
-  public ResourceBundlePropertyStructureViewElement(final Project project, final ResourceBundle resourceBundle, String propertyName) {
-    myProject = project;
-    myResourceBundle = resourceBundle;
-    myPropertyName = propertyName;
-  }
+    public ResourceBundlePropertyStructureViewElement(Project project, ResourceBundle resourceBundle, String propertyName) {
+        myProject = project;
+        myResourceBundle = resourceBundle;
+        myPropertyName = propertyName;
+    }
 
-  public void setPresentableName(final String presentableName) {
-    myPresentableName = presentableName;
-  }
+    public void setPresentableName(String presentableName) {
+        myPresentableName = presentableName;
+    }
 
-  public String getValue() {
-    return myPropertyName;
-  }
+    @Override
+    public String getValue() {
+        return myPropertyName;
+    }
 
-  public StructureViewTreeElement[] getChildren() {
-    return EMPTY_ARRAY;
-  }
+    @Override
+    public StructureViewTreeElement[] getChildren() {
+        return EMPTY_ARRAY;
+    }
 
-  public ItemPresentation getPresentation() {
-    return new ColoredItemPresentation() {
-      public String getPresentableText() {
-        return myPresentableName == null ? myPropertyName : myPresentableName;
-      }
+    @Override
+    public ItemPresentation getPresentation() {
+        return new ColoredItemPresentation() {
+            @Override
+            public LocalizeValue getPresentableText() {
+                return LocalizeValue.of(myPresentableName == null ? myPropertyName : myPresentableName);
+            }
 
-      public String getLocationString() {
-        return null;
-      }
+            @Override
+            public String getLocationString() {
+                return null;
+            }
 
-      public Image getIcon() {
-        return AllIcons.Nodes.Property;
-      }
+            @Override
+            public Image getIcon() {
+                return PlatformIconGroup.nodesProperty();
+            }
 
-      @Override
-      public TextAttributesKey getTextAttributesKey() {
-        boolean isComplete = PropertiesUtil.isPropertyComplete(myProject, myResourceBundle, myPropertyName);
+            @Override
+            public TextAttributesKey getTextAttributesKey() {
+                boolean isComplete = PropertiesUtil.isPropertyComplete(myProject, myResourceBundle, myPropertyName);
 
-        if (isComplete) {
-          return PropertiesHighlighter.PROPERTY_KEY;
-        }
-        return INCOMPLETE_PROPERTY_KEY;
-      }
-    };
-  }
+                if (isComplete) {
+                    return PropertiesHighlighter.PROPERTY_KEY;
+                }
+                return INCOMPLETE_PROPERTY_KEY;
+            }
+        };
+    }
 
-  public void navigate(boolean requestFocus) {
-    //todo
-  }
+    @Override
+    @RequiredReadAction
+    public void navigate(boolean requestFocus) {
+        //todo
+    }
 
-  public boolean canNavigate() {
-    return false;
-  }
+    @Override
+    @RequiredReadAction
+    public boolean canNavigate() {
+        return false;
+    }
 
-  public boolean canNavigateToSource() {
-    return false;
-  }
-
+    @Override
+    @RequiredReadAction
+    public boolean canNavigateToSource() {
+        return false;
+    }
 }

@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * @author Alexey
- */
 package com.intellij.lang.properties.editor;
 
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.ResourceBundle;
 import com.intellij.lang.properties.psi.PropertiesFile;
-import consulo.application.AllIcons;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.fileEditor.structureView.StructureViewTreeElement;
+import consulo.localize.LocalizeValue;
 import consulo.navigation.ItemPresentation;
+import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.project.Project;
 import consulo.ui.image.Image;
 
@@ -33,65 +31,76 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ResourceBundleFileStructureViewElement implements StructureViewTreeElement
-{
-  private final Project myProject;
-  private final ResourceBundle myResourceBundle;
+/**
+ * @author Alexey
+ */
+public class ResourceBundleFileStructureViewElement implements StructureViewTreeElement {
+    private final Project myProject;
+    private final ResourceBundle myResourceBundle;
 
-  public ResourceBundleFileStructureViewElement(final Project project, final ResourceBundle resourceBundle) {
-    myProject = project;
-    myResourceBundle = resourceBundle;
-  }
+    public ResourceBundleFileStructureViewElement(Project project, ResourceBundle resourceBundle) {
+        myProject = project;
+        myResourceBundle = resourceBundle;
+    }
 
-  public ResourceBundle getValue() {
-    return myResourceBundle;
-  }
+    @Override
+    public ResourceBundle getValue() {
+        return myResourceBundle;
+    }
 
-  public StructureViewTreeElement[] getChildren() {
-    List<PropertiesFile> propertiesFiles = myResourceBundle.getPropertiesFiles(myProject);
-    Map<String, IProperty> propertyNames = new LinkedHashMap<String, IProperty>();
-    for (PropertiesFile propertiesFile : propertiesFiles) {
-      List<IProperty> properties = propertiesFile.getProperties();
-      for (IProperty property : properties) {
-        String name = property.getUnescapedKey();
-        if (!propertyNames.containsKey(name)) {
-          propertyNames.put(name, property);
+    @Override
+    @RequiredReadAction
+    public StructureViewTreeElement[] getChildren() {
+        List<PropertiesFile> propertiesFiles = myResourceBundle.getPropertiesFiles(myProject);
+        Map<String, IProperty> propertyNames = new LinkedHashMap<>();
+        for (PropertiesFile propertiesFile : propertiesFiles) {
+            List<IProperty> properties = propertiesFile.getProperties();
+            for (IProperty property : properties) {
+                String name = property.getUnescapedKey();
+                if (name != null && !propertyNames.containsKey(name)) {
+                    propertyNames.put(name, property);
+                }
+            }
         }
-      }
+        List<StructureViewTreeElement> result = new ArrayList<>(propertyNames.size());
+        for (String property : propertyNames.keySet()) {
+            //result.add(new PropertiesStructureViewElement(property));
+            result.add(new ResourceBundlePropertyStructureViewElement(myProject, myResourceBundle, property));
+        }
+        return result.toArray(new StructureViewTreeElement[result.size()]);
     }
-    List<StructureViewTreeElement> result = new ArrayList<StructureViewTreeElement>(propertyNames.size());
-    for (String property : propertyNames.keySet()) {
-      //result.add(new PropertiesStructureViewElement(property));
-      result.add(new ResourceBundlePropertyStructureViewElement(myProject, myResourceBundle, property));
+
+    @Override
+    public ItemPresentation getPresentation() {
+        return new ItemPresentation() {
+            @Override
+            public LocalizeValue getPresentableText() {
+                return LocalizeValue.of(myResourceBundle.getBaseName());
+            }
+
+            @Override
+            public String getLocationString() {
+                return null;
+            }
+
+            @Override
+            public Image getIcon() {
+                return PlatformIconGroup.filetypesProperties();
+            }
+        };
     }
-    return result.toArray(new StructureViewTreeElement[result.size()]);
-  }
 
-  public ItemPresentation getPresentation() {
-    return new ItemPresentation() {
-      public String getPresentableText() {
-        return myResourceBundle.getBaseName();
-      }
+    @Override
+    public void navigate(boolean requestFocus) {
+    }
 
-      public String getLocationString() {
-        return null;
-      }
+    @Override
+    public boolean canNavigate() {
+        return false;
+    }
 
-      public Image getIcon() {
-        return AllIcons.FileTypes.Properties;
-      }
-    };
-  }
-
-  public void navigate(boolean requestFocus) {
-
-  }
-
-  public boolean canNavigate() {
-    return false;
-  }
-
-  public boolean canNavigateToSource() {
-    return false;
-  }
+    @Override
+    public boolean canNavigateToSource() {
+        return false;
+    }
 }

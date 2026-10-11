@@ -18,9 +18,11 @@ package com.intellij.lang.properties.structureView;
 import com.intellij.lang.properties.IProperty;
 import com.intellij.lang.properties.psi.Property;
 import com.intellij.lang.properties.psi.impl.PropertiesFileImpl;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.fileEditor.structureView.StructureViewTreeElement;
 import consulo.language.editor.structureView.PsiTreeElementBase;
 import consulo.language.icon.IconDescriptorUpdaters;
+import consulo.localize.LocalizeValue;
 import consulo.navigation.ItemPresentation;
 import consulo.ui.image.Image;
 
@@ -32,38 +34,47 @@ import java.util.List;
  * @author max
  */
 public class PropertiesFileStructureViewElement extends PsiTreeElementBase<PropertiesFileImpl> {
-
-  protected PropertiesFileStructureViewElement(PropertiesFileImpl propertiesFile) {
-    super(propertiesFile);
-  }
-
-  public Collection<StructureViewTreeElement> getChildrenBase() {
-    List<? extends IProperty> properties = getElement().getProperties();
-
-    Collection<StructureViewTreeElement> elements = new ArrayList<StructureViewTreeElement>(properties.size());
-    for (IProperty property : properties) {
-      elements.add(new PropertiesStructureViewElement((Property)property));
+    protected PropertiesFileStructureViewElement(PropertiesFileImpl propertiesFile) {
+        super(propertiesFile);
     }
-    return elements;
-  }
 
-  public String getPresentableText() {
-    return getElement().getName();
-  }
+    @Override
+    @RequiredReadAction
+    public Collection<StructureViewTreeElement> getChildrenBase() {
+        List<? extends IProperty> properties = getElement().getProperties();
 
-  public ItemPresentation getPresentation() {
-    return new ItemPresentation() {
-      public String getPresentableText() {
-        return PropertiesFileStructureViewElement.this.getPresentableText();
-      }
+        Collection<StructureViewTreeElement> elements = new ArrayList<>(properties.size());
+        for (IProperty property : properties) {
+            elements.add(new PropertiesStructureViewElement((Property) property));
+        }
+        return elements;
+    }
 
-      public String getLocationString() {
-        return null;
-      }
+    @Override
+    @RequiredReadAction
+    public LocalizeValue getPresentableText() {
+        return LocalizeValue.of(getElement().getName());
+    }
 
-      public Image getIcon() {
-        return IconDescriptorUpdaters.getIcon(getElement(), 0);
-      }
-    };
-  }
+    @Override
+    public ItemPresentation getPresentation() {
+        return new ItemPresentation() {
+            @Override
+            @RequiredReadAction
+            public LocalizeValue getPresentableText() {
+                return PropertiesFileStructureViewElement.this.getPresentableText();
+            }
+
+            @Override
+            public String getLocationString() {
+                return null;
+            }
+
+            @Override
+            @RequiredReadAction
+            public Image getIcon() {
+                return IconDescriptorUpdaters.getIcon(getElement(), 0);
+            }
+        };
+    }
 }
