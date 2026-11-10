@@ -22,7 +22,7 @@ import com.intellij.lang.properties.editor.ResourceBundleEditor;
 import com.intellij.lang.properties.editor.ResourceBundleUtil;
 import com.intellij.lang.properties.psi.PropertiesFile;
 import consulo.annotation.component.ExtensionImpl;
-import consulo.application.ApplicationManager;
+import consulo.application.Application;
 import consulo.codeEditor.Editor;
 import consulo.dataContext.DataContext;
 import consulo.fileEditor.FileEditorStateLevel;
@@ -32,11 +32,15 @@ import consulo.language.psi.PsiFile;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.ui.annotation.RequiredUIAccess;
-import consulo.ui.ex.InputValidator;
-import consulo.ui.ex.awt.Messages;
+import consulo.ui.InputBoxBuilder;
+import consulo.ui.InputProblem;
+import consulo.ui.InputValidator;
+import consulo.ui.TextBox;
+import org.jspecify.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Encapsulates logic of renaming resource bundle property key.
@@ -83,9 +87,14 @@ public class ResourceBundleKeyRenameHandler implements RenameHandler {
         if (bundle == null) {
             return;
         }
-        Messages.showInputDialog(project, PropertiesBundle.message("rename.bundle.enter.new.resource.bundle.key.name.prompt.text"),
-            PropertiesBundle.message("rename.resource.bundle.key.dialog.title"), Messages.getQuestionIcon(), propertyName,
-            new ResourceBundleKeyRenameValidator(project, bundleEditor, bundle, propertyName));
+        InputBoxBuilder.text()
+            .asQuestion()
+            .title(LocalizeValue.of(PropertiesBundle.message("rename.resource.bundle.key.dialog.title")))
+            .text(LocalizeValue.of(PropertiesBundle.message("rename.bundle.enter.new.resource.bundle.key.name.prompt.text")))
+            .value(propertyName)
+            .setupComponent(TextBox::selectAll)
+            .validator(new ResourceBundleKeyRenameValidator(project, bundleEditor, bundle, propertyName))
+            .showAsync(project);
     }
 
     @RequiredUIAccess
@@ -94,7 +103,7 @@ public class ResourceBundleKeyRenameHandler implements RenameHandler {
         invoke(project, null, null, dataContext);
     }
 
-    private static class ResourceBundleKeyRenameValidator implements InputValidator {
+    private static class ResourceBundleKeyRenameValidator implements InputValidator<String> {
 
         private final Set<String> myExistingProperties = new HashSet<String>();
 
@@ -114,28 +123,20 @@ public class ResourceBundleKeyRenameHandler implements RenameHandler {
 
         @RequiredUIAccess
         @Override
-        public boolean checkInput(String inputString) {
-            return inputString != null && !inputString.isEmpty() && !myExistingProperties.contains(inputString);
+        public @Nullable InputProblem validate(String inputString) {
+            if (inputString.isEmpty() || myExistingProperties.contains(inputString)) {
+                return InputProblem.error(LocalizeValue.empty());
+            }
+            return null;
         }
 
         @RequiredUIAccess
         @Override
-        public boolean canClose(final String inputString) {
-            if (!checkInput(inputString)) {
-                return false;
+        public CompletableFuture<@Nullable InputProblem> confirm(String inputString) {
+            if (!myOldPropertyName.equals(inputString)) {
+                Application.get().runWriteAction(() -> myEditor.renameProperty(myOldPropertyName, inputString));
             }
-
-            if (myOldPropertyName.equals(inputString)) {
-                return true;
-            }
-
-            ApplicationManager.getApplication().runWriteAction(new Runnable() {
-                @Override
-                public void run() {
-                    myEditor.renameProperty(myOldPropertyName, inputString);
-                }
-            });
-            return true;
+            return CompletableFuture.completedFuture(null);
         }
     }
 }

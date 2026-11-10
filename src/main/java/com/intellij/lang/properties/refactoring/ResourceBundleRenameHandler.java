@@ -35,13 +35,16 @@ import consulo.logging.Logger;
 import consulo.project.Project;
 import consulo.properties.localize.PropertiesLocalize;
 import consulo.ui.annotation.RequiredUIAccess;
-import consulo.ui.ex.InputValidator;
-import consulo.ui.ex.awt.Messages;
-import consulo.ui.ex.awt.UIUtil;
+import consulo.ui.InputBoxBuilder;
+import consulo.ui.InputProblem;
+import consulo.ui.InputValidator;
+import consulo.ui.TextBox;
 import consulo.virtualFileSystem.VirtualFile;
+import org.jspecify.annotations.Nullable;
 
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @author Alexey
@@ -85,14 +88,14 @@ public class ResourceBundleRenameHandler implements RenameHandler {
         ResourceBundle resourceBundle = ResourceBundleUtil.getResourceBundleFromDataContext(dataContext);
 
         assert resourceBundle != null;
-        Messages.showInputDialog(
-            project,
-            PropertiesLocalize.renameBundleEnterNewResourceBundleBaseNamePromptText().get(),
-            PropertiesLocalize.renameResourceBundleDialogTitle().get(),
-            UIUtil.getQuestionIcon(),
-            resourceBundle.getBaseName(),
-            new MyInputValidator(project, resourceBundle)
-        );
+        InputBoxBuilder.text()
+            .asQuestion()
+            .title(PropertiesLocalize.renameResourceBundleDialogTitle())
+            .text(PropertiesLocalize.renameBundleEnterNewResourceBundleBaseNamePromptText())
+            .value(resourceBundle.getBaseName())
+            .setupComponent(TextBox::selectAll)
+            .validator(new BaseNameValidator(project, resourceBundle))
+            .showAsync(project);
     }
 
     @Override
@@ -101,25 +104,28 @@ public class ResourceBundleRenameHandler implements RenameHandler {
         invoke(project, null, null, dataContext);
     }
 
-    private static class MyInputValidator implements InputValidator {
+    private static class BaseNameValidator implements InputValidator<String> {
         private final Project myProject;
         private final ResourceBundle myResourceBundle;
 
-        public MyInputValidator(final Project project, final ResourceBundle resourceBundle) {
+        public BaseNameValidator(Project project, ResourceBundle resourceBundle) {
             myProject = project;
             myResourceBundle = resourceBundle;
         }
 
         @Override
         @RequiredUIAccess
-        public boolean checkInput(String inputString) {
-            return inputString.indexOf(File.separatorChar) < 0 && inputString.indexOf('/') < 0;
+        public @Nullable InputProblem validate(String inputString) {
+            if (inputString.indexOf(File.separatorChar) >= 0 || inputString.indexOf('/') >= 0) {
+                return InputProblem.error(LocalizeValue.empty());
+            }
+            return null;
         }
 
         @Override
         @RequiredUIAccess
-        public boolean canClose(final String inputString) {
-            return doRename(inputString);
+        public CompletableFuture<@Nullable InputProblem> confirm(String inputString) {
+            return CompletableFuture.completedFuture(doRename(inputString) ? null : InputProblem.error(LocalizeValue.empty()));
         }
 
         @RequiredUIAccess
